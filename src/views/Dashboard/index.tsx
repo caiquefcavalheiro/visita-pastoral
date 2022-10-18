@@ -1,5 +1,7 @@
-import { Box } from "native-base";
+interface DashboardProps {}
 
-export const Dashboard = () => {
-  return <Box>Dashboard</Box>;
+const Dashboard = ({}: DashboardProps) => {
+  return <></>;
 };
+
+export default Dashboard;
