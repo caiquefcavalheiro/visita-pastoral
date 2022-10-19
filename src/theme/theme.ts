@@ -4,36 +4,49 @@ export const theme = extendTheme({
   useSystemColorMode: false,
   initialColorMode: "dark",
   fontConfig: {
-    Roboto: {
+    Poppins: {
       100: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
+        normal: "Poppins-regular",
       },
       200: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
+        normal: "Poppins-regular",
       },
       300: {
-        normal: "Roboto-Light",
-        italic: "Roboto-LightItalic",
+        normal: "Poppins-regular",
       },
       400: {
-        normal: "Roboto-Regular",
-        italic: "Roboto-Italic",
+        normal: "Poppins-regular",
       },
       500: {
-        normal: "Roboto-Medium",
+        normal: "Poppins-regular",
       },
       600: {
-        normal: "Roboto-Medium",
-        italic: "Roboto-MediumItalic",
+        normal: "Poppins-regular",
       },
     },
   },
 
   fonts: {
-    heading: "Roboto",
-    body: "Roboto",
-    mono: "Roboto",
+    heading: "Poppins-Bold",
+    body: "Poppins-regular",
+    mono: "Poppins-regular",
+  },
+  colors: {
+    gray: {
+      200: "#F3F1E3",
+    },
+    blue: {
+      300: "#004F9B",
+      400: "#003466",
+    },
+    yellow: {
+      300: "#E6B402",
+    },
+    green: {
+      300: "#028336",
+    },
+    red: {
+      400: "#9D0518",
+    },
   },
 });
