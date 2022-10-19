@@ -1,30 +1,42 @@
-import { Button } from "native-base";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-
-// const favicon = require("../../../assets/favicon.png");
-
+import { Button, IButtonProps, Image, IImageProps } from "native-base";
+import { ReactNode } from "react";
 interface ButtonProps {
-  text?: string;
-  width: string;
-  // icon: ;
-  click: () => null;
+  imageProps?: IImageProps;
+  buttonProps?: IButtonProps;
+  children: ReactNode;
 }
 
-const ButtonDefault = ({ text, width, click }: ButtonProps) => {
-  return (
+const buttonDefaultStyle: IButtonProps = {
+  pt: 18,
+  pb: 18,
+  px: 25,
+  ml: "auto",
+  mr: "auto",
+  mb: 0,
+  borderRadius: 15,
+  bg: "blue.300",
+};
+
+const imageDefaultStyle: IImageProps = {
+  ml: "10%",
+  alt: "image",
+  height: "24",
+  width: "24",
+};
+
+const ButtonDefault = ({
+  children,
+  buttonProps = buttonDefaultStyle,
+  imageProps,
+}: ButtonProps) => {
+  return !imageProps?.source && !imageProps?.src ? (
+    <Button {...{ ...buttonDefaultStyle, ...buttonProps }}>{children}</Button>
+  ) : (
     <Button
-      endIcon={<AntDesign as={Ionicons} name="check" size={24} />}
-      borderRadius="15"
-      pt="18"
-      pb="18"
-      ml="auto"
-      mr="auto"
-      mt="40"
-      mb="0"
-      width={width}
-      onPress={click}
+      {...{ ...buttonDefaultStyle, ...buttonProps }}
+      endIcon={<Image {...{ ...imageDefaultStyle, ...imageProps }}></Image>}
     >
-      {text}
+      {children}
     </Button>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, NativeBaseProvider, Text } from "native-base";
+import { NativeBaseProvider } from "native-base";
 import { Provider } from "./src/contexts";
 import { Routes } from "./src/routes";
 import { theme } from "./src/theme/theme";
@@ -27,8 +27,6 @@ export default function App() {
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
-
-  console.log(fontsLoaded, "fontsLoaded");
 
   if (!fontsLoaded) {
     return null;
