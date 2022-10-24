@@ -1,4 +1,4 @@
-import { Box } from "native-base";
+import { Box, Text } from "native-base";
 
 type toastProps = {
   msg: string;
@@ -25,7 +25,9 @@ export const useCustomToast = ({
           rounded="sm"
           mb={5}
         >
-          {msg}
+          <Text color="white" fontSize="15">
+            {msg}
+          </Text>
         </Box>
       );
     },
