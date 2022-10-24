@@ -33,12 +33,15 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView} style={{ height: "100%", width: "100%" }}>
-      <NativeBaseProvider theme={theme}>
-        <Provider>
+    <Provider>
+      <View
+        onLayout={onLayoutRootView}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <NativeBaseProvider theme={theme}>
           <Routes />
-        </Provider>
-      </NativeBaseProvider>
-    </View>
+        </NativeBaseProvider>
+      </View>
+    </Provider>
   );
 }

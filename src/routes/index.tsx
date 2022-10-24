@@ -9,6 +9,7 @@ import Positions from "../views/Positions";
 import PeopleAndTheirPositions from "../views/Positions/PeopleAndTheirPositions";
 import Sermons from "../views/Sermons";
 import Signatures from "../views/Signatures";
+import BaptismRecord from "../views/BaptismRecord";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export function Routes() {
         />
         <Screen name="Sermons" component={Sermons} />
         <Screen name="Signatures" component={Signatures} />
+        <Screen name="BaptismRecord" component={BaptismRecord} />
       </Navigator>
     </NavigationContainer>
   );
