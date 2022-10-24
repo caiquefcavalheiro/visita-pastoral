@@ -5,10 +5,13 @@ import ButtonDefault from "../../components/button";
 import pastor from "../../assets/dashboardImages/pastor.png";
 import fichaBatismo from "../../assets/dashboardImages/fichaBatismo.png";
 import whatsapp from "../../assets/dashboardImages/whatsapp.png";
+import { useNavigation } from "@react-navigation/native";
 
 interface DashboardProps {}
 
 const Dashboard = ({}: DashboardProps) => {
+  const { navigate } = useNavigation();
+
   return (
     <Box w="100%" h="100%" bg="gray.200">
       <Header title="Menu pricipal" />
@@ -26,6 +29,9 @@ const Dashboard = ({}: DashboardProps) => {
         <ButtonDefault
           buttonProps={{
             width: "80%",
+            onPress: () => {
+              navigate("Signatures" as never);
+            },
           }}
           imageProps={{ source: fichaBatismo }}
         >
