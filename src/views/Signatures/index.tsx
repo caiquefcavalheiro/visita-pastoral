@@ -51,7 +51,12 @@ const Signatures = ({}: SignaturesProps) => {
   const currentDate = dayjs(new Date()).format("DD-MM-YYYY_mm:ss");
 
   const printToFile = async (html: string) => {
-    const { uri } = await printToFileAsync({ html, width: 2408, height: 2625 });
+    const { uri } = await printToFileAsync({
+      html,
+      width: 2408,
+      height: 3508,
+      margins: { top: 200, right: 20, left: 20, bottom: 200 },
+    });
 
     const pdfName = `${uri.slice(
       0,
