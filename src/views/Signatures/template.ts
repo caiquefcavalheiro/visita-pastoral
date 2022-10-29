@@ -40,7 +40,6 @@ export const getTemplate = (data: any) => {
         width: 2480px;
         height: 4000px;
         border: 4px solid #000000;
-        border-bottom: none;
       }
       .header {
         display: flex;
@@ -88,7 +87,7 @@ export const getTemplate = (data: any) => {
       }
 
       .header_div p {
-        font-size: 24px;
+        font-size: 20px;
         align-self: center;
       }
       .header_checkbox {
@@ -244,7 +243,7 @@ export const getTemplate = (data: any) => {
 
       .section_container_gender label,
       .section_conversion_checkbox label {
-        font-size: 28px;
+        font-size: 24px;
       }
 
       .section_declaration_checkbox_container label {
@@ -379,7 +378,7 @@ export const getTemplate = (data: any) => {
         border-right: 1px solid #000000;
       }
       .section_user_information_container_title {
-        height: 100%;
+        height: 84px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -407,15 +406,15 @@ export const getTemplate = (data: any) => {
       .section_user_information_instructor img {
         width: 100%;
         height: 78px;
-        object-fit: cover;
+        object-fit: contain;
       }
 
       #user_signature {
-        border-top: 1px solid black;
-        height: 182px;
+        height: 172px;
         width: 100%;
-        object-fit: cover;
-      }
+        padding: 5px 10px;
+        object-fit: contain;
+    }
 
       #fix_border {
         border-bottom: none;
@@ -427,8 +426,8 @@ export const getTemplate = (data: any) => {
 
       .footer > p,
       .footer_last_text {
-        font-size: 24px;
-        letter-spacing: 1px;
+        font-size: 20px;
+        letter-spacing: 0.5px;
       }
       .footer_last_text {
         border-right: 6px solid white;
@@ -456,17 +455,22 @@ export const getTemplate = (data: any) => {
       .section_ceremony_signature {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        justify-content: flex-end;
+        height: 660px;
         width: 500px;
-      }
+    }
 
       .section_ceremony_signature img {
         width: 100%;
+        height: 275px;
+        object-fit: contain;
         padding: 5px 10px;
       }
       .section_ceremony_signature p {
         margin-top: 10px;
-        border-top: 1px solid #000000;
+        width: 90%;
+        margin: 10px auto 0 auto;
+        border-top: 0.5px dashed #000000;
         font-size: 24px;
         text-align: center;
         padding: 3px 10px;
@@ -1229,13 +1233,13 @@ export const getTemplate = (data: any) => {
               <div>
                 <div class="section_user_information_instructor">
                   <img
-                    src="https://img.freepik.com/fotos-gratis/foto-de-grande-angular-de-uma-unica-arvore-crescendo-sob-um-ceu-nublado-durante-um-por-do-sol-cercado-por-grama_181624-22807.jpg?w=2000"
-                    alt=""
+                  src="${candidateSignature?.signature}"
+                  alt=""
                   />
                 </div>
                 <div class="section_user_information_instructor">
                   <img
-                    src="https://img.freepik.com/fotos-gratis/foto-de-grande-angular-de-uma-unica-arvore-crescendo-sob-um-ceu-nublado-durante-um-por-do-sol-cercado-por-grama_181624-22807.jpg?w=2000"
+                  src="${candidateSignature?.signature}"
                     alt=""
                   />
                 </div>
@@ -1246,16 +1250,14 @@ export const getTemplate = (data: any) => {
               style="border-right: none"
             >
               <div class="section_user_information_container_title">
-                <p id="information">Assinatura do responsável</p>
+                <p id="information">Assinatura do candidato/a</p>
               </div>
-              <div>
-                <!-- <div class="section_user_information_instructor"> -->
+              <div style="height: 186px;border-top: 1px solid #000000">
                 <img
                   id="user_signature"
-                  src="https://img.freepik.com/fotos-gratis/foto-de-grande-angular-de-uma-unica-arvore-crescendo-sob-um-ceu-nublado-durante-um-por-do-sol-cercado-por-grama_181624-22807.jpg?w=2000"
+                  src="${candidateSignature?.signature}"
                   alt=""
                 />
-                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -1321,18 +1323,14 @@ export const getTemplate = (data: any) => {
             </div>
           </div>
           <div class="section_ceremony_signature">
-            <img
-              src="https://img.freepik.com/fotos-gratis/foto-de-grande-angular-de-uma-unica-arvore-crescendo-sob-um-ceu-nublado-durante-um-por-do-sol-cercado-por-grama_181624-22807.jpg?w=2000"
-              alt=""
-            />
-            <p>Assinatura pastor oficiante</p>
-            <img
-              src="https://img.freepik.com/fotos-gratis/foto-de-grande-angular-de-uma-unica-arvore-crescendo-sob-um-ceu-nublado-durante-um-por-do-sol-cercado-por-grama_181624-22807.jpg?w=2000"
-              alt=""
-            />
-            <p style="border-bottom: 0.5px solid #000000">
-              Assinatura secretário/a da igreja/grupo organizado
-            </p>
+            <img src="${pastorSignature?.signature}" alt="" />
+            <div style="border-bottom: 0.5px solid #000000">
+              <p>Assinatura pastor oficiante</p>
+            </div>
+            <img src="${secretaryOrResponsibleGroup?.signature}" alt="" />
+            <div style="border-bottom: 0.5px solid #000000">
+              <p>Assinatura secretário/a da igreja/grupo organizado</p>
+            </div>
           </div>
         </section>
         <p class="footer_last_text">
