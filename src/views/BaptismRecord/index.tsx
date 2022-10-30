@@ -1,151 +1,75 @@
-import { Box, Text, useToast, VStack } from "native-base";
-import { useState } from "react";
+import { Box, ScrollView, Text, useToast, VStack } from "native-base";
 import ButtonDefault from "../../components/button";
 import { Header } from "../../components/Header";
-import { useOrientation } from "../../contexts/OrientationProvider";
-import { useFieldArray, useForm } from "react-hook-form";
 
 import { useCustomToast } from "../../hooks";
-import { Provider } from "./context";
+import Identification from "./components/Identification";
+import Conversion from "./components/Conversion";
+import DeclarationOfFaith from "./components/DeclarationOfFaith";
+import { useNavigation } from "@react-navigation/native";
+import InformationAboutTheSheet from "./components/informationAboutTheSheet";
+import { memo } from "react";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
-interface BaptismRecordProps {}
-
-const BaptismRecord = ({}: BaptismRecordProps) => {
-  const [errors, setErrors] = useState({});
-
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [currentUserName, setCurrentUserName] = useState<string | null>(null);
-
-  const [show, setShow] = useState(false);
-
+const Form = () => {
   const toast = useToast();
 
-  const {
-    // formState: { errors },
-    control,
-  } = useForm<{
-    signatures: Array<{ signature: string; currentUserName: string | null }>;
-  }>({
-    // resolver: yupResolver(schema),
-  });
+  const { handleSubmit } = useFormContext();
 
-  const { append, fields, update } = useFieldArray({
-    control,
-    name: "signatures",
-  });
+  const { navigate } = useNavigation();
 
-  const handleAddBaptismRecord = (signature: string) => {
-    if (currentIndex !== null && fields?.[currentIndex]) {
-      update(currentIndex, { signature, currentUserName });
-    } else {
-      append({ signature, currentUserName });
-    }
-    toggleOrientation("vertical");
-  };
-
-  const { toggleOrientation } = useOrientation();
-
-  const handlePress = (index: number, name: string) => {
-    toggleOrientation("horizontal");
-    setCurrentIndex(index);
-    setCurrentUserName(name);
-    setShow(!show);
-  };
-
-  const handleSubmitData = () => {
+  const handleSubmitData = (data: any) => {
+    console.log(data, "data");
     useCustomToast({
       toast,
-      msg: "PDF exportado com sucesso!",
+      msg: "Dados cadastrados com sucesso!",
       type: "sucess",
     });
+    navigate("Signatures" as never);
   };
-
-  console.log(errors, "errors");
 
   return (
     <>
       <Box w="100%" h="100%" bg="gray.200">
-        <Provider>
-          <Header title="Ficha de Batismo" path="Dashboard" />
+        <Header title="Ficha de Batismo" path="Dashboard" />
+        <ScrollView>
+          <Box px="16" py="20">
+            <VStack space="20">
+              <InformationAboutTheSheet />
+              <Identification />
+              <Conversion />
+              <DeclarationOfFaith />
+            </VStack>
 
-          <VStack mt="20" space="16">
             <ButtonDefault
               buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(0, "pastor");
-                },
+                width: "100%",
+                mt: 100,
+                onPress: handleSubmit(handleSubmitData),
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do pastor
+              <Text fontSize="20" fontWeight="semibold" color="white">
+                Ir para as assinaturas
               </Text>
             </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(1, "responsável");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do responsável
-              </Text>
-            </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(2, "candidato");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do Candidato
-              </Text>
-            </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                minH: "76",
-                onPress: () => {
-                  handlePress(3, "secretária ou grupo responsável");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura da secretária da igreja ou grupo responsável
-              </Text>
-            </ButtonDefault>
-          </VStack>
-
-          <ButtonDefault
-            buttonProps={{
-              width: "80%",
-              mt: 100,
-              onPress: handleSubmitData,
-            }}
-          >
-            <Text fontSize="20" fontWeight="semibold" color="white">
-              Exportar PDF
-            </Text>
-          </ButtonDefault>
-        </Provider>
+          </Box>
+        </ScrollView>
       </Box>
     </>
   );
 };
 
-export default BaptismRecord;
+const Baptism = memo(Form);
+
+const BaptismRecord = () => {
+  const methods = useForm();
+  return (
+    <>
+      <FormProvider {...methods}>
+        <Baptism />
+      </FormProvider>
+    </>
+  );
+};
+
+export default memo(BaptismRecord);

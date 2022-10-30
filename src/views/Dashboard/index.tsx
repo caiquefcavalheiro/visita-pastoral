@@ -29,9 +29,7 @@ const Dashboard = ({}: DashboardProps) => {
         <ButtonDefault
           buttonProps={{
             width: "80%",
-            onPress: () => {
-              navigate("Signatures" as never);
-            },
+            onPress: () => navigate("BaptismRecord" as never),
           }}
           imageProps={{ source: fichaBatismo }}
         >

@@ -58,8 +58,6 @@ const Signatures = ({}: SignaturesProps) => {
       uri.lastIndexOf("/") + 1
     )}ficha-batismo_${currentDate}.pdf`;
 
-    console.log(pdfName, "pdfName");
-
     await FileSystem.moveAsync({
       from: uri,
       to: pdfName,
@@ -109,7 +107,7 @@ const Signatures = ({}: SignaturesProps) => {
   return (
     <>
       <Box w="100%" h="100%" bg="gray.200">
-        <Header title="Ficha de Batismo" path="Dashboard" />
+        <Header title="Ficha de Batismo" path="BaptismRecord" />
 
         <VStack mt="20" space="16">
           <ButtonDefault
