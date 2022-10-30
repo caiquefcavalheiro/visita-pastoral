@@ -1,5 +1,5 @@
 import { Box, ScrollView, Text, useToast, VStack } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonDefault from "../../components/button";
 import { Header } from "../../components/Header";
 import { useOrientation } from "../../contexts/OrientationProvider";
@@ -11,12 +11,18 @@ import { printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import dayjs from "dayjs";
+import { getStorage } from "../../utils/storage";
+import { BaptismRecordData } from "../BaptismRecord";
 
 interface SignaturesProps {}
 
 const Signatures = ({}: SignaturesProps) => {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
+
+  const [baptismRecordData, setBaptismRecordData] = useState(
+    {} as BaptismRecordData
+  );
 
   const [show, setShow] = useState(false);
 
@@ -71,23 +77,37 @@ const Signatures = ({}: SignaturesProps) => {
     await shareAsync(pdfName, { UTI: ".pdf", mimeType: "application/pdf" });
   };
 
+  const pastorSignature = fields.find(
+    (field) => field?.currentUserName === "pastor"
+  );
+
+  const secretaryOrResponsibleGroup = fields.find(
+    (field) => field?.currentUserName === "secretária ou grupo responsável"
+  );
+
+  const candidateSignature = fields.find(
+    (field) => field?.currentUserName === "candidato"
+  );
+
+  const fatherSignature = fields.find(
+    (field) => field?.currentUserName === "assinatura do pai"
+  );
+
+  const motherSignature = fields.find(
+    (field) => field?.currentUserName === "assinatura da mãe"
+  );
+
   const handleSubmitData = async () => {
-    const pastorSignature = fields.find(
-      (field) => field.currentUserName === "pastor"
-    );
-
-    const secretaryOrResponsibleGroup = fields.find(
-      (field) => field.currentUserName === "secretária ou grupo responsável"
-    );
-
-    const candidateSignature = fields.find(
-      (field) => field.currentUserName === "candidato"
-    );
-
     if (!secretaryOrResponsibleGroup && !pastorSignature) {
       useCustomToast({
         toast,
         msg: "È necessário a assinatura do pastor ou secretaria !",
+        type: "error",
+      });
+    } else if (!fatherSignature && !motherSignature) {
+      useCustomToast({
+        toast,
+        msg: "È necessário a assinatura da mãe, pai ou responsável !",
         type: "error",
       });
     } else if (!candidateSignature) {
@@ -97,21 +117,38 @@ const Signatures = ({}: SignaturesProps) => {
         type: "error",
       });
     } else {
-      useCustomToast({
-        toast,
-        msg: "PDF exportado com sucesso!",
-        type: "sucess",
+      const data = {
+        ...baptismRecordData,
+        pastorSignature,
+        motherSignature,
+        candidateSignature,
+        fatherSignature,
+        secretaryOrResponsibleGroup,
+      };
+      const html = getTemplate(data);
+
+      await printToFile(html).then(() => {
+        useCustomToast({
+          toast,
+          msg: "PDF exportado com sucesso!",
+          type: "sucess",
+        });
       });
     }
-
-    const html = getTemplate({ fields });
-
-    await printToFile(html);
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = (await getStorage(
+        "@pastoral:baptismRecordData"
+      )) as BaptismRecordData;
+      setBaptismRecordData(data);
+    })();
+  }, []);
 
   return (
     <>
-      <Box w="100%" h="100%" bg="gray.200" pb="10">
+      <Box w="100%" h="100%" bg="gray.200">
         <Header title="Ficha de Batismo" path="BaptismRecord" />
         <ScrollView>
           <VStack mt="20" space="16">
@@ -137,12 +174,12 @@ const Signatures = ({}: SignaturesProps) => {
                 borderRadius: "8",
                 h: "76",
                 onPress: () => {
-                  handlePress(1, "responsável");
+                  handlePress(1, "assinatura do pai");
                 },
               }}
             >
               <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do responsável
+                Assinatura do pai ou responsável
               </Text>
             </ButtonDefault>
             <ButtonDefault
@@ -152,7 +189,22 @@ const Signatures = ({}: SignaturesProps) => {
                 borderRadius: "8",
                 h: "76",
                 onPress: () => {
-                  handlePress(2, "candidato");
+                  handlePress(2, "assinatura da mãe");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura da mãe ou responsável
+              </Text>
+            </ButtonDefault>
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                h: "76",
+                onPress: () => {
+                  handlePress(3, "candidato");
                 },
               }}
             >
@@ -167,7 +219,7 @@ const Signatures = ({}: SignaturesProps) => {
                 borderRadius: "8",
                 minH: "76",
                 onPress: () => {
-                  handlePress(3, "secretária ou grupo responsável");
+                  handlePress(4, "secretária ou grupo responsável");
                 },
               }}
             >
@@ -181,6 +233,7 @@ const Signatures = ({}: SignaturesProps) => {
             buttonProps={{
               width: "80%",
               mt: 50,
+              mb: 60,
               onPress: handleSubmitData,
             }}
           >

@@ -1,17 +1,88 @@
-export const getTemplate = (data: any) => {
-  const { fields } = data;
+import dayjs from "dayjs";
+import { BaptismRecordData } from "../BaptismRecord";
+import { FieldArrayWithId } from "react-hook-form";
 
-  const pastorSignature = fields?.find(
-    (field: any) => field?.currentUserName === "pastor"
-  );
+type Signature =
+  | FieldArrayWithId<
+      {
+        signatures: {
+          signature: string;
+          currentUserName: string | null;
+        }[];
+      },
+      "signatures",
+      "id"
+    >
+  | undefined;
 
-  const secretaryOrResponsibleGroup = fields.find(
-    (field: any) => field?.currentUserName === "secretária ou grupo responsável"
-  );
+export const getTemplate = (
+  data: {
+    pastorSignature: Signature;
+    motherSignature: Signature;
+    candidateSignature: Signature;
+    fatherSignature: Signature;
+    secretaryOrResponsibleGroup: Signature;
+  } & BaptismRecordData
+) => {
+  const {
+    candidateSignature,
+    fatherSignature,
+    motherSignature,
+    pastorSignature,
+    secretaryOrResponsibleGroup,
+    action,
+    birthDate,
+    cep,
+    churchWhereHeWasAmember,
+    civilMarriageDate,
+    countryOfBirth,
+    decidingBaptized,
+    declaration0,
+    declaration1,
+    declaration10,
+    declaration11,
+    declaration12,
+    declaration2,
+    declaration3,
+    declaration4,
+    declaration5,
+    declaration6,
+    declaration7,
+    declaration8,
+    declaration9,
+    email,
+    firstBibleInstructor,
+    howDidSDA,
+    howYouStudyBible,
+    lastName,
+    maritalStatus,
+    name,
+    otherDecidingBaptized,
+    otherHowDidSDA,
+    otherHowYouStudyBible,
+    phone,
+    previousReligion,
+    reason,
+    removalDate,
+    rg,
+    secondBibleInstructor,
+    sex,
+    specialVote,
+    theChurchWasConsulted,
+    motherName,
+    fatherName,
+    fullResidentialAddress,
+    neighborhood,
+    countryOfResidence,
+    ceremonyLocation,
+    cityChurchOrganizedGroup,
+    dateAndCoteTheAdministrativeMeeting,
+    fullNameOfficiatingPastor,
+    nameSecretaryOrganizedGroup,
+    nameTheChurch,
+  } = data;
 
-  const candidateSignature = fields.find(
-    (field: any) => field?.currentUserName === "candidato"
-  );
+  const now = dayjs(new Date()).format("DD/MM/YYYY");
 
   const template = `
   <!DOCTYPE html>
@@ -495,11 +566,11 @@ export const getTemplate = (data: any) => {
             </h3>
             <div class="header_div">
               <div class="header_checkbox">
-                <input type="checkbox" />
+                <input type="checkbox" ${action === "Batismo" && "checked"} />
                 <h2>Batismo</h2>
               </div>
               <div class="header_aside">
-                <input type="checkbox" />
+                <input type="checkbox"  ${specialVote && "checked"}  />
                 <h4>
                   Voto Especial - Anexar a ficha de "Pedido de Batismo por Voto
                   Especial" aprovado pela Comissão Diretiva do Campo local.
@@ -508,7 +579,9 @@ export const getTemplate = (data: any) => {
             </div>
             <div class="header_div">
               <div class="header_checkbox">
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  action === "Rebatismo*" && "checked"
+                } />
                 <h2>Rebatismo*</h2>
               </div>
               <div class="header_container_checkbox_options">
@@ -519,23 +592,29 @@ export const getTemplate = (data: any) => {
                 <div class="header_checkbox_options">
                   <div class="header_checkbox_options_position">
                     <p>S</p>
-                    <input type="checkbox" />
+                    <input type="checkbox"  ${
+                      theChurchWasConsulted === "Sim" && "checked"
+                    } />
                   </div>
                   <div class="header_checkbox_options_position">
                     <p>N</p>
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      theChurchWasConsulted === "Não" && "checked"
+                    } />
                   </div>
                 </div>
               </div>
-              <p>Data da remoção:</p>
+              <p>Data da remoção: ${removalDate}</p>
             </div>
             <div class="header_div">
               <div class="header_checkbox">
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  action === "Profissão de fé*" && "checked"
+                } />
                 <h2>Profissão de fé*</h2>
               </div>
               <p style="width: 30%">Motivo:</p>
-              <p>Igreja/Grupo e localidade onde foi membro:</p>
+              <p>Igreja/Grupo e localidade onde foi membro: ${churchWhereHeWasAmember}</p>
             </div>
           </div>
         </div>
@@ -546,11 +625,11 @@ export const getTemplate = (data: any) => {
           <div class="section_identification_line">
             <div class="section_field_name">
               <p>Nomes <span>(sem abreviações)</span></p>
-              <input type="text" value="Nome do usuário" />
+              <input type="text" value="${name}" />
             </div>
             <div class="section_field_name" style="border-right: none">
               <p>Sobrenome <span>(sem abreviações)</span></p>
-              <input type="text" value="Sobrenome do usuário" />
+              <input type="text" value="${lastName}" />
             </div>
           </div>
           <div class="section_identification_line2">
@@ -558,38 +637,38 @@ export const getTemplate = (data: any) => {
               <p>Sexo</p>
               <div class="section_container_gender">
                 <div>
-                  <input type="checkbox" />
+                  <input type="checkbox" ${sex === "Masculino" && "checked"} />
                   <label>Masculino</label>
                 </div>
                 <div>
-                  <input type="checkbox" />
+                  <input type="checkbox" ${sex === "Feminino" && "checked"} />
                   <label>Feminino</label>
                 </div>
               </div>
             </div>
             <div class="section_second_field" style="width: 30%">
               <p>Data de nascimento</p>
-              <input type="text" value="Data de nascimento" />
+              <input type="text" value="${birthDate}" />
             </div>
             <div
               class="section_second_field"
               style="width: 100%; border-right: none"
             >
               <p>Cidade, UF país de nascimento</p>
-              <input type="text" value="Cidade do usuário" />
+              <input type="text" value="${countryOfBirth}" />
             </div>
           </div>
           <div class="section_identification_line3">
             <div class="section_second_field" style="width: 50%">
               <p>Nome da mãe</p>
-              <input type="text" value="Nome da mãe do usuário" />
+              <input type="text" value="${motherName}" />
             </div>
             <div
               class="section_second_field"
               style="width: 50%; border-right: none"
             >
               <p>Nome do pai</p>
-              <input type="text" value="Nome do pai do usuário" />
+              <input type="text" value="${fatherName}" />
             </div>
           </div>
           <div class="section_identification_line4">
@@ -598,19 +677,19 @@ export const getTemplate = (data: any) => {
               style="width: 100%; border-right: none"
             >
               <p>Endereço residencial completo</p>
-              <input type="text" value="Endereço residencial do usuário" />
+              <input type="text" value="${fullResidentialAddress}" />
             </div>
           </div>
           <div class="section_identification_line5">
             <div class="section_second_field" style="width: 30%">
               <p>Bairro</p>
-              <input type="text" value="Bairro do usuário" />
+              <input type="text" value="${neighborhood}" />
             </div>
             <div class="section_second_field" style="width: 50%">
               <p>Cidade, UF, país da residência</p>
               <input
                 type="text"
-                value="Cidade, UF, país da residência do usuário"
+                value="${countryOfResidence}"
               />
             </div>
             <div
@@ -618,17 +697,17 @@ export const getTemplate = (data: any) => {
               style="width: 50%; border-right: none"
             >
               <p>CEP</p>
-              <input type="text" value="CEP do usuário" />
+              <input type="text" value="${cep}" />
             </div>
           </div>
           <div class="section_identification_line6">
             <div class="section_second_field" style="width: 30%">
               <p>Telefone</p>
-              <input type="text" value="Telefone do usuário" />
+              <input type="text" value="${phone}" />
             </div>
             <div class="section_second_field" style="width: 40%">
               <p>Email</p>
-              <input type="email" value="Email do usuário" />
+              <input type="email" value="${email}" />
             </div>
             <div
               class="section_second_field"
@@ -637,7 +716,7 @@ export const getTemplate = (data: any) => {
               <p>Doc. Identificação / Órgão Emissor / UF</p>
               <input
                 type="text"
-                value="Doc. Identificação / Órgão Emissor / UF do usuário"
+                value="${rg}"
               />
             </div>
           </div>
@@ -663,11 +742,11 @@ export const getTemplate = (data: any) => {
               <div>
                 <input
                   type="text"
-                  value="1. Instrutor/a bíblico/a do usuário"
+                  value="1. ${firstBibleInstructor}"
                 />
                 <input
                   type="text"
-                  value="2. Instrutor/a bíblico/a do usuário"
+                  value="2. ${secondBibleInstructor}"
                 />
               </div>
             </div>
@@ -686,75 +765,109 @@ export const getTemplate = (data: any) => {
                   style="height: 100%"
                 >
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Acampamento/retiro" && "checked"
+                    } />
                     <label>Acampamento/retiro</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Internet" && "checked"
+                    }/>
                     <label>Internet</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "ADRA" && "checked"
+                    }/>
                     <label>ADRA</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "ADRA" && "checked"
+                    } />
                     <label>Livros/literatura</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Amigos/conhecidos" && "checked"
+                    } />
                     <label>Amigos/conhecidos</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Missão Calebe" && "checked"
+                    } />
                     <label>Missão Calebe</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Desbravadores/Avent" && "checked"
+                    } />
                     <label>Desbravadores/Avent</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Mutirão de Natal" && "checked"
+                    } />
                     <label>Mutirão de Natal</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Educação Adventista" && "checked"
+                    } />
                     <label>Educação Adventista</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Pequeno Grupo" && "checked"
+                    } />
                     <label>Pequeno Grupo</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Escola Sabatina" && "checked"
+                    } />
                     <label>Escola Sabatina</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Quebrando o Silêncio" && "checked"
+                    } />
                     <label>Quebrando o Silêncio</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Evangelismo público" && "checked"
+                    } />
                     <label>Evangelismo público</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Rádio" && "checked"
+                    } />
                     <label>Rádio</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Família/parentes" && "checked"
+                    } />
                     <label>Família/parentes</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox"${howDidSDA === "TV" && "checked"}  />
                     <label>TV</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Instituição de saúde" && "checked"
+                    }  />
                     <label>Instituição de saúde</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howDidSDA === "Outro" && "checked"
+                    } />
                     <label>Outro</label>
                   </div>
                 </div>
@@ -770,67 +883,106 @@ export const getTemplate = (data: any) => {
                   style="height: 100%"
                 >
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica ASA" && "checked"
+                    }/>
                     <label>Classe Bíblica ASA</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Estudo Bíblico individual" &&
+                      "checked"
+                    }/>
                     <label>Estudo Bíblico individual</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica Calebe/Jovens" &&
+                      "checked"
+                    }/>
                     <label>Classe Bíblica Calebe/Jovens</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Estudo Bíblico on-line" && "checked"
+                    }/>
                     <label>Estudo Bíblico on-line</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica da igreja" &&
+                      "checked"
+                    }/>
                     <label>Classe Bíblica da igreja</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Evangelismo público" && "checked"
+                    }/>
                     <label>Evangelismo público</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica Desbr/Avent" &&
+                      "checked"
+                    }/>
                     <label>Classe Bíblica Desbr/Avent</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Ouvi sermões na igreja" && "checked"
+                    }/>
                     <label>Ouvi sermões na igreja</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica Educação" &&
+                      "checked"
+                    }/>
                     <label>Classe Bíblica Educação</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Pequeno Grupo" && "checked"
+                    }/>
                     <label>Pequeno Grupo</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Classe Bíblica ES" && "checked"
+                    }/>
                     <label>Classe Bíblica ES</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Estudei pouco a Bíblia" && "checked"
+                    }/>
                     <label>Estudei pouco a Bíblia</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Escola Bíblica Novo Tempo" &&
+                      "checked"
+                    }/>
                     <label>Escola Bíblica Novo Tempo</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Não estudei a Bíblia" && "checked"
+                    }/>
                     <label>Não estudei a Bíblia</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Escola Cristã de Férias" &&
+                      "checked"
+                    }/>
                     <label>Escola Cristã de Férias</label>
                   </div>
                   <div class="section_conversion_checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" ${
+                      howYouStudyBible === "Outro" && "checked"
+                    }/>
                     <label>Outro</label>
                   </div>
                 </div>
@@ -842,40 +994,50 @@ export const getTemplate = (data: any) => {
               <p>Estado Civil</p>
               <div class="section_conversion_checkbox_container">
                 <div class="section_conversion_checkbox" style="width: 30%">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    maritalStatus === "Solteiro" && "checked"
+                  } />
                   <label>Solteiro</label>
                 </div>
                 <div class="section_conversion_checkbox" style="width: 30%">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    maritalStatus === "Divorciado" && "checked"
+                  }  />
                   <label>Divorciado</label>
                 </div>
                 <div class="section_conversion_checkbox" style="width: 30%">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    maritalStatus === "Viúvo" && "checked"
+                  } />
                   <label>Viúvo</label>
                 </div>
                 <div class="section_conversion_checkbox" style="width: 30%">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    maritalStatus === "Casado" && "checked"
+                  }  />
                   <label>Casado</label>
                 </div>
                 <div class="section_conversion_checkbox" style="width: 30%">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    maritalStatus === "Outro" && "checked"
+                  }/>
                   <label>Outro</label>
                 </div>
               </div>
               <div class="section_conversion_input_container">
                 <p>Data casamento civil:</p>
-                <input type="text" value="Data do casamento do usuário" />
+                <input type="text" value="${civilMarriageDate}" />
               </div>
             </div>
             <div
               class="section_second_field"
               style="border-bottom: 0.5px solid #000000; border-right: none"
             >
-              <p>Região anterior</p>
-              <input type="text" value="Região anterior do usuário" />
+              <p>religião anterior</p>
+              <input type="text" value="${previousReligion}" />
             </div>
             <div class="section_conversion_container_checkbox">
-              <p>
+              <p style="font-size: 24px;" >
                 Qual foi o fator decisivo para você ser batizado/a?
                 <br />
                 <span> (marque só uma opção) </span>
@@ -885,63 +1047,93 @@ export const getTemplate = (data: any) => {
                 style="height: 100%"
               >
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Amigos" && "checked"
+                  } />
                   <label>Amigos</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Missão Calebe" && "checked"
+                  } />
                   <label>Missão Calebe</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Convicção pessoal" && "checked"
+                  } />
                   <label>Convicção pessoal</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Pequeno Grupo" && "checked"
+                  } />
                   <label>Pequeno Grupo</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Desbravadores/Avent" && "checked"
+                  } />
                   <label>Desbravadores/Avent</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Programa Reencontro" && "checked"
+                  } />
                   <label>Programa Reencontro</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Educação Adventista" && "checked"
+                  } />
                   <label>Educação Adventista</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Rádio" && "checked"
+                  } />
                   <label>Rádio</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Escola Sabatina" && "checked"
+                  } />
                   <label>Escola Sabatina</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Semana de Oração" && "checked"
+                  } />
                   <label>Semana de Oração</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Evangelismo público" && "checked"
+                  } />
                   <label>Evangelismo público</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "TV" && "checked"
+                  } />
                   <label>TV</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Família/parentes" && "checked"
+                  } />
                   <label>Família/parentes</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Outro" && "checked"
+                  } />
                   <label>Outro</label>
                 </div>
                 <div class="section_conversion_checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" ${
+                    decidingBaptized === "Internet" && "checked"
+                  } />
                   <label>Internet</label>
                 </div>
               </div>
@@ -956,11 +1148,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration0 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration0 === "Não" && "checked"} />
               </div>
             </div>
             <p>1. Aceita a Bíblia toda como a inspirada Palavra de Deus?</p>
@@ -969,11 +1161,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration1 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration1 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -985,11 +1177,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration2 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration2 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1002,11 +1194,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration3 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration3 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1018,11 +1210,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration4 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration4 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1037,11 +1229,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration5 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration5 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1055,11 +1247,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration6 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration6 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1071,11 +1263,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration7 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration7 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1087,11 +1279,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration8 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration8 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1105,11 +1297,11 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration9 === "Sim" && "checked"} />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${declaration9 === "Não" && "checked"} />
               </div>
             </div>
             <p>
@@ -1122,11 +1314,15 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration10 === "Sim" && "checked"
+                } />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration10 === "Não" && "checked"
+                } />
               </div>
             </div>
             <p>
@@ -1138,11 +1334,15 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration11 === "Sim" && "checked"
+                } />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration11 === "Não" && "checked"
+                } />
               </div>
             </div>
             <p>
@@ -1155,11 +1355,15 @@ export const getTemplate = (data: any) => {
             <div class="section_declaration_checkbox">
               <div class="header_checkbox_options_position">
                 <p>S</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration12 === "Sim" && "checked"
+                } />
               </div>
               <div class="header_checkbox_options_position">
                 <p>N</p>
-                <input type="checkbox" />
+                <input type="checkbox" ${
+                  declaration12 === "Não" && "checked"
+                } />
               </div>
             </div>
             <div>
@@ -1203,11 +1407,11 @@ export const getTemplate = (data: any) => {
               <div>
                 <div class="section_user_information_instructor">
                   <label>1.</label>
-                  <input type="text" value="" />
+                  <input type="text" value="${motherName}" />
                 </div>
                 <div class="section_user_information_instructor">
                   <label>2.</label>
-                  <input type="text" value="" />
+                  <input type="text" value="${fatherName}" />
                 </div>
               </div>
             </div>
@@ -1233,13 +1437,13 @@ export const getTemplate = (data: any) => {
               <div>
                 <div class="section_user_information_instructor">
                   <img
-                  src="${candidateSignature?.signature}"
+                  src="${fatherSignature?.signature}"
                   alt=""
                   />
                 </div>
                 <div class="section_user_information_instructor">
                   <img
-                  src="${candidateSignature?.signature}"
+                  src="${motherSignature?.signature}"
                     alt=""
                   />
                 </div>
@@ -1276,17 +1480,17 @@ export const getTemplate = (data: any) => {
             <div class="section_ceremony_container">
               <div class="section_second_field" style="width: 30%">
                 <p>Data da cerimônia</p>
-                <input type="text" value="Data da cerimônia" />
+                <input type="text" value="${now}" />
               </div>
               <div class="section_second_field" style="width: 70%">
                 <p>Local, cidade/UF da cerimônia</p>
-                <input type="text" value="Local, cidade/UF da cerimônia" />
+                <input type="text" value="${ceremonyLocation}" />
               </div>
             </div>
             <div class="section_ceremony_container">
               <div class="section_second_field" style="width: 100%">
                 <p>Nome completo do pastor oficiante</p>
-                <input type="text" value="Nome completo do pastor oficiante" />
+                <input type="text" value="${fullNameOfficiatingPastor}" />
               </div>
             </div>
             <div class="section_ceremony_container">
@@ -1294,14 +1498,14 @@ export const getTemplate = (data: any) => {
                 <p>Nome da igreja/grupo que o/a recebeu como membro</p>
                 <input
                   type="text"
-                  value="Nome da igreja/grupo que o/a recebeu como membro"
+                  value="${nameTheChurch}"
                 />
               </div>
               <div class="section_second_field" style="width: 60%">
                 <p>Cidade/UF da igreja/grupo organizado</p>
                 <input
                   type="text"
-                  value="Cidade/UF da igreja/grupo organizado"
+                  value="${cityChurchOrganizedGroup}"
                 />
               </div>
             </div>
@@ -1310,14 +1514,14 @@ export const getTemplate = (data: any) => {
                 <p>Data e voto da Reunião Regular/Administrativa</p>
                 <input
                   type="text"
-                  value="Data e voto da Reunião Regular/Administrativa"
+                  value="${dateAndCoteTheAdministrativeMeeting}"
                 />
               </div>
               <div class="section_second_field" style="width: 60%">
                 <p>Nome secretário/a da igreja/grupo organizado</p>
                 <input
                   type="text"
-                  value="Nome secretário/a da igreja/grupo organizado"
+                  value="${nameSecretaryOrganizedGroup}"
                 />
               </div>
             </div>
@@ -1342,7 +1546,6 @@ export const getTemplate = (data: any) => {
     </main>
   </body>
 </html>
-
   `;
 
   return template;

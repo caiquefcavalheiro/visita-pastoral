@@ -13,10 +13,14 @@ const Signature = ({ show = false, getSignature, onClose }: SignatureProps) => {
   const signatureRef = useRef({} as any);
   const [signature, setSignature] = useState("");
 
-  if (!show) return <></>;
-
   return (
-    <Box w="100%" h="100%" position="absolute" zIndex={15} bg="red.500">
+    <Box
+      w="100%"
+      h="100%"
+      position="absolute"
+      zIndex={show ? 15 : -10}
+      bg="red.500"
+    >
       <SafeAreaView
         style={{
           flex: 1,
@@ -47,7 +51,11 @@ const Signature = ({ show = false, getSignature, onClose }: SignatureProps) => {
         <Divider orientation="vertical" mx="3" bg="gray.600" />
 
         <TouchableOpacity
-          style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
+          }}
           onPress={() => {
             signatureRef?.current?.saveSignature();
             getSignature(signature);
