@@ -98,6 +98,47 @@ const Identification = () => {
             control={control}
             rules={{ required: "Este campo é obrigatório!" }}
           />
+
+          <CustomInput
+            label="Nome da mãe"
+            error={errors?.motherName}
+            name="motherName"
+            control={control}
+            rules={{ required: "Este campo é obrigatório!" }}
+          />
+
+          <CustomInput
+            label="Nome do pai"
+            error={errors?.fatherName}
+            name="fatherName"
+            control={control}
+            rules={{ required: "Este campo é obrigatório!" }}
+          />
+
+          <CustomInput
+            label="Endereço residencial completo"
+            error={errors?.fullResidentialAddress}
+            name="fullResidentialAddress"
+            control={control}
+            rules={{ required: "Este campo é obrigatório!" }}
+          />
+
+          <CustomInput
+            label="Bairro"
+            error={errors?.neighborhood}
+            name="neighborhood"
+            control={control}
+            rules={{ required: "Este campo é obrigatório!" }}
+          />
+
+          <CustomInput
+            label="Cidade, UF, país da residência"
+            error={errors?.countryOfResidence}
+            name="countryOfResidence"
+            control={control}
+            rules={{ required: "Este campo é obrigatório!" }}
+          />
+
           <CustomInput
             label="CEP"
             error={errors?.cep}
