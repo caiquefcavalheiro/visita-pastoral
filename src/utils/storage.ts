@@ -8,7 +8,7 @@ export const setStorage = async (key: string, value: any) => {
   }
 };
 
-export const getStorage = async (key: string): Promise<string | boolean> => {
+export const getStorage = async (key: string): Promise<string | any> => {
   try {
     const value = await AsyncStorage.getItem(key);
 
