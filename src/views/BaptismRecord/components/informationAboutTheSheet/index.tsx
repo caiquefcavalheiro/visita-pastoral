@@ -40,7 +40,7 @@ const InformationAboutTheSheet = () => {
             label="Anexar a ficha de “Pedido de Batismo por Voto Especial” aprovado pela Comissão Diretiva do Campo local"
             text="Voto especial"
             control={control}
-            name="tess"
+            name="specialVote"
           />
 
           <CustomInput
@@ -76,7 +76,7 @@ const InformationAboutTheSheet = () => {
           />
 
           <CustomInput
-            label="greja/grupo e localidade onde foi membro"
+            label="Igreja/grupo e localidade onde foi membro"
             error={errors?.churchWhereHeWasAmember}
             name="churchWhereHeWasAmember"
             control={control}
