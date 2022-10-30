@@ -1,4 +1,4 @@
-import { Box, Text, useToast, VStack } from "native-base";
+import { Box, ScrollView, Text, useToast, VStack } from "native-base";
 import { useState } from "react";
 import ButtonDefault from "../../components/button";
 import { Header } from "../../components/Header";
@@ -51,7 +51,12 @@ const Signatures = ({}: SignaturesProps) => {
   const currentDate = dayjs(new Date()).format("DD-MM-YYYY_mm:ss");
 
   const printToFile = async (html: string) => {
-    const { uri } = await printToFileAsync({ html, width: 2408, height: 3508 });
+    const { uri } = await printToFileAsync({
+      html,
+      width: 2408,
+      height: 3508,
+      margins: { top: 200, right: 20, left: 20, bottom: 200 },
+    });
 
     const pdfName = `${uri.slice(
       0,
@@ -108,83 +113,84 @@ const Signatures = ({}: SignaturesProps) => {
 
   return (
     <>
-      <Box w="100%" h="100%" bg="gray.200">
+      <Box w="100%" h="100%" bg="gray.200" pb="10">
         <Header title="Ficha de Batismo" path="Dashboard" />
+        <ScrollView>
+          <VStack mt="20" space="16">
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                h: "76",
+                onPress: () => {
+                  handlePress(0, "pastor");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura do pastor
+              </Text>
+            </ButtonDefault>
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                h: "76",
+                onPress: () => {
+                  handlePress(1, "responsável");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura do responsável
+              </Text>
+            </ButtonDefault>
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                h: "76",
+                onPress: () => {
+                  handlePress(2, "candidato");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura do Candidato
+              </Text>
+            </ButtonDefault>
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                minH: "76",
+                onPress: () => {
+                  handlePress(3, "secretária ou grupo responsável");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura da secretária da igreja ou grupo responsável
+              </Text>
+            </ButtonDefault>
+          </VStack>
 
-        <VStack mt="20" space="16">
           <ButtonDefault
             buttonProps={{
               width: "80%",
-              bg: "gray.500",
-              borderRadius: "8",
-              h: "76",
-              onPress: () => {
-                handlePress(0, "pastor");
-              },
+              mt: 50,
+              onPress: handleSubmitData,
             }}
           >
-            <Text fontSize="20" fontWeight="semibold" color="blue.400">
-              Assinatura do pastor
+            <Text fontSize="20" fontWeight="semibold" color="white">
+              Exportar PDF
             </Text>
           </ButtonDefault>
-          <ButtonDefault
-            buttonProps={{
-              width: "80%",
-              bg: "gray.500",
-              borderRadius: "8",
-              h: "76",
-              onPress: () => {
-                handlePress(1, "responsável");
-              },
-            }}
-          >
-            <Text fontSize="20" fontWeight="semibold" color="blue.400">
-              Assinatura do responsável
-            </Text>
-          </ButtonDefault>
-          <ButtonDefault
-            buttonProps={{
-              width: "80%",
-              bg: "gray.500",
-              borderRadius: "8",
-              h: "76",
-              onPress: () => {
-                handlePress(2, "candidato");
-              },
-            }}
-          >
-            <Text fontSize="20" fontWeight="semibold" color="blue.400">
-              Assinatura do Candidato
-            </Text>
-          </ButtonDefault>
-          <ButtonDefault
-            buttonProps={{
-              width: "80%",
-              bg: "gray.500",
-              borderRadius: "8",
-              minH: "76",
-              onPress: () => {
-                handlePress(3, "secretária ou grupo responsável");
-              },
-            }}
-          >
-            <Text fontSize="20" fontWeight="semibold" color="blue.400">
-              Assinatura da secretária da igreja ou grupo responsável
-            </Text>
-          </ButtonDefault>
-        </VStack>
-
-        <ButtonDefault
-          buttonProps={{
-            width: "80%",
-            mt: 100,
-            onPress: handleSubmitData,
-          }}
-        >
-          <Text fontSize="20" fontWeight="semibold" color="white">
-            Exportar PDF
-          </Text>
-        </ButtonDefault>
+        </ScrollView>
       </Box>
       <Signature
         getSignature={handleAddSignatures}
