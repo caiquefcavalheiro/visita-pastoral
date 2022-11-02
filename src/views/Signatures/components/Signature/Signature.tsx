@@ -1,5 +1,5 @@
-import { Box, Divider, HStack, Text } from "native-base";
-import React, { useRef, useState } from "react";
+import { Divider, HStack, Text, View } from "native-base";
+import React, { memo, useRef, useState } from "react";
 import { SafeAreaView, TouchableOpacity } from "react-native";
 import { SignatureView } from "../../../../components/Signature";
 
@@ -9,18 +9,23 @@ interface SignatureProps {
   getSignature: (signature: string) => void;
 }
 
-const Signature = ({ show = false, getSignature, onClose }: SignatureProps) => {
+function Signature({ show = false, getSignature, onClose }: SignatureProps) {
   const signatureRef = useRef({} as any);
   const [signature, setSignature] = useState("");
 
+  function handleSave() {
+    signatureRef?.current?.saveSignature();
+    getSignature(signature);
+  }
+  function handleClear() {
+    signatureRef?.current?.clearSignature();
+  }
+  function handleBack() {
+    onClose?.();
+  }
+
   return (
-    <Box
-      w="100%"
-      h="100%"
-      position="absolute"
-      zIndex={show ? 15 : -10}
-      bg="red.500"
-    >
+    <View w="100%" h="100%" position="absolute" zIndex={show ? 15 : -10}>
       <SafeAreaView
         style={{
           flex: 1,
@@ -34,16 +39,15 @@ const Signature = ({ show = false, getSignature, onClose }: SignatureProps) => {
           onClear={() => {
             setSignature("");
           }}
-          backgroundColor="#ffffff"
+          backgroundColor="rgba(255,255,255,0.01)"
+          maxWidth={3}
         />
       </SafeAreaView>
 
       <HStack h="50" bg="yellow.50">
         <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
-          onPress={() => {
-            onClose?.();
-          }}
+          onPress={handleBack}
         >
           <Text fontSize="20">Voltar</Text>
         </TouchableOpacity>
@@ -56,27 +60,22 @@ const Signature = ({ show = false, getSignature, onClose }: SignatureProps) => {
             alignItems: "center",
             flex: 1,
           }}
-          onPress={() => {
-            signatureRef?.current?.saveSignature();
-            getSignature(signature);
-            onClose?.();
-          }}
+          onPress={handleSave}
         >
           <Text fontSize="20">Salvar</Text>
         </TouchableOpacity>
+
         <Divider orientation="vertical" mx="3" bg="gray.600" />
 
         <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
-          onPress={() => {
-            signatureRef?.current?.clearSignature();
-          }}
+          onPress={handleClear}
         >
           <Text fontSize="20">Limpar</Text>
         </TouchableOpacity>
       </HStack>
-    </Box>
+    </View>
   );
-};
+}
 
-export default Signature;
+export default memo(Signature);
