@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "visita batismal",
-    "slug": "visita-batismal",
+    "name": "visita pastoral",
+    "slug": "visita-pastoral",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,10 +24,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.viacao.app"
+      "package": "com.visita_pastoral.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "10b9bbb3-667f-4f49-ac78-80cd74bc8525"
+      }
     }
   }
 }

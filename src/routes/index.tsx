@@ -10,13 +10,17 @@ import PeopleAndTheirPositions from "../views/Positions/PeopleAndTheirPositions"
 import Sermons from "../views/Sermons";
 import Signatures from "../views/Signatures";
 import BaptismRecord from "../views/BaptismRecord";
+import { memo } from "react";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export function Routes() {
+const Routes = () => {
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false }}>
+      <Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Dashboard"
+      >
         <Screen name="Dashboard" component={Dashboard} />
         <Screen name="Chuch" component={Chuch} />
         <Screen name="Families" component={Families} />
@@ -36,4 +40,6 @@ export function Routes() {
       </Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default memo(Routes);

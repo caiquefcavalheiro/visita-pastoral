@@ -474,7 +474,6 @@ export class SignatureView extends React.PureComponent {
       <WebView
         style={{
           flex: 1,
-          backgroundColor: "#999",
         }}
         ref={(ref) => (this.webViewRef.current = ref)}
         onMessage={this.onMessage}

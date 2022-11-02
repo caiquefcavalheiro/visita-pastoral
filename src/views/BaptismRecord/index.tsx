@@ -1,151 +1,129 @@
-import { Box, Text, useToast, VStack } from "native-base";
-import { useState } from "react";
+import { Box, ScrollView, Text, useToast, VStack } from "native-base";
 import ButtonDefault from "../../components/button";
 import { Header } from "../../components/Header";
-import { useOrientation } from "../../contexts/OrientationProvider";
-import { useFieldArray, useForm } from "react-hook-form";
 
 import { useCustomToast } from "../../hooks";
-import { Provider } from "./context";
+import Identification from "./components/Identification";
+import Conversion from "./components/Conversion";
+import DeclarationOfFaith from "./components/DeclarationOfFaith";
+import InformationAboutTheSheet from "./components/informationAboutTheSheet";
+import { memo } from "react";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import Ceremony from "./components/ceremony";
+import { defaultValues } from "./defaultValue";
 
-interface BaptismRecordProps {}
+export type BaptismRecordData = {
+  action: string;
+  birthDate: string;
+  cep: string;
+  churchWhereHeWasAmember: string;
+  civilMarriageDate: string;
+  countryOfBirth: string;
+  decidingBaptized: string;
+  declaration0: string;
+  declaration1: string;
+  declaration10: string;
+  declaration11: string;
+  declaration12: string;
+  declaration2: string;
+  declaration3: string;
+  declaration4: string;
+  declaration5: string;
+  declaration6: string;
+  declaration7: string;
+  declaration8: string;
+  declaration9: string;
+  email: string;
+  firstBibleInstructor: string;
+  howDidSDA: string;
+  howYouStudyBible: string;
+  lastName: string;
+  maritalStatus: string;
+  name: string;
+  otherDecidingBaptized: string;
+  otherHowDidSDA: string;
+  otherHowYouStudyBible: string;
+  phone: string;
+  previousReligion: string;
+  reason: string;
+  removalDate: string;
+  rg: string;
+  secondBibleInstructor: string;
+  sex: string;
+  specialVote?: boolean;
+  theChurchWasConsulted: string;
+  motherName: string;
+  fatherName: string;
+  fullResidentialAddress: string;
+  neighborhood: string;
+  countryOfResidence: string;
+  ceremonyLocation: string;
+  fullNameOfficiatingPastor: string;
+  nameTheChurch: string;
+  cityChurchOrganizedGroup: string;
+  dateAndCoteTheAdministrativeMeeting: string;
+  nameSecretaryOrganizedGroup: string;
+  whoWillIDisciple: string;
+};
 
-const BaptismRecord = ({}: BaptismRecordProps) => {
-  const [errors, setErrors] = useState({});
-
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [currentUserName, setCurrentUserName] = useState<string | null>(null);
-
-  const [show, setShow] = useState(false);
-
+function Baptism({ navigation }: any) {
   const toast = useToast();
 
-  const {
-    // formState: { errors },
-    control,
-  } = useForm<{
-    signatures: Array<{ signature: string; currentUserName: string | null }>;
-  }>({
-    // resolver: yupResolver(schema),
-  });
+  const { handleSubmit } = useFormContext();
 
-  const { append, fields, update } = useFieldArray({
-    control,
-    name: "signatures",
-  });
-
-  const handleAddBaptismRecord = (signature: string) => {
-    if (currentIndex !== null && fields?.[currentIndex]) {
-      update(currentIndex, { signature, currentUserName });
-    } else {
-      append({ signature, currentUserName });
-    }
-    toggleOrientation("vertical");
-  };
-
-  const { toggleOrientation } = useOrientation();
-
-  const handlePress = (index: number, name: string) => {
-    toggleOrientation("horizontal");
-    setCurrentIndex(index);
-    setCurrentUserName(name);
-    setShow(!show);
-  };
-
-  const handleSubmitData = () => {
+  function handleSubmitData(data: any) {
     useCustomToast({
       toast,
-      msg: "PDF exportado com sucesso!",
+      msg: "Dados cadastrados com sucesso!",
       type: "sucess",
     });
-  };
-
-  console.log(errors, "errors");
+    navigation.navigate("Signatures", { baptismRecordData: data });
+  }
 
   return (
     <>
       <Box w="100%" h="100%" bg="gray.200">
-        <Provider>
-          <Header title="Ficha de Batismo" path="Dashboard" />
+        <Header title="Ficha de Batismo" path="Dashboard" />
+        <ScrollView>
+          <Box px="16" py="20">
+            <VStack space="20">
+              <InformationAboutTheSheet />
+              <Identification />
+              <Conversion />
+              <DeclarationOfFaith />
+              <Ceremony />
+            </VStack>
 
-          <VStack mt="20" space="16">
             <ButtonDefault
               buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(0, "pastor");
-                },
+                width: "100%",
+                mt: 100,
+                onPress: handleSubmit(handleSubmitData),
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do pastor
+              <Text fontSize="20" fontWeight="semibold" color="white">
+                Ir para as assinaturas
               </Text>
             </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(1, "responsável");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do responsável
-              </Text>
-            </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                h: "76",
-                onPress: () => {
-                  handlePress(2, "candidato");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do Candidato
-              </Text>
-            </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{
-                width: "80%",
-                bg: "gray.500",
-                borderRadius: "8",
-                minH: "76",
-                onPress: () => {
-                  handlePress(3, "secretária ou grupo responsável");
-                },
-              }}
-            >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura da secretária da igreja ou grupo responsável
-              </Text>
-            </ButtonDefault>
-          </VStack>
-
-          <ButtonDefault
-            buttonProps={{
-              width: "80%",
-              mt: 100,
-              onPress: handleSubmitData,
-            }}
-          >
-            <Text fontSize="20" fontWeight="semibold" color="white">
-              Exportar PDF
-            </Text>
-          </ButtonDefault>
-        </Provider>
+          </Box>
+        </ScrollView>
       </Box>
     </>
   );
-};
+}
 
-export default BaptismRecord;
+function BaptismRecord({ navigation }: any) {
+  const methods = useForm<BaptismRecordData>({
+    defaultValues,
+  });
+
+  return (
+    <>
+      <FormProvider {...methods}>
+        <Baptism navigation={navigation} />
+      </FormProvider>
+    </>
+  );
+}
+
+export default memo(BaptismRecord);

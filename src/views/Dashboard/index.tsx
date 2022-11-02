@@ -1,17 +1,14 @@
-import { Box, Text, VStack } from "native-base";
+import { Box, Link, Text, VStack } from "native-base";
 import { Header } from "../../components/Header";
 import ButtonDefault from "../../components/button";
 
 import pastor from "../../assets/dashboardImages/pastor.png";
 import fichaBatismo from "../../assets/dashboardImages/fichaBatismo.png";
 import whatsapp from "../../assets/dashboardImages/whatsapp.png";
-import { useNavigation } from "@react-navigation/native";
+import { Linking } from "react-native";
+import { memo } from "react";
 
-interface DashboardProps {}
-
-const Dashboard = ({}: DashboardProps) => {
-  const { navigate } = useNavigation();
-
+function Dashboard({ navigation }: any) {
   return (
     <Box w="100%" h="100%" bg="gray.200">
       <Header title="Menu pricipal" />
@@ -29,9 +26,7 @@ const Dashboard = ({}: DashboardProps) => {
         <ButtonDefault
           buttonProps={{
             width: "80%",
-            onPress: () => {
-              navigate("Signatures" as never);
-            },
+            onPress: () => navigation.navigate("BaptismRecord" as never),
           }}
           imageProps={{ source: fichaBatismo }}
         >
@@ -39,9 +34,15 @@ const Dashboard = ({}: DashboardProps) => {
             Ficha de Batismo
           </Text>
         </ButtonDefault>
+
         <ButtonDefault
           buttonProps={{
             width: "80%",
+            onPress: () => {
+              Linking.openURL(
+                "http://api.whatsapp.com/send?phone=5592981941709"
+              );
+            },
           }}
           imageProps={{ source: whatsapp }}
         >
@@ -52,6 +53,5 @@ const Dashboard = ({}: DashboardProps) => {
       </VStack>
     </Box>
   );
-};
-
-export default Dashboard;
+}
+export default memo(Dashboard);

@@ -1,8 +1,7 @@
-import { Box, ScrollView, Text, useToast, VStack } from "native-base";
-import { useState } from "react";
+import { Divider, ScrollView, Text, useToast, View, VStack } from "native-base";
+import { memo, useEffect, useState } from "react";
 import ButtonDefault from "../../components/button";
 import { Header } from "../../components/Header";
-import { useOrientation } from "../../contexts/OrientationProvider";
 import Signature from "./components/Signature/Signature";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useCustomToast } from "../../hooks";
@@ -11,12 +10,20 @@ import { printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import dayjs from "dayjs";
+import { BaptismRecordData } from "../BaptismRecord";
+import { useOrientation } from "../../hooks/orientation";
+import { CustomDialog } from "../../components/CustomDialog";
+import { Linking } from "react-native";
 
-interface SignaturesProps {}
-
-const Signatures = ({}: SignaturesProps) => {
+function Signatures({ route }: any) {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const { baptismRecordData } = route.params as {
+    baptismRecordData: BaptismRecordData;
+  };
 
   const [show, setShow] = useState(false);
 
@@ -31,31 +38,36 @@ const Signatures = ({}: SignaturesProps) => {
     name: "signatures",
   });
 
-  const handleAddSignatures = (signature: string) => {
+  const { toggleOrientation } = useOrientation();
+
+  async function handleAddSignatures(signature: string) {
     if (currentIndex !== null && fields?.[currentIndex]) {
       update(currentIndex, { signature, currentUserName });
     } else {
       append({ signature, currentUserName });
     }
+    setShow(false);
     toggleOrientation("vertical");
-  };
+  }
 
-  const { toggleOrientation } = useOrientation();
-
-  const handlePress = (index: number, name: string) => {
-    toggleOrientation("horizontal");
+  function handlePress(index: number, name: string) {
     setCurrentIndex(index);
     setCurrentUserName(name);
-    setShow(!show);
-  };
-  const currentDate = dayjs(new Date()).format("DD-MM-YYYY_mm:ss");
+    setShow(true);
+    toggleOrientation("horizontal");
+  }
 
-  const printToFile = async (html: string) => {
+  function handleClose() {
+    toggleOrientation("vertical");
+    setShow(false);
+  }
+
+  async function printToFile(html: string) {
+    const currentDate = dayjs(new Date()).format("DD-MM-YYYY_mm-ss");
     const { uri } = await printToFileAsync({
       html,
       width: 2408,
-      height: 3508,
-      margins: { top: 200, right: 20, left: 20, bottom: 200 },
+      height: 3060,
     });
 
     const pdfName = `${uri.slice(
@@ -63,58 +75,64 @@ const Signatures = ({}: SignaturesProps) => {
       uri.lastIndexOf("/") + 1
     )}ficha-batismo_${currentDate}.pdf`;
 
-    console.log(pdfName, "pdfName");
-
     await FileSystem.moveAsync({
       from: uri,
       to: pdfName,
     });
 
     await shareAsync(pdfName, { UTI: ".pdf", mimeType: "application/pdf" });
-  };
+  }
 
-  const handleSubmitData = async () => {
+  async function handleSubmitData() {
     const pastorSignature = fields.find(
-      (field) => field.currentUserName === "pastor"
+      (field) => field?.currentUserName === "pastor"
     );
 
     const secretaryOrResponsibleGroup = fields.find(
-      (field) => field.currentUserName === "secretária ou grupo responsável"
+      (field) => field?.currentUserName === "secretária ou grupo responsável"
     );
 
     const candidateSignature = fields.find(
-      (field) => field.currentUserName === "candidato"
+      (field) => field?.currentUserName === "candidato"
     );
 
-    if (!secretaryOrResponsibleGroup && !pastorSignature) {
-      useCustomToast({
-        toast,
-        msg: "È necessário a assinatura do pastor ou secretaria !",
-        type: "error",
-      });
-    } else if (!candidateSignature) {
-      useCustomToast({
-        toast,
-        msg: "A assinatura do canditato é obrigatória !",
-        type: "error",
-      });
-    } else {
+    const fatherSignature = fields.find(
+      (field) => field?.currentUserName === "assinatura do pai"
+    );
+
+    const motherSignature = fields.find(
+      (field) => field?.currentUserName === "assinatura da mãe"
+    );
+
+    const data = {
+      ...baptismRecordData,
+      pastorSignature,
+      motherSignature,
+      candidateSignature,
+      fatherSignature,
+      secretaryOrResponsibleGroup,
+    };
+    const html = getTemplate(data);
+
+    await printToFile(html).then(() => {
       useCustomToast({
         toast,
         msg: "PDF exportado com sucesso!",
         type: "sucess",
       });
-    }
+    });
+    setShowModal(false);
+  }
 
-    const html = getTemplate({ fields });
-
-    await printToFile(html);
-  };
+  useEffect(() => {
+    toggleOrientation("vertical");
+    console.log("aaaa");
+  }, []);
 
   return (
     <>
-      <Box w="100%" h="100%" bg="gray.200" pb="10">
-        <Header title="Ficha de Batismo" path="Dashboard" />
+      <View w="100%" h="100%" bg="gray.200">
+        <Header title="Ficha de Batismo" path="BaptismRecord" />
         <ScrollView>
           <VStack mt="20" space="16">
             <ButtonDefault
@@ -122,7 +140,7 @@ const Signatures = ({}: SignaturesProps) => {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                h: "76",
+                minH: "76",
                 onPress: () => {
                   handlePress(0, "pastor");
                 },
@@ -137,14 +155,14 @@ const Signatures = ({}: SignaturesProps) => {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                h: "76",
+                minH: "76",
                 onPress: () => {
-                  handlePress(1, "responsável");
+                  handlePress(1, "assinatura do pai");
                 },
               }}
             >
               <Text fontSize="20" fontWeight="semibold" color="blue.400">
-                Assinatura do responsável
+                Assinatura do pai ou responsável
               </Text>
             </ButtonDefault>
             <ButtonDefault
@@ -152,9 +170,24 @@ const Signatures = ({}: SignaturesProps) => {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                h: "76",
+                minH: "76",
                 onPress: () => {
-                  handlePress(2, "candidato");
+                  handlePress(2, "assinatura da mãe");
+                },
+              }}
+            >
+              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+                Assinatura da mãe ou responsável
+              </Text>
+            </ButtonDefault>
+            <ButtonDefault
+              buttonProps={{
+                width: "80%",
+                bg: "gray.500",
+                borderRadius: "8",
+                minH: "76",
+                onPress: () => {
+                  handlePress(3, "candidato");
                 },
               }}
             >
@@ -169,7 +202,7 @@ const Signatures = ({}: SignaturesProps) => {
                 borderRadius: "8",
                 minH: "76",
                 onPress: () => {
-                  handlePress(3, "secretária ou grupo responsável");
+                  handlePress(4, "secretária ou grupo responsável");
                 },
               }}
             >
@@ -183,7 +216,8 @@ const Signatures = ({}: SignaturesProps) => {
             buttonProps={{
               width: "80%",
               mt: 50,
-              onPress: handleSubmitData,
+              mb: 60,
+              onPress: () => setShowModal(true),
             }}
           >
             <Text fontSize="20" fontWeight="semibold" color="white">
@@ -191,17 +225,53 @@ const Signatures = ({}: SignaturesProps) => {
             </Text>
           </ButtonDefault>
         </ScrollView>
-      </Box>
+      </View>
       <Signature
         getSignature={handleAddSignatures}
         show={show}
-        onClose={() => {
-          setShow(false);
-          toggleOrientation("vertical");
+        onClose={handleClose}
+      />
+      <CustomDialog
+        isOpen={showModal}
+        setIsOpen={setShowModal}
+        cancelMsg="Não"
+        content={
+          <>
+            <Text fontSize="10">
+              CREIO E ACEITO AS CRENÇAS FUNDAMENTAIS, NORMAS E PRINCÍPIOS DA
+              IGREJA ADVENTISTA DO SÉTIMO DIA, INCLUSIVE A DISCIPLINA
+              ECLESIÁSTICA, EXPRESSOS NO “MANUAL DA IGREJA” , E DESEJO SER
+              MEMBRO DESTA CONGREGAÇÃO LOCAL DA IGREJA ADVENTISTA MUNDIAL.
+            </Text>
+            <Divider my="3" />
+
+            <Text fontSize="10">
+              COM A MINHA ASSINATURA DOU CONSENTIMENTO EXPRESSO PARA QUE A
+              IGREJA ADVENTISTA DO SÉTIMO DIA TRATE MEUS DADOS PESSOAIS DE
+              ACORDO COM A LEI, ESPECIFICAMENTE NO CUMPRIMENTO DE SUAS
+              FINALIDADES INSTITUCIONAIS. A POLÍTICA DE PRIVACIDADE ESTÁ
+              PUBLICADA NO SITE:
+              <Text
+                onPress={() => {
+                  Linking.openURL("http://adv.st/privacidade");
+                }}
+                textDecorationLine="underline"
+                color="blue.500"
+              >
+                {" "}
+                Adv PRIVACIDADE
+              </Text>
+            </Text>
+          </>
+        }
+        sucessMsg="Sim"
+        onCancel={() => {
+          setShowModal(false);
         }}
+        onSuccess={handleSubmitData}
       />
     </>
   );
-};
+}
 
-export default Signatures;
+export default memo(Signatures);
