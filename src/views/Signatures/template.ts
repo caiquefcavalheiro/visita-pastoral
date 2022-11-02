@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { BaptismRecordData } from "../BaptismRecord";
 import { FieldArrayWithId } from "react-hook-form";
+import { calibre } from "./fonts";
 
 type Signature =
   | FieldArrayWithId<
@@ -16,13 +17,13 @@ type Signature =
   | undefined;
 
 export const getTemplate = (
-  data: {
+  data: BaptismRecordData & {
     pastorSignature: Signature;
     motherSignature: Signature;
     candidateSignature: Signature;
     fatherSignature: Signature;
     secretaryOrResponsibleGroup: Signature;
-  } & BaptismRecordData
+  }
 ) => {
   const {
     candidateSignature,
@@ -80,6 +81,7 @@ export const getTemplate = (
     fullNameOfficiatingPastor,
     nameSecretaryOrganizedGroup,
     nameTheChurch,
+    whoWillIDisciple,
   } = data;
 
   const now = dayjs(new Date()).format("DD/MM/YYYY");
@@ -91,24 +93,31 @@ export const getTemplate = (
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
     <style>
-      * {
+
+    
+    @page {
+      margin: 10px 30px;
+    }
+
+    ${calibre}
+
+    * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
         list-style: none;
         border-collapse: collapse;
-        font-family: Georgia, "Times New Roman", Times, sans-serif;
+        font-family: auto;
       }
 
       body {
-        width: 2408px;
+        margin-top: 20px;
+        width: 100%;
         height: 4000px;
-        margin: 0 auto;
       }
       main {
-        width: 2480px;
+        width: 100%;
         height: 4000px;
         border: 4px solid #000000;
       }
@@ -139,6 +148,7 @@ export const getTemplate = (
         height: 20%;
         align-items: center;
         justify-content: center;
+        font-family: 'Calibre-regular';
       }
 
       .header_principal h3 {
@@ -613,7 +623,7 @@ export const getTemplate = (
                 } />
                 <h2>Profissão de fé*</h2>
               </div>
-              <p style="width: 30%">Motivo:</p>
+              <p style="width: 30%">Motivo: ${reason}</p>
               <p>Igreja/Grupo e localidade onde foi membro: ${churchWhereHeWasAmember}</p>
             </div>
           </div>
@@ -1374,7 +1384,7 @@ export const getTemplate = (
               </p>
               <div class="section_second_field" style="border: none">
                 <label>Quem discipularei:</label>
-                <input type="text" value="Quem o usuário discipulara" />
+                <input type="text" value="${whoWillIDisciple}" />
               </div>
             </div>
           </div>

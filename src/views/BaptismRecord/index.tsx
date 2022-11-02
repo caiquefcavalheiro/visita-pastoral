@@ -63,6 +63,7 @@ export type BaptismRecordData = {
   cityChurchOrganizedGroup: string;
   dateAndCoteTheAdministrativeMeeting: string;
   nameSecretaryOrganizedGroup: string;
+  whoWillIDisciple: string;
 };
 
 function Baptism({ navigation }: any) {
