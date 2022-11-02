@@ -6,12 +6,11 @@ import { useCustomToast } from "../../hooks";
 import Identification from "./components/Identification";
 import Conversion from "./components/Conversion";
 import DeclarationOfFaith from "./components/DeclarationOfFaith";
-import { useNavigation } from "@react-navigation/native";
 import InformationAboutTheSheet from "./components/informationAboutTheSheet";
 import { memo } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { setStorage } from "../../utils/storage";
 import Ceremony from "./components/ceremony";
+import { defaultValues } from "./defaultValue";
 
 export type BaptismRecordData = {
   action: string;
@@ -51,7 +50,7 @@ export type BaptismRecordData = {
   rg: string;
   secondBibleInstructor: string;
   sex: string;
-  specialVote: true;
+  specialVote?: boolean;
   theChurchWasConsulted: string;
   motherName: string;
   fatherName: string;
@@ -66,22 +65,19 @@ export type BaptismRecordData = {
   nameSecretaryOrganizedGroup: string;
 };
 
-const Form = () => {
+function Baptism({ navigation }: any) {
   const toast = useToast();
 
   const { handleSubmit } = useFormContext();
 
-  const { navigate } = useNavigation();
-
-  const handleSubmitData = async (data: any) => {
-    await setStorage("@pastoral:baptismRecordData", data);
+  function handleSubmitData(data: any) {
     useCustomToast({
       toast,
       msg: "Dados cadastrados com sucesso!",
       type: "sucess",
     });
-    navigate("Signatures" as never);
-  };
+    navigation.navigate("Signatures", { baptismRecordData: data });
+  }
 
   return (
     <>
@@ -113,19 +109,20 @@ const Form = () => {
       </Box>
     </>
   );
-};
+}
 
-const Baptism = memo(Form);
+function BaptismRecord({ navigation }: any) {
+  const methods = useForm<BaptismRecordData>({
+    defaultValues,
+  });
 
-const BaptismRecord = () => {
-  const methods = useForm<BaptismRecordData>();
   return (
     <>
       <FormProvider {...methods}>
-        <Baptism />
+        <Baptism navigation={navigation} />
       </FormProvider>
     </>
   );
-};
+}
 
 export default memo(BaptismRecord);

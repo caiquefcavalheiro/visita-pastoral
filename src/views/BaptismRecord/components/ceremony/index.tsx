@@ -2,8 +2,9 @@ import { Box, Center, Heading, VStack } from "native-base";
 import CustomInput from "../../../../components/customInput";
 import { DateTimeInput } from "../../../../components/dateTimeInput";
 import { useFormContext } from "react-hook-form";
+import { memo } from "react";
 
-const Ceremony = () => {
+function Ceremony() {
   const {
     formState: { errors },
     control,
@@ -21,14 +22,12 @@ const Ceremony = () => {
             error={errors?.ceremonyLocation}
             control={control}
             name="ceremonyLocation"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
           <CustomInput
             label="Nome completo do pastor oficiante"
             error={errors?.fullNameOfficiatingPastor}
             control={control}
             name="fullNameOfficiatingPastor"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -36,7 +35,6 @@ const Ceremony = () => {
             error={errors?.nameTheChurch}
             name="nameTheChurch"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -44,7 +42,6 @@ const Ceremony = () => {
             error={errors?.cityChurchOrganizedGroup}
             name="cityChurchOrganizedGroup"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <DateTimeInput
@@ -52,7 +49,6 @@ const Ceremony = () => {
             error={errors?.dateAndCoteTheAdministrativeMeeting}
             name="dateAndCoteTheAdministrativeMeeting"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -60,12 +56,11 @@ const Ceremony = () => {
             error={errors?.nameSecretaryOrganizedGroup}
             name="nameSecretaryOrganizedGroup"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
         </VStack>
       </Center>
     </Box>
   );
-};
+}
 
-export default Ceremony;
+export default memo(Ceremony);

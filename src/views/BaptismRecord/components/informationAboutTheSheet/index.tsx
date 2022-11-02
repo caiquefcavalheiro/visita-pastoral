@@ -1,11 +1,12 @@
 import { Box, Center, Heading, VStack } from "native-base";
 import CustomInput from "../../../../components/customInput";
-import { DateTimeInput } from "../../../../components/dateTimeInput";
 import { CustomRadio } from "../customRadio";
 import { CustomCheckBox } from "../../../../components/customCheckBox";
 import { useFormContext } from "react-hook-form";
+import { memo } from "react";
+import { Masks } from "react-native-mask-input";
 
-const InformationAboutTheSheet = () => {
+function InformationAboutTheSheet() {
   const {
     formState: { errors },
     control,
@@ -33,7 +34,6 @@ const InformationAboutTheSheet = () => {
             error={errors?.action}
             control={control}
             name="action"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomCheckBox
@@ -48,7 +48,6 @@ const InformationAboutTheSheet = () => {
             error={errors?.reason}
             name="reason"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomRadio
@@ -64,15 +63,22 @@ const InformationAboutTheSheet = () => {
             error={errors?.theChurchWasConsulted}
             control={control}
             name="theChurchWasConsulted"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
-          <DateTimeInput
+          <CustomInput
             label="Data da remoção"
             error={errors?.removalDate}
             name="removalDate"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
+            keyboardType="numeric"
+            mask={Masks.DATE_DDMMYYYY}
+            rules={{
+              required: false,
+              pattern: {
+                value: /^\d{2}\/\d{2}\/\d{4}$/,
+                message: "Digite uma data valida !",
+              },
+            }}
           />
 
           <CustomInput
@@ -80,12 +86,11 @@ const InformationAboutTheSheet = () => {
             error={errors?.churchWhereHeWasAmember}
             name="churchWhereHeWasAmember"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
         </VStack>
       </Center>
     </Box>
   );
-};
+}
 
-export default InformationAboutTheSheet;
+export default memo(InformationAboutTheSheet);

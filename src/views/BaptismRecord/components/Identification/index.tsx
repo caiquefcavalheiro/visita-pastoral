@@ -4,8 +4,9 @@ import { DateTimeInput } from "../../../../components/dateTimeInput";
 import { CustomRadio } from "../customRadio";
 import { Masks } from "react-native-mask-input";
 import { useFormContext } from "react-hook-form";
+import { memo } from "react";
 
-const Identification = () => {
+function Identification() {
   const {
     formState: { errors },
     control,
@@ -23,14 +24,12 @@ const Identification = () => {
             error={errors?.name}
             control={control}
             name="name"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
           <CustomInput
             label="Sobrenome (sem abreviações)"
             error={errors?.lastName}
             control={control}
             name="lastName"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <DateTimeInput
@@ -38,7 +37,6 @@ const Identification = () => {
             error={errors?.birthDate}
             name="birthDate"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomRadio
@@ -54,7 +52,6 @@ const Identification = () => {
             error={errors?.sex}
             control={control}
             name="sex"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomRadio
@@ -72,15 +69,22 @@ const Identification = () => {
             error={errors?.maritalStatus}
             control={control}
             name="maritalStatus"
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
-          <DateTimeInput
+          <CustomInput
             label="Data casamento civil"
             error={errors?.civilMarriageDate}
             name="civilMarriageDate"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
+            keyboardType="numeric"
+            mask={Masks.DATE_DDMMYYYY}
+            rules={{
+              required: false,
+              pattern: {
+                value: /^\d{2}\/\d{2}\/\d{4}$/,
+                message: "Digite uma data valida !",
+              },
+            }}
           />
 
           <CustomInput
@@ -88,7 +92,6 @@ const Identification = () => {
             error={errors?.previousReligion}
             name="previousReligion"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -96,7 +99,6 @@ const Identification = () => {
             error={errors?.countryOfBirth}
             name="countryOfBirth"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -104,7 +106,6 @@ const Identification = () => {
             error={errors?.motherName}
             name="motherName"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -112,7 +113,6 @@ const Identification = () => {
             error={errors?.fatherName}
             name="fatherName"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -120,7 +120,6 @@ const Identification = () => {
             error={errors?.fullResidentialAddress}
             name="fullResidentialAddress"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -128,7 +127,6 @@ const Identification = () => {
             error={errors?.neighborhood}
             name="neighborhood"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -136,7 +134,6 @@ const Identification = () => {
             error={errors?.countryOfResidence}
             name="countryOfResidence"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
 
           <CustomInput
@@ -144,9 +141,10 @@ const Identification = () => {
             error={errors?.cep}
             name="cep"
             control={control}
+            keyboardType="numeric"
             mask={Masks.ZIP_CODE}
             rules={{
-              required: "Este campo é obrigatório!",
+              required: false,
               minLength: {
                 value: 9,
                 message: "O CEP deve ter no mínimo 8 dígito",
@@ -157,28 +155,32 @@ const Identification = () => {
             label="Telefone"
             error={errors?.phone}
             name="phone"
+            keyboardType="numeric"
             control={control}
             mask={Masks.BRL_PHONE}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
           <CustomInput
             label="E-mail"
             error={errors?.email}
             name="email"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
+            rules={{
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Digite um email valido !",
+              },
+            }}
           />
           <CustomInput
             label="Doc. Identificação / Órgão Emissor / UF"
             error={errors?.rg}
             name="rg"
             control={control}
-            rules={{ required: "Este campo é obrigatório!" }}
           />
         </VStack>
       </Center>
     </Box>
   );
-};
+}
 
-export default Identification;
+export default memo(Identification);

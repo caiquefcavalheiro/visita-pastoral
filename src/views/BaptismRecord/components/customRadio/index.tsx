@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { memo } from "react";
 import {
   Control,
   FieldError,
@@ -29,6 +30,8 @@ type customRadioProps = {
   control: Control<any>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   rules?: UseControllerProps["rules"];
+  renderCase?: any;
+  renderCaseElement?: JSX.Element;
 };
 
 const defaultStyle = {
@@ -45,7 +48,7 @@ const defaultLabelStyle: ITextProps = {
   mb: "2",
 };
 
-export const CustomRadio = ({
+export function CustomRadio({
   options,
   radioGroupProps,
   textStyle,
@@ -54,35 +57,44 @@ export const CustomRadio = ({
   name,
   control,
   rules = {},
-}: customRadioProps) => {
+  renderCase,
+  renderCaseElement,
+}: customRadioProps) {
   const {
     field: { onChange, value },
   } = useController({ name: name || "", control, rules });
 
   return (
-    <FormControl w="100%" isInvalid={error ? true : false}>
-      {label && (
-        <FormControl.Label>
-          <Text {...defaultLabelStyle}>{label}</Text>
-        </FormControl.Label>
-      )}
+    <>
+      <FormControl w="100%" isInvalid={error ? true : false}>
+        {label && (
+          <FormControl.Label>
+            <Text {...defaultLabelStyle}>{label}</Text>
+          </FormControl.Label>
+        )}
 
-      <Radio.Group
-        {...radioGroupProps}
-        onChange={(value) => onChange(value)}
-        defaultValue={value}
-      >
-        <VStack space="2">
-          {options.map(({ value, label, style = {} }) => (
-            <Radio value={value} key={value} {...{ ...defaultStyle, ...style }}>
-              <Text {...{ ...defaultTextStyle, ...textStyle }}>{label}</Text>
-            </Radio>
-          ))}
-        </VStack>
-      </Radio.Group>
-      {error && (
-        <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
-      )}
-    </FormControl>
+        <Radio.Group
+          {...radioGroupProps}
+          onChange={(value) => onChange(value)}
+          defaultValue={value}
+        >
+          <VStack space="2">
+            {options.map(({ value, label, style = {} }) => (
+              <Radio
+                value={value}
+                key={value}
+                {...{ ...defaultStyle, ...style }}
+              >
+                <Text {...{ ...defaultTextStyle, ...textStyle }}>{label}</Text>
+              </Radio>
+            ))}
+          </VStack>
+        </Radio.Group>
+        {error && (
+          <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
+        )}
+      </FormControl>
+      {renderCase === value ? renderCaseElement : null}
+    </>
   );
-};
+}

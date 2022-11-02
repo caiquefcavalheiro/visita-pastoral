@@ -17,7 +17,10 @@ const { Navigator, Screen } = createNativeStackNavigator();
 const Routes = () => {
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false }}>
+      <Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Dashboard"
+      >
         <Screen name="Dashboard" component={Dashboard} />
         <Screen name="Chuch" component={Chuch} />
         <Screen name="Families" component={Families} />
