@@ -1,8 +1,8 @@
 import { Box, ScrollView, Text, useToast, VStack } from "native-base";
-import ButtonDefault from "../../components/button";
-import { Header } from "../../components/Header";
+import ButtonDefault from "../../../../components/button";
+import { Header } from "../../../../components/Header";
 
-import { useCustomToast } from "../../hooks";
+import { useCustomToast } from "../../../../hooks";
 import Identification from "./components/Identification";
 import Conversion from "./components/Conversion";
 import DeclarationOfFaith from "./components/DeclarationOfFaith";

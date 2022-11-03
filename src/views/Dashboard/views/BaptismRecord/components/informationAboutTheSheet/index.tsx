@@ -1,7 +1,7 @@
 import { Box, Center, Heading, VStack } from "native-base";
-import CustomInput from "../../../../components/customInput";
+import CustomInput from "../../../../../../components/customInput";
 import { CustomRadio } from "../customRadio";
-import { CustomCheckBox } from "../../../../components/customCheckBox";
+import { CustomCheckBox } from "../../../../../../components/customCheckBox";
 import { useFormContext } from "react-hook-form";
 import { memo } from "react";
 import { Masks } from "react-native-mask-input";

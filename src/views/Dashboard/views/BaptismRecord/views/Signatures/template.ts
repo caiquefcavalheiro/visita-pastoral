@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { BaptismRecordData } from "../BaptismRecord";
+import { BaptismRecordData } from "../..";
 import { FieldArrayWithId } from "react-hook-form";
 import { calibre } from "./fonts";
 

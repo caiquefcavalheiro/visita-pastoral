@@ -1,6 +1,6 @@
 import { Box, Heading, Text, View, VStack } from "native-base";
 import { memo } from "react";
-import CustomInput from "../../../../components/customInput";
+import CustomInput from "../../../../../../components/customInput";
 import { CustomRadio } from "../customRadio";
 
 import { useFormContext } from "react-hook-form";

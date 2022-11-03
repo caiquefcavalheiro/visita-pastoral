@@ -16,6 +16,7 @@ function Dashboard({ navigation }: any) {
         <ButtonDefault
           buttonProps={{
             width: "80%",
+            onPress: () => navigation.navigate("ChurchRoutes"),
           }}
           imageProps={{ source: pastor }}
         >
@@ -26,7 +27,7 @@ function Dashboard({ navigation }: any) {
         <ButtonDefault
           buttonProps={{
             width: "80%",
-            onPress: () => navigation.navigate("BaptismRecord" as never),
+            onPress: () => navigation.navigate("BaptismRecordRoutes"),
           }}
           imageProps={{ source: fichaBatismo }}
         >

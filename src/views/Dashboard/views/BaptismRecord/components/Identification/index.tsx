@@ -1,6 +1,6 @@
 import { Box, Center, Heading, VStack } from "native-base";
-import CustomInput from "../../../../components/customInput";
-import { DateTimeInput } from "../../../../components/dateTimeInput";
+import CustomInput from "../../../../../../components/customInput";
+import { DateTimeInput } from "../../../../../../components/dateTimeInput";
 import { CustomRadio } from "../customRadio";
 import { Masks } from "react-native-mask-input";
 import { useFormContext } from "react-hook-form";
