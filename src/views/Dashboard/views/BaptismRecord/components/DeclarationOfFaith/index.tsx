@@ -2,7 +2,7 @@ import { Box, Center, Heading, VStack } from "native-base";
 import { Fragment, memo } from "react";
 import { CustomRadio } from "../customRadio";
 import { useFormContext } from "react-hook-form";
-import CustomInput from "../../../../components/customInput";
+import CustomInput from "../../../../../../components/customInput";
 
 const fields = [
   { question: "Aceita a Bíblia toda como a inspirada Palavra de Deus?" },

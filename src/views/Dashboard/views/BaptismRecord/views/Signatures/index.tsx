@@ -1,18 +1,18 @@
 import { Divider, ScrollView, Text, useToast, View, VStack } from "native-base";
 import { memo, useEffect, useState } from "react";
-import ButtonDefault from "../../components/button";
-import { Header } from "../../components/Header";
+import ButtonDefault from "../../../../../../components/button";
+import { Header } from "../../../../../../components/Header";
 import Signature from "./components/Signature/Signature";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useCustomToast } from "../../hooks";
+import { useCustomToast } from "../../../../../../hooks";
 import { getTemplate } from "./template";
 import { printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import dayjs from "dayjs";
-import { BaptismRecordData } from "../BaptismRecord";
-import { useOrientation } from "../../hooks/orientation";
-import { CustomDialog } from "../../components/CustomDialog";
+import { BaptismRecordData } from "../..";
+import { useOrientation } from "../../../../../../hooks/orientation";
+import { CustomDialog } from "../../../../../../components/CustomDialog";
 import { Linking } from "react-native";
 
 function Signatures({ route }: any) {

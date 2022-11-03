@@ -1,6 +1,6 @@
 import { Box, Center, Heading, VStack } from "native-base";
-import CustomInput from "../../../../components/customInput";
-import { DateTimeInput } from "../../../../components/dateTimeInput";
+import CustomInput from "../../../../../../components/customInput";
+import { DateTimeInput } from "../../../../../../components/dateTimeInput";
 import { useFormContext } from "react-hook-form";
 import { memo } from "react";
 

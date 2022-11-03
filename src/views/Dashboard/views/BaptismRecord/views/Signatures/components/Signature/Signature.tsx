@@ -1,7 +1,7 @@
 import { Divider, HStack, Text, View } from "native-base";
 import React, { memo, useRef, useState } from "react";
 import { SafeAreaView, TouchableOpacity } from "react-native";
-import { SignatureView } from "../../../../components/Signature";
+import { SignatureView } from "../../../../../../../../components/Signature";
 
 interface SignatureProps {
   show?: boolean;
