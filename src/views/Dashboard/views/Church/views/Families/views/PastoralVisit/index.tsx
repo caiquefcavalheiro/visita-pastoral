@@ -7,30 +7,35 @@ import { CarouselComponent } from "../../../../../../../../components/Carousel";
 
 const carouselItems = [
   {
+    id: "01",
     title: "Item 1",
     text: "Text 1",
     image_url:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Lake_Perris_Seventh-day_Adventist_Church.jpg/300px-Lake_Perris_Seventh-day_Adventist_Church.jpg",
   },
   {
+    id: "02",
     title: "Item 2",
     text: "Text 2",
     image_url:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbKMn5w3XcvIdeR5W8QVYHE1ROn-s-1oYpVsgmYV6fCAAU4t7c1cepUuUIIjNvuFJP9p8&usqp=CAU",
   },
   {
+    id: "03",
     title: "Item 3",
     text: "Text 3",
     image_url:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTi201E0et9ygIUd2aTICawZ7N7lx_6iDhd91PoYNC4tooZTbWbBGDOBLQn7qadDfDLPc&usqp=CAU",
   },
   {
+    id: "04",
     title: "Item 4",
     text: "Text 4",
     image_url:
       "http://files.adventistas.org/noticias/pt/2016/09/22105002/iasd-nova-petropolis.png",
   },
   {
+    id: "05",
     title: "Item 5",
     text: "Text 5",
     image_url:
@@ -75,7 +80,7 @@ const PastoralVisit = ({}: any) => {
             placeholder="Buscar uma igreja..."
           />
         </Stack>
-        <CarouselComponent carouselItems={carouselItems} />
+        <CarouselComponent data={carouselItems} />
       </VStack>
     </Box>
   );
