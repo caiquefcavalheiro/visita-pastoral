@@ -1,7 +1,6 @@
 import { Box, Text, VStack } from "native-base";
 import { Header } from "../../components/Header";
 import ButtonDefault from "../../components/button";
-
 import pastor from "../../assets/dashboardImages/pastor.png";
 import fichaBatismo from "../../assets/dashboardImages/fichaBatismo.png";
 import whatsapp from "../../assets/dashboardImages/whatsapp.png";
