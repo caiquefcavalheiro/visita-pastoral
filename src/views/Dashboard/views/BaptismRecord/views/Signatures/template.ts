@@ -143,7 +143,7 @@ export const getTemplate = (
         color: #ffffff;
         padding: 4px 0;
         border-bottom: 1px solid #000000;
-        font-size: 75px;
+        font-size: 90px;
         display: flex;
         height: 20%;
         align-items: center;
@@ -152,7 +152,7 @@ export const getTemplate = (
       }
 
       .header_principal h3 {
-        font-size: 35px;
+        font-size: 45px;
         padding: 4px 0;
         text-align: center;
         border-bottom: 1px solid #000000;
@@ -168,7 +168,7 @@ export const getTemplate = (
       }
 
       .header_div p {
-        font-size: 20px;
+        font-size: 24px;
         align-self: center;
       }
       .header_checkbox {
@@ -186,7 +186,7 @@ export const getTemplate = (
       }
 
       .header_checkbox h2 {
-        font-size: 50px;
+        font-size: 60px;
       }
 
       .header_aside {
@@ -197,7 +197,7 @@ export const getTemplate = (
 
       .header_aside h4 {
         font-weight: normal;
-        font-size: 24px;
+        font-size: 28px;
       }
 
       .header_checkbox_options {
@@ -238,7 +238,7 @@ export const getTemplate = (
         color: #ffffff;
         text-align: center;
         padding: 10px 20px;
-        font-size: 30px;
+        font-size: 34px;
         border: 1px solid #ffffff;
       }
 
@@ -267,21 +267,21 @@ export const getTemplate = (
       }
 
       .section_field_name p {
-        font-size: 40px;
+        font-size: 48px;
         padding: 5px 10px;
         font-weight: 600;
       }
 
       .section_field_name span,
       .section_user_information_container span {
-        font-size: 16px;
+        font-size: 20px;
         font-weight: normal;
       }
 
       .section_field_name input {
         padding: 10px;
         border: none;
-        font-size: 32px;
+        font-size: 36px;
         width: 90%;
       }
 
@@ -305,7 +305,7 @@ export const getTemplate = (
         padding: 21px 5px;
         margin: 5px;
         border: none;
-        font-size: 24px;
+        font-size: 28px;
         width: 90%;
       }
 
@@ -324,11 +324,11 @@ export const getTemplate = (
 
       .section_container_gender label,
       .section_conversion_checkbox label {
-        font-size: 24px;
+        font-size: 28px;
       }
 
       .section_declaration_checkbox_container label {
-        font-size: 24px;
+        font-size: 28px;
         margin: 0 5px;
       }
 
@@ -336,7 +336,7 @@ export const getTemplate = (
       .section_second_field p,
       .section_conversion_container_checkbox p,
       .section_user_information_container p {
-        font-size: 32px;
+        font-size: 38px;
         padding: 0 10px;
         padding-top: 5px;
         font-weight: 600;
@@ -344,7 +344,7 @@ export const getTemplate = (
 
       .section_second_field span,
       .section_conversion_container_checkbox span {
-        font-size: 16px;
+        font-size: 20px;
         font-weight: normal;
       }
 
@@ -429,7 +429,7 @@ export const getTemplate = (
       }
 
       .section_declaration_checkbox_container p {
-        font-size: 24px;
+        font-size: 28px;
         align-self: center;
         margin: 10px;
       }
@@ -507,7 +507,7 @@ export const getTemplate = (
 
       .footer > p,
       .footer_last_text {
-        font-size: 20px;
+        font-size: 24px;
         letter-spacing: 0.5px;
       }
       .footer_last_text {
@@ -552,7 +552,7 @@ export const getTemplate = (
         width: 90%;
         margin: 10px auto 0 auto;
         border-top: 0.5px dashed #000000;
-        font-size: 24px;
+        font-size: 28x;
         text-align: center;
         padding: 3px 10px;
       }
@@ -1047,7 +1047,7 @@ export const getTemplate = (
               <input type="text" value="${previousReligion}" />
             </div>
             <div class="section_conversion_container_checkbox">
-              <p style="font-size: 24px;" >
+              <p style="font-size: 28px;" >
                 Qual foi o fator decisivo para você ser batizado/a?
                 <br />
                 <span> (marque só uma opção) </span>
