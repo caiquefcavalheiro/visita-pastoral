@@ -24,10 +24,11 @@ type ImageButtonProps = {
   name: string;
   buttonStyles?: IButtonProps;
   textButton: string;
+  textProps: ITextProps;
 };
 
 const defaultLabelStyle: ITextProps = {
-  fontSize: "20",
+  fontSize: "18",
 };
 const defaultButtonStyle: IButtonProps = {
   width: "100%",
@@ -41,6 +42,7 @@ export default function ImageButton({
   name,
   buttonStyles,
   textButton,
+  textProps,
 }: ImageButtonProps) {
   const {
     field: { onChange },
@@ -91,7 +93,12 @@ export default function ImageButton({
             onPress: pickImage,
           }}
         >
-          <Text fontSize="20" fontWeight="semibold" color="white">
+          <Text
+            fontSize="20"
+            fontWeight="semibold"
+            color="white"
+            {...textProps}
+          >
             {textButton}
           </Text>
         </ButtonDefault>

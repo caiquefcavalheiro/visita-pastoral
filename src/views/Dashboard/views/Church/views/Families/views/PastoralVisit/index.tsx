@@ -4,6 +4,8 @@ import church from "../../../../../../../../assets/pastoralVisitImages/church.pn
 import { Header } from "../../../../../../../../components/Header";
 import ButtonDefault from "../../../../../../../../components/button";
 import { CarouselComponent } from "../../../../../../../../components/Carousel";
+import { ModalCreateChurch } from "../../../../components/ModalCreateChurch";
+import { useState } from "react";
 
 const carouselItems = [
   {
@@ -45,44 +47,53 @@ const carouselItems = [
 
 const PastoralVisit = ({}: any) => {
   const { navigate } = useNavigation();
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Box w="100%" h="100%" bg="gray.200">
-      <Header title="Visita Pastoral" path="Dashboard" />
-      <VStack mt="54" space="54">
-        <ButtonDefault
-          buttonProps={{
-            width: "80%",
-            onPress: () => {
-              navigate("PastoralVisit" as never);
-            },
-          }}
-          imageProps={{
-            source: church,
-            width: "12",
-            height: "12",
-            size: "6",
-          }}
-        >
-          <Text fontSize="16" fontWeight="semibold" color="white">
-            Adicionar uma igreja
-          </Text>
-        </ButtonDefault>
-        <Stack alignItems="center">
-          <Input
-            borderRadius="8"
-            w={{
-              base: "70%",
-              md: "25%",
+    <>
+      <ModalCreateChurch
+        open={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+      />
+      <Box w="100%" h="100%" bg="gray.200">
+        <Header title="Visita Pastoral" path="Dashboard" />
+        <VStack mt="54" space="54">
+          <ButtonDefault
+            buttonProps={{
+              width: "80%",
+              onPress: () => {
+                setIsOpen(true);
+              },
             }}
-            InputRightElement={
-              <SearchIcon size={5} ml="2" color="black" marginRight="4" />
-            }
-            placeholder="Buscar uma igreja..."
-          />
-        </Stack>
-        <CarouselComponent data={carouselItems} />
-      </VStack>
-    </Box>
+            imageProps={{
+              source: church,
+              width: "12",
+              height: "12",
+              size: "6",
+            }}
+          >
+            <Text fontSize="16" fontWeight="semibold" color="white">
+              Adicionar uma igreja
+            </Text>
+          </ButtonDefault>
+          <Stack alignItems="center">
+            <Input
+              borderRadius="8"
+              w={{
+                base: "70%",
+                md: "25%",
+              }}
+              InputRightElement={
+                <SearchIcon size={5} ml="2" color="black" marginRight="4" />
+              }
+              placeholder="Buscar uma igreja..."
+            />
+          </Stack>
+          <CarouselComponent data={carouselItems} />
+        </VStack>
+      </Box>
+    </>
   );
 };
 
