@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { NativeBaseProvider } from "native-base";
 import { theme } from "./src/theme/theme";
 import * as Font from "expo-font";
@@ -5,6 +6,7 @@ import { useCallback, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import Routes from "./src/routes";
+import { DatabaseConnectionProvider } from "./src/database/connection";
 
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
@@ -31,12 +33,12 @@ export default function App() {
     return null;
   }
 
-  console.log("app");
-
   return (
     <View onLayout={onLayoutRootView} style={{ height: "100%", width: "100%" }}>
       <NativeBaseProvider theme={theme}>
-        <Routes />
+        <DatabaseConnectionProvider>
+          <Routes />
+        </DatabaseConnectionProvider>
       </NativeBaseProvider>
     </View>
   );
