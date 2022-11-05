@@ -1,4 +1,4 @@
-import { Box, Link, Text, VStack } from "native-base";
+import { Box, Text, VStack } from "native-base";
 import { Header } from "../../components/Header";
 import ButtonDefault from "../../components/button";
 

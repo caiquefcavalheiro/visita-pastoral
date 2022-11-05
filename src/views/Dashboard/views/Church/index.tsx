@@ -2,6 +2,7 @@ import { FlatList, Text, View } from "native-base";
 import { Header } from "../../../../components/Header";
 import ButtonDefault from "../../../../components/button";
 import family from "../../../../assets/churchImages/family.png";
+import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
@@ -29,7 +30,16 @@ function Church({ navigation }: any) {
     {
       buttonProps: {
         width: "80%",
+        minH: "24",
         onPress: () => navigation.navigate("BaptismRecord"),
+      },
+      text: "Pessoas e seus cargos",
+      image: { source: peoples },
+    },
+    {
+      buttonProps: {
+        width: "80%",
+        onPress: () => {},
       },
       text: "Adicionar Família",
       image: { source: family },
@@ -37,7 +47,7 @@ function Church({ navigation }: any) {
     {
       buttonProps: {
         width: "80%",
-        onPress: () => navigation.navigate("BaptismRecord"),
+        onPress: () => navigation.navigate("Families"),
       },
       text: "Visualizar familias",
       image: { source: family },
@@ -69,7 +79,7 @@ function Church({ navigation }: any) {
               imageProps: item.image,
             })}
           >
-            <Text fontSize="20" fontWeight="semibold" color="white">
+            <Text fontSize="18" fontWeight="semibold" color="white">
               {item.text}
             </Text>
           </ButtonDefault>
