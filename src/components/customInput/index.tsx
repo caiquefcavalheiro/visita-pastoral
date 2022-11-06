@@ -24,6 +24,7 @@ interface InputProps {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   rules?: UseControllerProps["rules"];
   mask?: Mask;
+  inputProps?: IInputProps;
   [rest: string]: any;
 }
 
@@ -39,6 +40,7 @@ const CustomInput = ({
   value,
   rules = {},
   mask,
+  inputProps,
   ...rest
 }: InputProps) => {
   const defaultInputStyle: IInputProps = {
@@ -58,7 +60,10 @@ const CustomInput = ({
               <Text {...defaultLabelStyle}>{label}</Text>
             </FormControl.Label>
           )}
-          <Input value={value} {...{ ...defaultInputStyle, ...rest }} />
+          <Input
+            value={value}
+            {...{ ...defaultInputStyle, ...rest, ...inputProps }}
+          />
           {error && (
             <FormControl.ErrorMessage>
               {error?.message}
@@ -86,7 +91,10 @@ const CustomInput = ({
             <Text {...defaultLabelStyle}>{label}</Text>
           </FormControl.Label>
         )}
-        <Input {...maskedInputProps} {...{ ...defaultInputStyle, ...rest }} />
+        <Input
+          {...maskedInputProps}
+          {...{ ...defaultInputStyle, ...rest, ...inputProps }}
+        />
         {error && (
           <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
         )}

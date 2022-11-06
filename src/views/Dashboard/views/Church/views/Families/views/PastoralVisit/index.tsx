@@ -5,7 +5,8 @@ import { Header } from "../../../../../../../../components/Header";
 import ButtonDefault from "../../../../../../../../components/button";
 import { CarouselComponent } from "../../../../../../../../components/Carousel";
 import { ModalCreateChurch } from "../../../../components/ModalCreateChurch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDatabaseConnection } from "../../../../../../../../database/connection";
 
 const carouselItems = [
   {
@@ -48,6 +49,15 @@ const carouselItems = [
 const PastoralVisit = ({}: any) => {
   const { navigate } = useNavigation();
   const [isOpen, setIsOpen] = useState(false);
+  const [churchs, setChurchs] = useState([]);
+
+  const { churchRepository } = useDatabaseConnection();
+
+  useEffect(() => {
+    const churchs = churchRepository
+      .getAll()
+      .then((response) => setChurchs(response as any));
+  });
   return (
     <>
       <ModalCreateChurch
@@ -90,7 +100,7 @@ const PastoralVisit = ({}: any) => {
               placeholder="Buscar uma igreja..."
             />
           </Stack>
-          <CarouselComponent data={carouselItems} />
+          <CarouselComponent data={churchs} />
         </VStack>
       </Box>
     </>
