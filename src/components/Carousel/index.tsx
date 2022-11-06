@@ -1,9 +1,9 @@
 import { Center, Text, View, Image } from "native-base";
 import * as React from "react";
-import { Animated, useWindowDimensions } from "react-native";
+import { Animated, Pressable, useWindowDimensions } from "react-native";
 
 export function CarouselComponent(props: any) {
-  const { data } = props;
+  const { data, handleSelectCard } = props;
 
   const { width } = useWindowDimensions();
 
@@ -35,7 +35,7 @@ export function CarouselComponent(props: any) {
             });
 
             return (
-              <>
+              <Pressable onPress={() => handleSelectCard(item)}>
                 <View
                   style={{
                     width,
@@ -55,7 +55,7 @@ export function CarouselComponent(props: any) {
                             borderRadius: 16,
                             marginBottom: 10,
                           }}
-                          source={{ uri: item.imageChurch }}
+                          source={{ uri: item.image }}
                           alt="image"
                         />
                         <Text>{item.name}</Text>
@@ -63,7 +63,7 @@ export function CarouselComponent(props: any) {
                     }
                   />
                 </View>
-              </>
+              </Pressable>
             );
           }}
           keyExtractor={(item) => item.id}

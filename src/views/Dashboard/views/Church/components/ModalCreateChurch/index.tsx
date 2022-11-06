@@ -6,6 +6,7 @@ import CustomInput from "../../../../../../components/customInput";
 import { CustomModal } from "../../../../../../components/customModal";
 import ImageButton from "../../../../../../components/imageButton";
 import { useDatabaseConnection } from "../../../../../../database/connection";
+import useChurchService from "../../../../../../database/services/churchService";
 import { useCustomToast } from "../../../../../../hooks";
 
 interface Props {
@@ -22,10 +23,11 @@ export const ModalCreateChurch = ({ open, onClose }: Props) => {
 
   const toast = useToast();
 
-  const { churchRepository } = useDatabaseConnection();
+  const { connection } = useDatabaseConnection();
+  const Church = useChurchService(connection);
 
   const onSubmit = async (data: any) => {
-    await churchRepository.create(data).then((response) => {
+    await Church.create(data).then((response) => {
       useCustomToast({
         msg: "Igreja criada!!",
         toast,

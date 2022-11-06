@@ -6,8 +6,11 @@ import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-function Church({ navigation }: any) {
+function Church({ navigation, route }: any) {
+  console.log(route.params.church.name);
+
   const buttons = [
     {
       buttonProps: {
