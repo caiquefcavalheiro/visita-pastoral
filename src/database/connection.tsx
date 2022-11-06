@@ -6,14 +6,28 @@ import {
   useState,
 } from "react";
 import { ActivityIndicator } from "react-native";
-import { ChurchModel } from "./entities/Church";
 import * as SQLite from "expo-sqlite";
 import { ChurchRepository } from "./repositories/ChurchRepository";
 
 import { Connection, createConnection } from "typeorm";
 
+import { FamilieRepository } from "./repositories/FamilieRepository";
+import { PastoralVisitRepository } from "./repositories/PastoralVisitRepository";
+import { PersonRepository } from "./repositories/PersonRepository";
+import { SermonRepository } from "./repositories/SermonRepository";
+import ChurchModel from "./entities/Church";
+import FamilieModel from "./entities/Familie";
+import SermonModel from "./entities/Sermon";
+import PersonModel from "./entities/Person";
+import PastoralVisitModel from "./entities/PastoralVisit";
+
 interface DatabaseConnectionContextData {
   churchRepository: ChurchRepository;
+  familieRepository: FamilieRepository;
+  pastoralVisitRepository: PastoralVisitRepository;
+  personRepository: PersonRepository;
+  sermonRepository: SermonRepository;
+  connection: Connection;
 }
 
 const DatabaseConnectionContext = createContext<DatabaseConnectionContextData>(
@@ -26,9 +40,15 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
   const connect = useCallback(async () => {
     const createdConnection = await createConnection({
       type: "expo",
-      database: "visita_batismal.db",
+      database: "visitaBatismal.db",
       driver: SQLite,
-      entities: [ChurchModel],
+      entities: [
+        ChurchModel,
+        FamilieModel,
+        SermonModel,
+        PersonModel,
+        PastoralVisitModel,
+      ],
 
       synchronize: true,
     });
@@ -50,6 +70,11 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
     <DatabaseConnectionContext.Provider
       value={{
         churchRepository: new ChurchRepository(connection),
+        familieRepository: new FamilieRepository(connection),
+        pastoralVisitRepository: new PastoralVisitRepository(connection),
+        personRepository: new PersonRepository(connection),
+        sermonRepository: new SermonRepository(connection),
+        connection,
       }}
     >
       {children}
