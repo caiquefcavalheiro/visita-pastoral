@@ -1,5 +1,5 @@
 import { Connection } from "typeorm";
-import ChurchModel, { Church } from "../entities/Church";
+import { Church, ChurchModel } from "../entities/FamilieChurchPerson";
 import { ChurchRepository } from "../repositories/ChurchRepository";
 
 function useChurchService(connection: Connection) {

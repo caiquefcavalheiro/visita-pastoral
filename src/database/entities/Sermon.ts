@@ -6,7 +6,7 @@ export type Sermon = {
 };
 
 @Entity("sermon")
-export default class SermonModel {
+export class SermonModel {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

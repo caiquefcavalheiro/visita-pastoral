@@ -1,5 +1,5 @@
 import { Connection } from "typeorm";
-import SermonModel from "../entities/Sermon";
+import { SermonModel } from "../entities/Sermon";
 import { SermonRepository } from "../repositories/SermonRepository";
 
 function useSermonService(connection: Connection) {
