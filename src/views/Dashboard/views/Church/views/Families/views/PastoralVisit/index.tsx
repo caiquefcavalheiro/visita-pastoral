@@ -11,19 +11,28 @@ import { Church } from "../../../../../../../../database/entities/FamilieChurchP
 
 const PastoralVisit = ({ navigation }: any) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [churchs, setChurchs] = useState([]);
+  const [allChurchs, setAllChuchs] = useState([] as Church[]);
+  const [churchs, setChurchs] = useState([] as Church[]);
 
   const { connection } = useDatabaseConnection();
   const Church = useChurchService(connection);
 
   useEffect(() => {
-    const churchs = Church.getAll().then((response) =>
-      setChurchs(response as any)
-    );
-  });
+    const churchs = Church.getAll().then((response) => {
+      setAllChuchs(response as any);
+      setChurchs(response as any);
+    });
+  }, []);
 
   const whenSelectChurch = (church: Church) => {
     navigation.navigate("Church" as never, { church });
+  };
+
+  const handleSearchInput = (input: string) => {
+    const filterArray = allChurchs.filter((church) => {
+      return church.name.toLowerCase().includes(input.toLowerCase());
+    });
+    setChurchs(filterArray);
   };
 
   return (
@@ -57,6 +66,7 @@ const PastoralVisit = ({ navigation }: any) => {
           </ButtonDefault>
           <Stack alignItems="center">
             <Input
+              onChangeText={(event) => handleSearchInput(event)}
               borderRadius="8"
               w={{
                 base: "70%",
