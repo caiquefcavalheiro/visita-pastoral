@@ -1,10 +1,5 @@
 import { Connection, Repository } from "typeorm";
-import { ChurchModel } from "../entities/Church";
-
-interface ICreateChurchData {
-  name: string;
-  imageChurch: string;
-}
+import ChurchModel, { Church } from "../entities/Church";
 
 export class ChurchRepository {
   private ormRepository: Repository<ChurchModel>;
@@ -19,18 +14,25 @@ export class ChurchRepository {
     return church;
   }
 
-  public async create({
-    imageChurch,
-    name,
-  }: ICreateChurchData): Promise<ChurchModel> {
+  public async getOne(id: string) {
+    const church = await this.ormRepository.findOne(id);
+
+    return church;
+  }
+
+  public async create({ image, name }: Church): Promise<ChurchModel> {
     const church = this.ormRepository.create({
       name,
-      imageChurch,
+      image,
     });
 
     await this.ormRepository.save(church);
 
     return church;
+  }
+
+  public async update(id: string, data: Partial<ChurchModel>) {
+    return this.ormRepository.update(id, data);
   }
 
   public async delete(id: string): Promise<void> {
