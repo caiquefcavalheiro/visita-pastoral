@@ -1,5 +1,6 @@
 import React from "react";
-import { IModalProps, Modal } from "native-base";
+import { IModalProps, ITextProps, Modal, Text } from "native-base";
+import { InterfaceBoxProps } from "native-base/lib/typescript/components/primitives/Box";
 
 interface Props {
   header?: string;
@@ -9,6 +10,8 @@ interface Props {
   onClose?: () => void;
   placement: "center" | "bottom" | "left" | "right" | "top";
   contentStyle?: IModalProps;
+  headerProps?: InterfaceBoxProps<IModalProps>;
+  textProps?: ITextProps;
 }
 
 export const CustomModal = ({
@@ -19,6 +22,8 @@ export const CustomModal = ({
   onClose = () => {},
   placement = "center",
   contentStyle,
+  headerProps,
+  textProps,
   ...rest
 }: Props) => {
   return (
@@ -26,15 +31,15 @@ export const CustomModal = ({
       <Modal.Content
         {...{
           ...styles[placement],
-          ...{
-            maxWidth: "95%",
-            minH: "95%",
-          },
           ...contentStyle,
         }}
       >
         <Modal.CloseButton />
-        {header && <Modal.Header>{header}</Modal.Header>}
+        {header && (
+          <Modal.Header {...headerProps}>
+            <Text {...textProps}>{header}</Text>
+          </Modal.Header>
+        )}
         <Modal.Body h="100%">{Content}</Modal.Body>
         {Footer}
       </Modal.Content>
