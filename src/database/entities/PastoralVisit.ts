@@ -6,7 +6,7 @@ export type PastoralVisit = {
 };
 
 @Entity("pastoral_visit")
-export default class PastoralVisitModel {
+export class PastoralVisitModel {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

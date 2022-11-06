@@ -1,5 +1,5 @@
 import { Connection } from "typeorm";
-import PastoralVisitModel from "../entities/PastoralVisit";
+import { PastoralVisitModel } from "../entities/PastoralVisit";
 import { PastoralVisitRepository } from "../repositories/PastoralVisitRepository";
 
 function usePastoralVisitService(connection: Connection) {

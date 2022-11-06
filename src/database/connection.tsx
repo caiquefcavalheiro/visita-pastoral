@@ -15,11 +15,13 @@ import { FamilieRepository } from "./repositories/FamilieRepository";
 import { PastoralVisitRepository } from "./repositories/PastoralVisitRepository";
 import { PersonRepository } from "./repositories/PersonRepository";
 import { SermonRepository } from "./repositories/SermonRepository";
-import ChurchModel from "./entities/Church";
-import FamilieModel from "./entities/Familie";
-import SermonModel from "./entities/Sermon";
-import PersonModel from "./entities/Person";
-import PastoralVisitModel from "./entities/PastoralVisit";
+import {
+  ChurchModel,
+  FamilieModel,
+  PersonModel,
+} from "./entities/FamilieChurchPerson";
+import { SermonModel } from "./entities/Sermon";
+import { PastoralVisitModel } from "./entities/PastoralVisit";
 
 interface DatabaseConnectionContextData {
   churchRepository: ChurchRepository;
@@ -43,11 +45,11 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
       database: "visitaBatismal.db",
       driver: SQLite,
       entities: [
-        ChurchModel,
+        PersonModel,
         FamilieModel,
         SermonModel,
-        PersonModel,
         PastoralVisitModel,
+        ChurchModel,
       ],
 
       synchronize: true,
