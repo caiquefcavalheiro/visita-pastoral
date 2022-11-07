@@ -126,7 +126,6 @@ function Signatures({ route }: any) {
 
   useEffect(() => {
     toggleOrientation("vertical");
-    console.log("aaaa");
   }, []);
 
   return (
