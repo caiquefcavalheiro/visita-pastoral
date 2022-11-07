@@ -38,7 +38,7 @@ function useFamilieService(connection: Connection) {
     return await familieRepository.create({ data: newFamilie });
   };
 
-  const update = async (id: string, data: Partial<FamilieModel>) => {
+  const update = async (id: string, data: Partial<Familie>) => {
     return await familieRepository.update(id, data);
   };
 

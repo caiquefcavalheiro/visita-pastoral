@@ -11,8 +11,6 @@ function usePersonService(connection: Connection) {
     const newPerson = { ...data };
     const familie = await familieRepository.getOne(idFamilie);
 
-    console.log(familie, "familie");
-
     if (familie) {
       newPerson.familie = familie;
     }
