@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 export type PastoralVisit = {
   id?: string;
@@ -12,4 +17,7 @@ export class PastoralVisitModel {
 
   @Column()
   quiz: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }

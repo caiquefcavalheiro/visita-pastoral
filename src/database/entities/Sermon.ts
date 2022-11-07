@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 export type Sermon = {
   id?: string;
@@ -12,4 +17,7 @@ export class SermonModel {
 
   @Column()
   name: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }
