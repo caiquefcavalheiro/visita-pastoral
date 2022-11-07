@@ -4,12 +4,18 @@ import ButtonDefault from "../../../../components/button";
 import family from "../../../../assets/churchImages/family.png";
 import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { Church as ChurchModel } from "../../../../database/entities/FamilieChurchPerson";
+import { getStorage, setStorage } from "../../../../utils/storage";
+import { ModalCreateFamilie } from "../../components/ModalCreateFamilie";
 
 function Church({ navigation, route }: any) {
-  console.log(route.params.church.name);
+  const [church, setChurch] = useState(
+    route?.params?.church || ({} as ChurchModel)
+  );
+
+  const [open, setOpen] = useState(false);
 
   const buttons = [
     {
@@ -42,7 +48,9 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
-        onPress: () => {},
+        onPress: () => {
+          setOpen(true);
+        },
       },
       text: "Adicionar Família",
       image: { source: family },
@@ -50,7 +58,7 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
-        onPress: () => navigation.navigate("Families"),
+        onPress: () => navigation.navigate("Families", { church }),
       },
       text: "Visualizar familias",
       image: { source: family },
@@ -67,9 +75,21 @@ function Church({ navigation, route }: any) {
     },
   ];
 
+  useEffect(() => {
+    (async () => {
+      const currentChurch = await getStorage("@visitaPastoralChurch");
+      if (route?.params?.church) {
+        setChurch(route?.params?.church);
+        await setStorage("@visitaPastoralChurch", route?.params?.church);
+      } else {
+        setChurch(currentChurch);
+      }
+    })();
+  }, []);
+
   return (
     <View w="100%" h="100%" bg="gray.200">
-      <Header title="Nome da igreja" path="Dashboard" />
+      <Header title="Nome da igreja" path="PatoralVisit" />
       <FlatList
         data={buttons}
         keyExtractor={(item) => item.text}
@@ -87,6 +107,14 @@ function Church({ navigation, route }: any) {
             </Text>
           </ButtonDefault>
         )}
+      />
+
+      <ModalCreateFamilie
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+        church={church}
       />
     </View>
   );
