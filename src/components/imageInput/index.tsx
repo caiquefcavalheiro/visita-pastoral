@@ -1,18 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image } from "react-native";
+import { TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { View } from "native-base";
+import {
+  Avatar,
+  Box,
+  Center,
+  Flex,
+  IButtonProps,
+  ITextProps,
+  useToast,
+} from "native-base";
+import {
+  Control,
+  FieldError,
+  FieldErrorsImpl,
+  Merge,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
+import { Entypo } from "@expo/vector-icons";
+import { useCustomToast } from "../../hooks";
 
 type ImageInputProps = {
-  handleAdd: (image: string) => void;
   defaultImage?: string | null;
+  control?: Control<any>;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  rules?: UseControllerProps["rules"];
+  name: string;
+  buttonStyles?: IButtonProps;
+  textProps?: ITextProps;
 };
 
 export default function ImageInput({
-  handleAdd,
-  defaultImage = null,
+  name,
+  control,
+  error,
+  rules,
 }: ImageInputProps) {
-  const [image, setImage] = useState<string | null>(defaultImage);
+  const {
+    field: { onChange, value },
+  } = useController({ name, control, rules });
+
+  const toast = useToast();
 
   const fetchImageFromUri = async (
     uri: string,
@@ -39,24 +68,44 @@ export default function ImageInput({
 
     if (!result.cancelled && result?.uri) {
       await fetchImageFromUri(result.uri, (file) => {
-        console.log(file, "file");
-        if (file) handleAdd(file as string);
+        if (file) onChange(file as string);
       });
-
-      setImage(result.uri);
     }
   };
 
   useEffect(() => {
-    defaultImage && setImage(defaultImage);
-  }, [defaultImage]);
+    if (error?.message) {
+      useCustomToast({
+        msg: error.message as string,
+        toast,
+        duration: 2000,
+        type: "error",
+      });
+    }
+  }, [error]);
 
   return (
-    <View h="20" w="100">
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
-    </View>
+    <Flex w="145" h="130" position="relative">
+      <Avatar
+        bg="purple.600"
+        alignSelf="center"
+        size="2xl"
+        {...(value && {
+          source: {
+            uri: value,
+          },
+        })}
+      >
+        FM
+      </Avatar>
+
+      <Box position="absolute" right={2} bottom={0}>
+        <TouchableOpacity onPress={pickImage}>
+          <Center h="8" w="8" bg="green.300" borderRadius="full" shadow="9">
+            <Entypo name="plus" size={20} color="white" />
+          </Center>
+        </TouchableOpacity>
+      </Box>
+    </Flex>
   );
 }

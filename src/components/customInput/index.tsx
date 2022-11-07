@@ -25,6 +25,7 @@ interface InputProps {
   rules?: UseControllerProps["rules"];
   mask?: Mask;
   inputProps?: IInputProps;
+  labelProps?: ITextProps;
   [rest: string]: any;
 }
 
@@ -41,6 +42,7 @@ const CustomInput = ({
   rules = {},
   mask,
   inputProps,
+  labelProps,
   ...rest
 }: InputProps) => {
   const defaultInputStyle: IInputProps = {
@@ -57,7 +59,7 @@ const CustomInput = ({
         <FormControl w="100%" isInvalid={error ? true : false}>
           {label && (
             <FormControl.Label>
-              <Text {...defaultLabelStyle}>{label}</Text>
+              <Text {...{ ...defaultLabelStyle, ...labelProps }}>{label}</Text>
             </FormControl.Label>
           )}
           <Input
@@ -88,7 +90,7 @@ const CustomInput = ({
       <FormControl w="100%" isInvalid={error ? true : false}>
         {label && (
           <FormControl.Label {...defaultLabelStyle}>
-            <Text {...defaultLabelStyle}>{label}</Text>
+            <Text {...{ ...defaultLabelStyle, ...labelProps }}>{label}</Text>
           </FormControl.Label>
         )}
         <Input
