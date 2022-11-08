@@ -1,5 +1,6 @@
 import { formatNumber } from "react-native-currency-input";
 import _ from "lodash";
+import dayjs from "dayjs";
 
 export const aplicarMascara = (valor: string, mascara = "(##) #####-####") => {
   if (!valor) return "";
@@ -40,4 +41,11 @@ export const atualizarArray = (array: any[], obj: any, index: number) => {
   let novoArray = [...array];
   novoArray[index] = obj;
   return novoArray;
+};
+
+export const orderByDate = (a: string | Date, b: string | Date) => {
+  const firstDate = dayjs(a);
+  const secondDate = dayjs(b);
+
+  return firstDate.diff(secondDate);
 };

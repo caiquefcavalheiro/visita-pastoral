@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -15,6 +16,7 @@ export type Familie = {
   image: string;
   church?: ChurchModel;
   persons?: PersonModel[];
+  createdAt?: Date;
 };
 
 export type Church = {
@@ -23,6 +25,7 @@ export type Church = {
   image: string;
   families?: FamilieModel[];
   sermon?: SermonModel;
+  createdAt?: Date;
 };
 @Entity("church")
 export class ChurchModel {
@@ -45,6 +48,9 @@ export class ChurchModel {
   })
   @JoinColumn()
   sermon: SermonModel;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }
 
 @Entity("familie")
@@ -68,12 +74,16 @@ export class FamilieModel {
     eager: true,
   })
   persons: PersonModel[];
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }
 
 export type Person = {
   id?: string;
   name: string;
   familie?: FamilieModel;
+  createdAt?: Date;
 };
 
 @Entity("person")
@@ -86,4 +96,7 @@ export class PersonModel {
 
   @ManyToOne(() => FamilieModel, (familie) => familie.persons)
   familie: FamilieModel;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }
