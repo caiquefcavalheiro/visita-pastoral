@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Box, Center, useToast, VStack } from "native-base";
+import { Center, useToast, VStack } from "native-base";
 import { useForm } from "react-hook-form";
 import ButtonDefault from "../../../../../../components/button";
 import CustomInput from "../../../../../../components/customInput";
@@ -12,9 +12,10 @@ import { useCustomToast } from "../../../../../../hooks";
 interface Props {
   open: boolean;
   onClose: () => void;
+  handleAdd: () => void;
 }
 
-export const ModalCreateChurch = ({ open, onClose }: Props) => {
+export const ModalCreateChurch = ({ open, onClose, handleAdd }: Props) => {
   const {
     control,
     handleSubmit,
@@ -33,6 +34,7 @@ export const ModalCreateChurch = ({ open, onClose }: Props) => {
         toast,
         type: "sucess",
       });
+      handleAdd();
       onClose();
     });
   };

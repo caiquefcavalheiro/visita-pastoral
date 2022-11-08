@@ -4,7 +4,7 @@ import { Header } from "../../../../../../../../components/Header";
 import ButtonDefault from "../../../../../../../../components/button";
 import { CarouselComponent } from "../../../../../../../../components/Carousel";
 import { ModalCreateChurch } from "../../../../components/ModalCreateChurch";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDatabaseConnection } from "../../../../../../../../database/connection";
 import useChurchService from "../../../../../../../../database/services/churchService";
 import { Church } from "../../../../../../../../database/entities/FamilieChurchPerson";
@@ -17,11 +17,15 @@ const PastoralVisit = ({ navigation }: any) => {
   const { connection } = useDatabaseConnection();
   const Church = useChurchService(connection);
 
-  useEffect(() => {
-    const churchs = Church.getAll().then((response) => {
+  const getChurchs = useCallback(() => {
+    Church.getAll().then((response) => {
       setAllChuchs(response as any);
       setChurchs(response as any);
     });
+  }, []);
+
+  useEffect(() => {
+    getChurchs();
   }, []);
 
   const whenSelectChurch = (church: Church) => {
@@ -42,6 +46,7 @@ const PastoralVisit = ({ navigation }: any) => {
         onClose={() => {
           setIsOpen(false);
         }}
+        handleAdd={getChurchs}
       />
       <Box w="100%" h="100%" bg="gray.200">
         <Header title="Visita Pastoral" path="Dashboard" />

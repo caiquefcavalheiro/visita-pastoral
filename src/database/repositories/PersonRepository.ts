@@ -18,8 +18,7 @@ export class PersonRepository {
   }
 
   public async getOne(id: string) {
-    // const person = await this.ormRepository.findOne(id);
-    const person = this.ormRepository
+    const person = await this.ormRepository
       .createQueryBuilder("person")
       .leftJoinAndSelect("person.familie", "familie")
       .where("person.id = :id", { id })
