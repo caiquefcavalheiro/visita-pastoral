@@ -20,7 +20,7 @@ import { useDatabaseConnection } from "../../../../database/connection";
 import {
   ChurchModel,
   FamilieModel,
-} from "../../../../database/entities/FamilieChurchPerson";
+} from "../../../../database/entities/FamilieChurchPersonSermon";
 import useFamilieService from "../../../../database/services/familieService";
 import usePersonService from "../../../../database/services/personService";
 import { useCustomToast } from "../../../../hooks";

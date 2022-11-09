@@ -1,9 +1,5 @@
 import { Connection } from "typeorm";
-import {
-  Familie,
-  FamilieModel,
-  PersonModel,
-} from "../entities/FamilieChurchPerson";
+import { Familie, PersonModel } from "../entities/FamilieChurchPersonSermon";
 
 import { ChurchRepository } from "../repositories/ChurchRepository";
 import { FamilieRepository } from "../repositories/FamilieRepository";

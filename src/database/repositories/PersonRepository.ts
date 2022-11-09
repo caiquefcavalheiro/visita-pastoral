@@ -1,5 +1,5 @@
 import { Connection, Repository } from "typeorm";
-import { Person, PersonModel } from "../entities/FamilieChurchPerson";
+import { Person, PersonModel } from "../entities/FamilieChurchPersonSermon";
 
 export class PersonRepository {
   private ormRepository: Repository<PersonModel>;
@@ -12,6 +12,7 @@ export class PersonRepository {
     const person = await this.ormRepository
       .createQueryBuilder("person")
       .leftJoinAndSelect("person.familie", "familie")
+      .leftJoinAndSelect("person.positions", "position")
       .getMany();
 
     return person;
@@ -21,6 +22,7 @@ export class PersonRepository {
     const person = await this.ormRepository
       .createQueryBuilder("person")
       .leftJoinAndSelect("person.familie", "familie")
+      .leftJoinAndSelect("person.positions", "position")
       .where("person.id = :id", { id })
       .getOne();
 

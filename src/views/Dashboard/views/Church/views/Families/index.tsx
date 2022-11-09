@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import CustomInput from "../../../../../../components/customInput";
 import { Header } from "../../../../../../components/Header";
 import { useDatabaseConnection } from "../../../../../../database/connection";
-import { FamilieModel } from "../../../../../../database/entities/FamilieChurchPerson";
+import { FamilieModel } from "../../../../../../database/entities/FamilieChurchPersonSermon";
 import useFamilieService from "../../../../../../database/services/familieService";
 import { orderByDate } from "../../../../../../utils";
 import { ModalCreateFamilie } from "../../../../components/ModalCreateFamilie";

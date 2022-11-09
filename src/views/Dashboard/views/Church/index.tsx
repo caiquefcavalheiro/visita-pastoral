@@ -6,7 +6,7 @@ import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo, useEffect, useState } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { Church as ChurchModel } from "../../../../database/entities/FamilieChurchPerson";
+import { Church as ChurchModel } from "../../../../database/entities/FamilieChurchPersonSermon";
 import { getStorage, setStorage } from "../../../../utils/storage";
 import { ModalCreateFamilie } from "../../components/ModalCreateFamilie";
 

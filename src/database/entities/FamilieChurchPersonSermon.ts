@@ -2,13 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { SermonModel } from "./Sermon";
 
 export type Familie = {
   id?: string;
@@ -43,11 +42,10 @@ export class ChurchModel {
   })
   families: FamilieModel[];
 
-  @OneToOne(() => SermonModel, {
+  @OneToMany(() => FamilieModel, ({ church }) => church, {
     eager: true,
   })
-  @JoinColumn()
-  sermon: SermonModel;
+  sermons: SermonModel[];
 
   @CreateDateColumn()
   createdAt?: Date;
@@ -79,10 +77,31 @@ export class FamilieModel {
   createdAt?: Date;
 }
 
+export type Position = {
+  id?: string;
+  position: string;
+  persons?: PersonModel[];
+};
+
+@Entity("position")
+export class PositionModel {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column({ unique: true })
+  position: string;
+
+  @ManyToMany(() => PersonModel, ({ positions }) => positions, {
+    nullable: true,
+  })
+  persons: PersonModel[];
+}
+
 export type Person = {
   id?: string;
   name: string;
   familie?: FamilieModel;
+  positions?: PositionModel[];
   createdAt?: Date;
 };
 
@@ -94,8 +113,38 @@ export class PersonModel {
   @Column()
   name: string;
 
+  @ManyToMany(() => PositionModel, ({ persons }) => persons, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  positions: PositionModel[];
+
   @ManyToOne(() => FamilieModel, (familie) => familie.persons)
   familie: FamilieModel;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+}
+
+export type Sermon = {
+  id?: string;
+  name: string;
+};
+
+@Entity("sermon")
+export class SermonModel {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column()
+  name: string;
+
+  @ManyToOne(() => ChurchModel, ({ sermons }) => sermons, {
+    onDelete: "CASCADE",
+    nullable: true,
+  })
+  church: ChurchModel;
 
   @CreateDateColumn()
   createdAt?: Date;

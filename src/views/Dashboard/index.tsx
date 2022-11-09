@@ -6,8 +6,14 @@ import fichaBatismo from "../../assets/dashboardImages/fichaBatismo.png";
 import whatsapp from "../../assets/dashboardImages/whatsapp.png";
 import { Linking } from "react-native";
 import { memo } from "react";
+import { useDatabaseConnection } from "../../database/connection";
+import usePersonService from "../../database/services/personService";
 
 function Dashboard({ navigation }: any) {
+  const { connection } = useDatabaseConnection();
+
+  const { update } = usePersonService(connection);
+
   return (
     <Box w="100%" h="100%" bg="gray.200">
       <Header title="Menu pricipal" />
