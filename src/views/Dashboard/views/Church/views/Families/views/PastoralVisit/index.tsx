@@ -7,7 +7,7 @@ import { ModalCreateChurch } from "../../../../components/ModalCreateChurch";
 import { useCallback, useEffect, useState } from "react";
 import { useDatabaseConnection } from "../../../../../../../../database/connection";
 import useChurchService from "../../../../../../../../database/services/churchService";
-import { Church } from "../../../../../../../../database/entities/FamilieChurchPerson";
+import { Church } from "../../../../../../../../database/entities/FamilieChurchPersonSermon";
 
 const PastoralVisit = ({ navigation }: any) => {
   const [isOpen, setIsOpen] = useState(false);

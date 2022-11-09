@@ -1,5 +1,5 @@
 import { Connection, Repository } from "typeorm";
-import { Church, ChurchModel } from "../entities/FamilieChurchPerson";
+import { Church, ChurchModel } from "../entities/FamilieChurchPersonSermon";
 
 export class ChurchRepository {
   private ormRepository: Repository<ChurchModel>;

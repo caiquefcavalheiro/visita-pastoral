@@ -19,9 +19,11 @@ import {
   ChurchModel,
   FamilieModel,
   PersonModel,
-} from "./entities/FamilieChurchPerson";
-import { SermonModel } from "./entities/Sermon";
+  PositionModel,
+  SermonModel,
+} from "./entities/FamilieChurchPersonSermon";
 import { PastoralVisitModel } from "./entities/PastoralVisit";
+import { RunActions } from "./actions";
 
 interface DatabaseConnectionContextData {
   churchRepository: ChurchRepository;
@@ -42,7 +44,7 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
   const connect = useCallback(async () => {
     const createdConnection = await createConnection({
       type: "expo",
-      database: "visitaBatismal.db",
+      database: "visitaBatismal01.db",
       driver: SQLite,
       entities: [
         PersonModel,
@@ -50,6 +52,7 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
         SermonModel,
         PastoralVisitModel,
         ChurchModel,
+        PositionModel,
       ],
 
       synchronize: true,
@@ -79,6 +82,7 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
         connection,
       }}
     >
+      <RunActions connection={connection} />
       {children}
     </DatabaseConnectionContext.Provider>
   );
