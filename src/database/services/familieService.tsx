@@ -50,12 +50,17 @@ function useFamilieService(connection: Connection) {
     return await familieRepository.getOne(id);
   };
 
+  const getAllFamiliesOfChurch = async (churchId: string) => {
+    return await familieRepository.getAllFamiliesOfChurch(churchId);
+  };
+
   return {
     create,
     update,
     deleteFamilie,
     getAll,
     getOne,
+    getAllFamiliesOfChurch,
   };
 }
 

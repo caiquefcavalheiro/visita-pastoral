@@ -18,6 +18,17 @@ export class PersonRepository {
     return person;
   }
 
+  public async getAllPersonsOfChurch(churchId: string) {
+    const person = await this.ormRepository
+      .createQueryBuilder("person")
+      .leftJoinAndSelect("person.familie", "familie")
+      .leftJoinAndSelect("person.positions", "position")
+      .where("familie.church = :churchId", { churchId })
+      .getMany();
+
+    return person;
+  }
+
   public async getOne(id: string) {
     const person = await this.ormRepository
       .createQueryBuilder("person")

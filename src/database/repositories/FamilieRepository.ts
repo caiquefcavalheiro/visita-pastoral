@@ -18,6 +18,19 @@ export class FamilieRepository {
     return families;
   }
 
+  public async getAllFamiliesOfChurch(
+    churchId: string
+  ): Promise<FamilieModel[]> {
+    const families = await this.ormRepository
+      .createQueryBuilder("familie")
+      .leftJoinAndSelect("familie.church", "church")
+      .leftJoinAndSelect("familie.persons", "persons")
+      .where("familie.church = :churchId", { churchId })
+      .getMany();
+
+    return families;
+  }
+
   public async getOne(id: string) {
     const familie = await this.ormRepository.findOne(id);
 

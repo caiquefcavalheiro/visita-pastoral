@@ -42,10 +42,15 @@ export class ChurchModel {
   })
   families: FamilieModel[];
 
-  @OneToMany(() => FamilieModel, ({ church }) => church, {
+  @OneToMany(() => SermonModel, ({ church }) => church, {
     eager: true,
   })
   sermons: SermonModel[];
+
+  @OneToMany(() => PositionModel, ({ church }) => church, {
+    eager: true,
+  })
+  positions: PositionModel[];
 
   @CreateDateColumn()
   createdAt?: Date;
@@ -81,6 +86,7 @@ export type Position = {
   id?: string;
   position: string;
   persons?: PersonModel[];
+  church?: ChurchModel;
 };
 
 @Entity("position")
@@ -88,13 +94,19 @@ export class PositionModel {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ unique: true })
+  @Column()
   position: string;
 
   @ManyToMany(() => PersonModel, ({ positions }) => positions, {
     nullable: true,
   })
   persons: PersonModel[];
+
+  @ManyToOne(() => ChurchModel, ({ positions }) => positions, {
+    onDelete: "CASCADE",
+    nullable: true,
+  })
+  church: ChurchModel;
 }
 
 export type Person = {
@@ -103,6 +115,7 @@ export type Person = {
   familie?: FamilieModel;
   positions?: PositionModel[];
   createdAt?: Date;
+  otherPosition?: string;
 };
 
 @Entity("person")
@@ -119,6 +132,9 @@ export class PersonModel {
   })
   @JoinTable()
   positions: PositionModel[];
+
+  @Column({ nullable: true, unique: false })
+  otherPosition: string;
 
   @ManyToOne(() => FamilieModel, (familie) => familie.persons)
   familie: FamilieModel;
