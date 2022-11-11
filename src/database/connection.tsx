@@ -44,7 +44,7 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
   const connect = useCallback(async () => {
     const createdConnection = await createConnection({
       type: "expo",
-      database: "visitaBatismal01.db",
+      database: "visitaBatismal447.db",
       driver: SQLite,
       entities: [
         PersonModel,
