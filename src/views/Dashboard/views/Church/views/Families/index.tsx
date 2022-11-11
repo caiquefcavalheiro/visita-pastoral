@@ -9,8 +9,8 @@ import { FamilieModel } from "../../../../../../database/entities/FamilieChurchP
 import useFamilieService from "../../../../../../database/services/familieService";
 import { orderByDate } from "../../../../../../utils";
 import { ModalCreateFamilie } from "../../../../components/ModalCreateFamilie";
-import Row from "./components/Row";
-import OrderButton from "./components/Row/OrderButton";
+import Row from "../../components/Row";
+import OrderButton from "./components/OrderButton";
 
 const Families = ({ route }: any) => {
   const church = route?.params?.church;
@@ -30,11 +30,8 @@ const Families = ({ route }: any) => {
   const familie = useFamilieService(connection);
 
   const getAllFamilies = useCallback(() => {
-    familie.getAll().then((resp) => {
-      const filteredFamilies = resp.filter((familie) => {
-        return familie?.church?.id === church?.id;
-      });
-      setFamilies(filteredFamilies);
+    familie.getAllFamiliesOfChurch(church?.id).then((resp) => {
+      setFamilies(resp);
     });
   }, []);
 
