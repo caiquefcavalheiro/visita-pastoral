@@ -38,6 +38,10 @@ function usePersonService(connection: Connection) {
     return await personRepository.getAll();
   };
 
+  const getAllPersonsOfChurch = async (churchId: string) => {
+    return await personRepository.getAllPersonsOfChurch(churchId);
+  };
+
   const getOne = async (id: string) => {
     return await personRepository.getOne(id);
   };
@@ -46,8 +50,6 @@ function usePersonService(connection: Connection) {
     const currentUser = await personDb.findOne(userId, {
       relations: ["positions"],
     });
-
-    console.log(currentUser?.name, "currentUser");
 
     if (currentUser) {
       currentUser.positions = [];
@@ -80,6 +82,7 @@ function usePersonService(connection: Connection) {
     getAll,
     getOne,
     applyForPosition,
+    getAllPersonsOfChurch,
   };
 }
 

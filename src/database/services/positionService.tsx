@@ -25,12 +25,16 @@ function usePositionService(
     return await positionRepository.create({ data });
   };
 
-  const createMany = async (data: Position[]) => {
-    const positions = await getAll();
+  const createMany = async (data: Position[], churchId: string) => {
+    const positions = await getAllPositionsOfChurch(churchId);
 
     if (!positions?.length) {
-      await positionRepository.createMany({ data });
+      await positionRepository.createMany({ data }, churchId);
     }
+  };
+
+  const getAllPositionsOfChurch = async (churchId: string) => {
+    return await positionRepository.getAllPositionsOfChurch(churchId);
   };
 
   const getOne = async (id: string) => {
@@ -44,6 +48,7 @@ function usePositionService(
     getAll,
     getOne,
     create,
+    getAllPositionsOfChurch,
   };
 }
 
