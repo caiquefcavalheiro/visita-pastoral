@@ -6,9 +6,12 @@ import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo, useEffect, useState } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { Church as ChurchModel } from "../../../../database/entities/FamilieChurchPersonSermon";
 import { getStorage, setStorage } from "../../../../utils/storage";
 import { ModalCreateFamilie } from "../../components/ModalCreateFamilie";
+import { ChurchModel } from "../../../../database/entities/FamilieChurchPersonSermon";
+import { positions } from "../../../../database/actions";
+import { useDatabaseConnection } from "../../../../database/connection";
+import usePositionService from "../../../../database/services/positionService";
 
 function Church({ navigation, route }: any) {
   const [church, setChurch] = useState(
@@ -16,6 +19,10 @@ function Church({ navigation, route }: any) {
   );
 
   const [open, setOpen] = useState(false);
+
+  const { connection } = useDatabaseConnection();
+
+  const { createMany } = usePositionService(connection);
 
   const buttons = [
     {
@@ -31,19 +38,21 @@ function Church({ navigation, route }: any) {
       buttonProps: {
         width: "80%",
         minH: "24",
-        onPress: () => navigation.navigate("BaptismRecord"),
+        onPress: () =>
+          navigation.navigate("PeopleAndTheirPositions", { church }),
         endIcon: <Ionicons name="add" size={40} color="white" />,
       },
-      text: "Candidatar nos cargos",
+      text: "Visualizar cargos",
     },
     {
       buttonProps: {
         width: "80%",
         minH: "24",
-        onPress: () => navigation.navigate("BaptismRecord"),
+        px: 15,
+        onPress: () => navigation.navigate("Positions", { church }),
       },
       text: "Pessoas e seus cargos",
-      image: { source: peoples },
+      image: { source: peoples, ml: 5 },
     },
     {
       buttonProps: {
@@ -84,12 +93,14 @@ function Church({ navigation, route }: any) {
       } else {
         setChurch(currentChurch);
       }
+
+      await createMany(positions, church.id);
     })();
   }, []);
 
   return (
     <View w="100%" h="100%" bg="gray.200">
-      <Header title="Nome da igreja" path="PatoralVisit" />
+      <Header title={church.name} path="PatoralVisit" />
       <FlatList
         data={buttons}
         keyExtractor={(item) => item.text}
@@ -102,7 +113,7 @@ function Church({ navigation, route }: any) {
               imageProps: item.image,
             })}
           >
-            <Text fontSize="18" fontWeight="semibold" color="white">
+            <Text fontSize="16" fontWeight="semibold" color="white">
               {item.text}
             </Text>
           </ButtonDefault>
