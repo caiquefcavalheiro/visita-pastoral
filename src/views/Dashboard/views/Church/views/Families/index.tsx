@@ -1,15 +1,17 @@
 import { EvilIcons } from "@expo/vector-icons";
 import { debounce, orderBy } from "lodash";
-import { Box, Center, FlatList, Flex, View } from "native-base";
+import { Box, Center, FlatList, Flex, useToast, View } from "native-base";
 import { useCallback, useEffect, useState } from "react";
 import CustomInput from "../../../../../../components/customInput";
 import { Header } from "../../../../../../components/Header";
 import { useDatabaseConnection } from "../../../../../../database/connection";
 import { FamilieModel } from "../../../../../../database/entities/FamilieChurchPersonSermon";
 import useFamilieService from "../../../../../../database/services/familieService";
+import usePersonService from "../../../../../../database/services/personService";
+import { useCustomToast } from "../../../../../../hooks";
 import { orderByDate } from "../../../../../../utils";
-import { ModalCreateFamilie } from "../../../../components/ModalCreateFamilie";
 import Row from "../../components/Row";
+import { ModalFamilies } from "./components/ModalFamilies";
 import OrderButton from "./components/OrderButton";
 
 const Families = ({ route }: any) => {
@@ -28,6 +30,7 @@ const Families = ({ route }: any) => {
   const { connection } = useDatabaseConnection();
 
   const familie = useFamilieService(connection);
+  const personDb = usePersonService(connection);
 
   const getAllFamilies = useCallback(() => {
     familie.getAllFamiliesOfChurch(church?.id).then((resp) => {
@@ -42,6 +45,26 @@ const Families = ({ route }: any) => {
   const handleSeach = debounce((text) => {
     setSeach(text);
   }, 700);
+
+  const toast = useToast();
+
+  const handleDeleteFamilie = async () => {
+    if (currentFamilie?.id) {
+      await familie.deleteFamilie(currentFamilie.id);
+
+      for (let person of currentFamilie?.persons) {
+        await personDb.deletePerson(person?.id);
+      }
+
+      useCustomToast({
+        msg: "Família deletada com sucesso !",
+        toast,
+        type: "sucess",
+      });
+      getAllFamilies();
+      setOpen(false);
+    }
+  };
 
   const filteredFamilies = families?.filter((item) => {
     if (search) {
@@ -111,18 +134,14 @@ const Families = ({ route }: any) => {
         )}
       />
 
-      <ModalCreateFamilie
-        onClose={() => {
-          setOpen(false);
-        }}
-        open={open}
+      <ModalFamilies
+        onDeleteFamilie={handleDeleteFamilie}
+        isOpen={open}
+        setIsOpen={setOpen}
         {...(currentFamilie && {
-          defaultValues: currentFamilie,
+          familie: currentFamilie,
         })}
-        {...(currentFamilie && {
-          currentFamilie,
-        })}
-        handleSave={getAllFamilies}
+        getAllFamilies={getAllFamilies}
       />
     </View>
   );
