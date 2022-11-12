@@ -6,9 +6,10 @@ import { TouchableOpacity } from "react-native";
 interface HeaderProps {
   title: string;
   path?: string;
+  params?: any;
 }
 
-export const Header = ({ title, path }: HeaderProps) => {
+export const Header = ({ title, path, params }: HeaderProps) => {
   const navigate = useNavigation();
 
   return (
@@ -26,7 +27,7 @@ export const Header = ({ title, path }: HeaderProps) => {
         <Box position="absolute" left="5%" top="50%" zIndex={0}>
           <TouchableOpacity
             onPress={() => {
-              navigate.navigate(path as never);
+              navigate.navigate(path as never, params as never);
             }}
           >
             <AntDesign name="left" size={40} color="white" />
