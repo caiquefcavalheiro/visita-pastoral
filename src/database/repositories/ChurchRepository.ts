@@ -32,7 +32,9 @@ export class ChurchRepository {
   }
 
   public async update(id: string, data: Partial<ChurchModel>) {
-    return this.ormRepository.update(id, data);
+    await this.ormRepository.update(id, data);
+
+    return this.ormRepository.findOne(id);
   }
 
   public async delete(id: string): Promise<void> {
