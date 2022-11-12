@@ -207,8 +207,11 @@ export const ModalCreateFamilie = ({
                 </Box>
 
                 <TouchableOpacity
-                  onPress={() => {
+                  onPress={async () => {
                     remove(index);
+                    if (item?.idDb) {
+                      await person.deletePerson(item.idDb);
+                    }
                   }}
                 >
                   <Feather name="trash" size={30} color="#9D0518" />
