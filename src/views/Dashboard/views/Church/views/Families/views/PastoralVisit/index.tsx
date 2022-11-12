@@ -4,12 +4,12 @@ import { Header } from "../../../../../../../../components/Header";
 import ButtonDefault from "../../../../../../../../components/button";
 import { CarouselComponent } from "../../../../../../../../components/Carousel";
 import { ModalCreateChurch } from "../../../../components/ModalCreateChurch";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDatabaseConnection } from "../../../../../../../../database/connection";
 import useChurchService from "../../../../../../../../database/services/churchService";
 import { Church } from "../../../../../../../../database/entities/FamilieChurchPersonSermon";
 
-const PastoralVisit = ({ navigation }: any) => {
+const PastoralVisit = ({ navigation, route }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [allChurchs, setAllChuchs] = useState([] as Church[]);
   const [churchs, setChurchs] = useState([] as Church[]);
@@ -17,16 +17,16 @@ const PastoralVisit = ({ navigation }: any) => {
   const { connection } = useDatabaseConnection();
   const Church = useChurchService(connection);
 
-  const getChurchs = useCallback(() => {
+  const getChurchs = () => {
     Church.getAll().then((response) => {
       setAllChuchs(response as any);
       setChurchs(response as any);
     });
-  }, []);
+  };
 
   useEffect(() => {
     getChurchs();
-  }, []);
+  }, [route]);
 
   const whenSelectChurch = (church: Church) => {
     navigation.navigate("Church" as never, { church });
