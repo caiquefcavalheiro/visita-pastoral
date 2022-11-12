@@ -12,6 +12,7 @@ import { ChurchModel } from "../../../../database/entities/FamilieChurchPersonSe
 import { positions } from "../../../../database/actions";
 import { useDatabaseConnection } from "../../../../database/connection";
 import usePositionService from "../../../../database/services/positionService";
+import { ModalEditChurch } from "../../components/ModalEditChurch";
 
 function Church({ navigation, route }: any) {
   const [church, setChurch] = useState(
@@ -19,6 +20,7 @@ function Church({ navigation, route }: any) {
   );
 
   const [open, setOpen] = useState(false);
+  const [openModalChurch, setOpenModalChurch] = useState(false);
 
   const { connection } = useDatabaseConnection();
 
@@ -77,7 +79,9 @@ function Church({ navigation, route }: any) {
         width: "80%",
         mb: 20,
         minH: "24",
-        onPress: () => navigation.navigate("BaptismRecord"),
+        onPress: () => {
+          setOpenModalChurch(true);
+        },
         endIcon: <Feather name="edit-3" size={40} color="white" />,
       },
       text: "Editar igreja",
@@ -100,7 +104,7 @@ function Church({ navigation, route }: any) {
 
   return (
     <View w="100%" h="100%" bg="gray.200">
-      <Header title={church.name} path="PatoralVisit" />
+      <Header title={church.name} path="PatoralVisit" params={church} />
       <FlatList
         data={buttons}
         keyExtractor={(item) => item.text}
@@ -126,6 +130,17 @@ function Church({ navigation, route }: any) {
         }}
         open={open}
         church={church}
+      />
+
+      <ModalEditChurch
+        church={church}
+        onClose={() => {
+          setOpenModalChurch(false);
+        }}
+        open={openModalChurch}
+        handleEdit={(newChurch) => {
+          setChurch(newChurch);
+        }}
       />
     </View>
   );
