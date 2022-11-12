@@ -136,7 +136,9 @@ export class PersonModel {
   @Column({ nullable: true, unique: false })
   otherPosition: string;
 
-  @ManyToOne(() => FamilieModel, (familie) => familie.persons)
+  @ManyToOne(() => FamilieModel, (familie) => familie.persons, {
+    onDelete: "CASCADE",
+  })
   familie: FamilieModel;
 
   @CreateDateColumn()
