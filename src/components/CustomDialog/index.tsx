@@ -10,6 +10,7 @@ type CustomDialogProps = {
   sucessMsg: string;
   onSuccess: () => void;
   onCancel: () => void;
+  showTrigger?: boolean;
 };
 
 export function CustomDialog({
@@ -21,15 +22,18 @@ export function CustomDialog({
   sucessMsg,
   onSuccess,
   onCancel,
+  showTrigger = true,
 }: CustomDialogProps) {
   const onClose = () => setIsOpen(false);
 
   const cancelRef = useRef(null);
   return (
     <Center>
-      <Button colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
-        Delete Customer
-      </Button>
+      {showTrigger && (
+        <Button colorScheme="danger" onPress={() => setIsOpen(!isOpen)}>
+          Delete Customer
+        </Button>
+      )}
       <AlertDialog
         leastDestructiveRef={cancelRef}
         isOpen={isOpen}
