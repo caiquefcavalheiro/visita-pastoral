@@ -12,6 +12,8 @@ interface HeaderProps {
 export const Header = ({ title, path, params }: HeaderProps) => {
   const navigate = useNavigation();
 
+  const newTitle = title?.length > 18 ? title.slice(0, 18) + "..." : title;
+
   return (
     <Center
       w="100%"
@@ -35,7 +37,7 @@ export const Header = ({ title, path, params }: HeaderProps) => {
         </Box>
       )}
       <Heading size="xl" color="white" textAlign="center">
-        {title}
+        {newTitle}
       </Heading>
     </Center>
   );
