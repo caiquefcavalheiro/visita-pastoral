@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { Box, useToast, VStack } from "native-base";
+import { useToast, VStack } from "native-base";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ButtonDefault from "../../../../../../../../components/button";
 import CustomInput from "../../../../../../../../components/customInput";
@@ -52,6 +53,13 @@ export const ModalEditSermon = ({
       reset();
     });
   };
+
+  useEffect(() => {
+    reset({
+      name: sermon.name,
+      description: sermon.description,
+    });
+  }, [sermon]);
 
   const handleDelete = async () => {
     await Sermon.deleteSermon(sermon.id).then((response) => {
