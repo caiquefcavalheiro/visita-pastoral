@@ -148,6 +148,7 @@ export class PersonModel {
 export type Sermon = {
   id?: string;
   name: string;
+  description: string;
 };
 
 @Entity("sermon")
@@ -158,6 +159,9 @@ export class SermonModel {
   @Column()
   name: string;
 
+  @Column()
+  description: string;
+
   @ManyToOne(() => ChurchModel, ({ sermons }) => sermons, {
     onDelete: "CASCADE",
     nullable: true,
@@ -165,5 +169,5 @@ export class SermonModel {
   church: ChurchModel;
 
   @CreateDateColumn()
-  createdAt?: Date;
+  createdAt: Date;
 }

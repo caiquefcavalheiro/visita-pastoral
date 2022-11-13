@@ -26,12 +26,16 @@ function Church({ navigation, route }: any) {
 
   const { createMany } = usePositionService(connection);
 
+  const whenSelectChurch = (church: ChurchModel) => {
+    navigation.navigate("Sermons" as never, { church });
+  };
+
   const buttons = [
     {
       buttonProps: {
         mt: 16,
         width: "80%",
-        onPress: () => navigation.navigate("Sermons"),
+        onPress: () => whenSelectChurch(church),
       },
       text: "Sermões Pregados",
       image: { source: book },
