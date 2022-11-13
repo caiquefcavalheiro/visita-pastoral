@@ -6,6 +6,7 @@ import Families from "../views/Families";
 import PastoralVisitQuestions from "../views/Families/views/PastoralVisit/PastoralVisitQuestions";
 import PeopleAndTheirPositions from "../views/PeopleAndTheirPositions";
 import Positions from "../views/Positions";
+import Sermons from "../views/Sermons";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ function ChurchRoutes() {
         component={PastoralVisitQuestions}
       />
       <Screen name="Positions" component={Positions} />
+      <Screen name="Sermons" component={Sermons} />
       <Screen
         name="PeopleAndTheirPositions"
         component={PeopleAndTheirPositions}
