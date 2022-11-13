@@ -26,6 +26,7 @@ interface InputProps {
   mask?: Mask;
   inputProps?: IInputProps;
   labelProps?: ITextProps;
+  isEditable?: boolean;
   [rest: string]: any;
 }
 
@@ -43,6 +44,7 @@ const CustomInput = ({
   mask,
   inputProps,
   labelProps,
+  isEditable = true,
   ...rest
 }: InputProps) => {
   const defaultInputStyle: IInputProps = {
@@ -81,7 +83,11 @@ const CustomInput = ({
   } = useController({ name: name || "", control, rules });
   const maskedInputProps = useMaskedInputProps({
     value: valueInput,
-    onChangeText: (text) => onChange(text),
+    onChangeText: (text) => {
+      if (isEditable) {
+        onChange(text);
+      }
+    },
     mask,
   });
 
@@ -96,6 +102,7 @@ const CustomInput = ({
         <Input
           {...maskedInputProps}
           {...{ ...defaultInputStyle, ...rest, ...inputProps }}
+          isDisabled={!isEditable}
         />
         {error && (
           <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>

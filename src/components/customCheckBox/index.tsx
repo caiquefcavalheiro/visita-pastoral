@@ -6,7 +6,7 @@ type CustomCheckBoxProps = {
   error?: {
     message: string;
   };
-  label: string;
+  label?: string;
   name?: string;
   control?: Control<any>;
   rules?: UseControllerProps["rules"];
@@ -31,11 +31,11 @@ export const CustomCheckBox = ({
   return (
     <Stack space={1} w="100%">
       <FormControl w="100%" isInvalid={error ? true : false}>
-        {label && (
+        {label ? (
           <FormControl.Label {...defaultLabelStyle}>
             <Text {...defaultLabelStyle}>{label}</Text>
           </FormControl.Label>
-        )}
+        ) : null}
         <Checkbox
           isChecked={Boolean(value)}
           onChange={() => onChange(!Boolean(value))}
