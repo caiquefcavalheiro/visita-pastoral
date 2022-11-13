@@ -3,7 +3,10 @@ import { AlertDialog, Button, Center, Text, VStack } from "native-base";
 import { useRef, useState } from "react";
 import ButtonDefault from "../../../../../../../../components/button";
 import { CustomDialog } from "../../../../../../../../components/CustomDialog";
-import { FamilieModel } from "../../../../../../../../database/entities/FamilieChurchPersonSermon";
+import {
+  ChurchModel,
+  FamilieModel,
+} from "../../../../../../../../database/entities/FamilieChurchPersonSermon";
 import { ModalCreateFamilie } from "../../../../../../components/ModalCreateFamilie";
 
 type ModalFamiliesProps = {
@@ -12,6 +15,7 @@ type ModalFamiliesProps = {
   getAllFamilies: () => void;
   setIsOpen: (value: boolean) => void;
   isOpen: boolean;
+  church: ChurchModel;
 };
 
 export function ModalFamilies({
@@ -20,6 +24,7 @@ export function ModalFamilies({
   getAllFamilies,
   isOpen,
   setIsOpen,
+  church,
 }: ModalFamiliesProps) {
   const [isOpenFamilie, setIsOpenFamilie] = useState(false);
   const [isOpenDeleteMsg, setIsDeleteMsg] = useState(false);
@@ -43,7 +48,13 @@ export function ModalFamilies({
                 buttonProps={{
                   width: "90%",
                   height: 16,
-                  onPress: () => navigation.navigate("ChurchRoutes" as never),
+                  onPress: () => {
+                    onClose();
+                    navigation.navigate(
+                      "PastoralVisitQuestions" as never,
+                      { church, familie, isEditable: false } as never
+                    );
+                  },
                 }}
               >
                 <Text fontSize="17" fontWeight="bold" color="white">
@@ -56,7 +67,11 @@ export function ModalFamilies({
                   width: "90%",
                   height: 16,
                   onPress: () => {
-                    setIsOpenFamilie(true);
+                    onClose();
+                    navigation.navigate(
+                      "PastoralVisitQuestions" as never,
+                      { church, familie, isEditable: true } as never
+                    );
                   },
                 }}
               >
