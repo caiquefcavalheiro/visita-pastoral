@@ -1,12 +1,21 @@
 import { Connection } from "typeorm";
 import { SermonModel } from "../entities/FamilieChurchPersonSermon";
+import { ChurchRepository } from "../repositories/ChurchRepository";
 import { SermonRepository } from "../repositories/SermonRepository";
 
 function useSermonService(connection: Connection) {
   const sermonRepository = new SermonRepository(connection);
+  const churchRepository = new ChurchRepository(connection);
 
-  const create = async (data: SermonModel) => {
-    return await sermonRepository.create({ data });
+  const create = async (data: SermonModel, churchId: string) => {
+    const newSermon = { ...data };
+    const church = await churchRepository.getOne(churchId);
+
+    if (church) {
+      newSermon.church = church;
+    }
+
+    return await sermonRepository.create({ data: newSermon });
   };
 
   const update = async (id: string, data: Partial<SermonModel>) => {
