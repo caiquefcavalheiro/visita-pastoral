@@ -1,5 +1,8 @@
 import { Connection, Repository } from "typeorm";
-import { PastoralVisitModel } from "../entities/PastoralVisit";
+import {
+  PastoralVisit,
+  PastoralVisitModel,
+} from "../entities/FamilieChurchPersonSermon";
 
 export class PastoralVisitRepository {
   private ormRepository: Repository<PastoralVisitModel>;
@@ -9,7 +12,10 @@ export class PastoralVisitRepository {
   }
 
   public async getAll(): Promise<PastoralVisitModel[]> {
-    const pastoral = await this.ormRepository.find();
+    const pastoral = await this.ormRepository
+      .createQueryBuilder("pastoral_visit")
+      .leftJoinAndSelect("pastoral_visit.familie", "familie")
+      .getMany();
 
     return pastoral;
   }
@@ -23,7 +29,7 @@ export class PastoralVisitRepository {
   public async create({
     data,
   }: {
-    data: PastoralVisitModel;
+    data: PastoralVisit;
   }): Promise<PastoralVisitModel> {
     const pastoral = this.ormRepository.create(data);
 
