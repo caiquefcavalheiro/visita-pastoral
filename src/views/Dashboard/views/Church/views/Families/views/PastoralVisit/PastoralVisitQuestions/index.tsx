@@ -103,6 +103,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
       const newQuiz = JSON.stringify(data);
 
       await pastoralVisit.create({ quiz: newQuiz }, familie.id).then(() => {
+        familie.pastoralVisit = {};
         familie.pastoralVisit.quiz = newQuiz;
 
         const familieIndex = church.families?.findIndex(
@@ -124,7 +125,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
         })
         .then(() => {
           const newQuiz = JSON.stringify(data);
-
+          familie.pastoralVisit = {};
           familie.pastoralVisit.quiz = newQuiz;
 
           const familieIndex = church.families?.findIndex(

@@ -1,9 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { BackHandler } from "react-native";
-import Permissions from "expo-permissions";
 
 import { Actionsheet, HStack, Icon } from "native-base";
+import { useEffect, useState } from "react";
 
 type CameraAndGaleryProps = {
   isOpen: boolean;
@@ -16,11 +16,16 @@ export function CameraAndGalery({
   onClose,
   handleSelectImage,
 }: CameraAndGaleryProps) {
-  const pickImageCamera = async () => {
-    const { status } = await Permissions.askAsync("mediaLibrary");
-    const aaaaa = await Permissions.askAsync("location");
+  const [pickImageCameraPermission, setPickImageCameraPermission] =
+    useState(false);
 
-    if (status === "granted") {
+  const [pickImageGaleryPermission, setPickImageGaleryPermission] =
+    useState(false);
+
+  const pickImageCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (status === "granted" || pickImageCameraPermission) {
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -34,14 +39,15 @@ export function CameraAndGalery({
         onClose();
       }
     } else {
-      BackHandler.exitApp();
+      // BackHandler.exitApp();
+      alert("Não conseguimos obter a permição");
     }
   };
 
   const pickImageGalery = async () => {
-    const { status } = await Permissions.askAsync("camera");
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status === "granted") {
+    if (status === "granted" || pickImageGaleryPermission) {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -55,9 +61,21 @@ export function CameraAndGalery({
         onClose();
       }
     } else {
-      BackHandler.exitApp();
+      // BackHandler.exitApp();
+      alert("Não conseguimos obter a permição");
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const { granted } = await ImagePicker.getMediaLibraryPermissionsAsync();
+      setPickImageGaleryPermission(granted);
+      const { granted: grantedC } =
+        await ImagePicker.getCameraPermissionsAsync();
+      setPickImageCameraPermission(grantedC);
+    })();
+  }, []);
+
   return (
     <Actionsheet
       isOpen={isOpen}
