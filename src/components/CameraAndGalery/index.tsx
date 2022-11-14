@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { BackHandler } from "react-native";
+import { BackHandler, PermissionsAndroid } from "react-native";
+import { askAsync } from "expo-permissions";
 
 import { Actionsheet, HStack, Icon } from "native-base";
 import { useEffect, useState } from "react";
@@ -23,7 +24,9 @@ export function CameraAndGalery({
     useState(false);
 
   const pickImageCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    // const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    const { status } = await askAsync("camera");
 
     if (status === "granted" || pickImageCameraPermission) {
       const result = await ImagePicker.launchCameraAsync({
@@ -45,7 +48,9 @@ export function CameraAndGalery({
   };
 
   const pickImageGalery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    const { status } = await askAsync("mediaLibrary");
 
     if (status === "granted" || pickImageGaleryPermission) {
       const result = await ImagePicker.launchImageLibraryAsync({
