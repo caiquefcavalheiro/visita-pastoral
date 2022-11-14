@@ -41,7 +41,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Este aplicativo ultiliza a camera"
+          "photosPermission": "Este aplicativo ultiliza a galeria do seu dispositivo",
+          "cameraPermission": "Este aplicativo ultiliza a camera"
         }
       ]
     ],
