@@ -68,10 +68,11 @@ export function CameraAndGalery({
 
   useEffect(() => {
     (async () => {
-      const { granted } = await ImagePicker.getMediaLibraryPermissionsAsync();
+      const { granted } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       setPickImageGaleryPermission(granted);
       const { granted: grantedC } =
-        await ImagePicker.getCameraPermissionsAsync();
+        await ImagePicker.requestCameraPermissionsAsync();
       setPickImageCameraPermission(grantedC);
     })();
   }, []);
