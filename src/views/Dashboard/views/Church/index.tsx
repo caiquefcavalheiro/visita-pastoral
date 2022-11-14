@@ -94,14 +94,7 @@ function Church({ navigation, route }: any) {
 
   useEffect(() => {
     (async () => {
-      const currentChurch = await getStorage("@visitaPastoralChurch");
-      if (route?.params?.church) {
-        setChurch(route?.params?.church);
-        await setStorage("@visitaPastoralChurch", route?.params?.church);
-      } else {
-        setChurch(currentChurch);
-      }
-
+      setChurch(route?.params?.church);
       await createMany(positions, church.id);
     })();
   }, []);

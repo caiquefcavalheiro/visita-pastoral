@@ -5,7 +5,6 @@ import ButtonDefault from "../../../../../../components/button";
 import { Header } from "../../../../../../components/Header";
 import { useDatabaseConnection } from "../../../../../../database/connection";
 import { SermonModel } from "../../../../../../database/entities/FamilieChurchPersonSermon";
-import useChurchService from "../../../../../../database/services/churchService";
 import useSermonService from "../../../../../../database/services/sermonService";
 import { ModalCreateSermon } from "./components/ModalCreateSermon";
 import { ModalEditSermon } from "./components/ModalEditSermon";

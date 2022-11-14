@@ -99,7 +99,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
   ];
 
   const onSubmit = async (data: any) => {
-    if (!familie?.pastoralVisit && isEditable) {
+    if (!familie?.pastoralVisit && !isEditable) {
       const newQuiz = JSON.stringify(data);
 
       await pastoralVisit.create({ quiz: newQuiz }, familie.id).then(() => {
