@@ -1,7 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { BackHandler, PermissionsAndroid } from "react-native";
-import { askAsync } from "expo-permissions";
+import { BackHandler } from "react-native";
 
 import { Actionsheet, HStack, Icon } from "native-base";
 import { useEffect, useState } from "react";
@@ -24,51 +23,47 @@ export function CameraAndGalery({
     useState(false);
 
   const pickImageCamera = async () => {
-    // const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
 
-    const { status } = await askAsync("camera");
+    // if (status === "granted" || pickImageCameraPermission) {
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
 
-    if (status === "granted" || pickImageCameraPermission) {
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        base64: true,
-      });
-
-      if (!result.cancelled && result?.uri) {
-        handleSelectImage(result?.uri);
-        onClose();
-      }
-    } else {
-      // BackHandler.exitApp();
-      alert("Não conseguimos obter a permição");
+    if (!result.cancelled && result?.uri) {
+      handleSelectImage(result?.uri);
+      onClose();
     }
+    // } else {
+    //   // BackHandler.exitApp();
+    //   alert("Não conseguimos obter a permição");
+    // }
   };
 
   const pickImageGalery = async () => {
-    // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    const { status } = await askAsync("mediaLibrary");
+    // if (status === "granted" || pickImageGaleryPermission) {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
 
-    if (status === "granted" || pickImageGaleryPermission) {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        base64: true,
-      });
-
-      if (!result.cancelled && result?.uri) {
-        handleSelectImage(result?.uri);
-        onClose();
-      }
-    } else {
-      // BackHandler.exitApp();
-      alert("Não conseguimos obter a permição");
+    if (!result.cancelled && result?.uri) {
+      handleSelectImage(result?.uri);
+      onClose();
     }
+    // } else {
+    //   // BackHandler.exitApp();
+    //   alert("Não conseguimos obter a permição");
+    // }
   };
 
   useEffect(() => {
