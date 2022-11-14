@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -77,6 +79,35 @@ export class FamilieModel {
     eager: true,
   })
   persons: PersonModel[];
+
+  @OneToOne(() => PastoralVisitModel, ({ familie }) => familie, {
+    nullable: true,
+  })
+  @JoinColumn()
+  pastoralVisit: PastoralVisitModel;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+}
+
+export type PastoralVisit = {
+  id?: string;
+  quiz: string;
+  familie?: FamilieModel;
+};
+
+@Entity("pastoral_visit")
+export class PastoralVisitModel {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column()
+  quiz: string;
+
+  @OneToOne(() => FamilieModel, ({ pastoralVisit }) => pastoralVisit, {
+    nullable: true,
+  })
+  familie: FamilieModel;
 
   @CreateDateColumn()
   createdAt?: Date;

@@ -142,6 +142,7 @@ const Families = ({ route }: any) => {
           familie: currentFamilie,
         })}
         getAllFamilies={getAllFamilies}
+        church={church}
       />
     </View>
   );

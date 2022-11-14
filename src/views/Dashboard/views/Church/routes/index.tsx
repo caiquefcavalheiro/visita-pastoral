@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { memo } from "react";
 import Church from "..";
+import PastoralVisit from "../../PastoralVisit";
 import Families from "../views/Families";
-import PastoralVisit from "../views/Families/views/PastoralVisit";
+import PastoralVisitQuestions from "../views/Families/views/PastoralVisit/PastoralVisitQuestions";
 import PeopleAndTheirPositions from "../views/PeopleAndTheirPositions";
 import Positions from "../views/Positions";
 import Sermons from "../views/Sermons";
@@ -18,6 +19,10 @@ function ChurchRoutes() {
       <Screen name="PatoralVisit" component={PastoralVisit} />
       <Screen name="Church" component={Church} />
       <Screen name="Families" component={Families} />
+      <Screen
+        name="PastoralVisitQuestions"
+        component={PastoralVisitQuestions}
+      />
       <Screen name="Positions" component={Positions} />
       <Screen name="Sermons" component={Sermons} />
       <Screen

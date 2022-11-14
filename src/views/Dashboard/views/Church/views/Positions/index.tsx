@@ -56,7 +56,7 @@ const Positions = ({ route }: any) => {
 
   useEffect(() => {
     (async () => {
-      const response = await Position.getAll();
+      const response = await Position.getAllPositionsOfChurch(church.id);
       setPositions(response);
     })();
   }, []);

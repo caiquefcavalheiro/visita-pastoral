@@ -39,7 +39,6 @@ const CustomTextArea = ({
   rules = {},
   textAreaProps,
   labelProps,
-  ...rest
 }: TextAreaProps) => {
   const defaultTextAreaStyle: ITextAreaProps = {
     w: "100%",
@@ -78,7 +77,7 @@ const CustomTextArea = ({
   } = useController({ name: name || "", control, rules });
 
   return (
-    <Stack space={1} w="100%" h="400">
+    <Stack space={1} w="100%">
       <FormControl w="100%" isInvalid={error ? true : false}>
         {label && (
           <FormControl.Label {...defaultLabelStyle}>
@@ -88,8 +87,8 @@ const CustomTextArea = ({
         <TextArea
           onChangeText={onChange}
           defaultValue={valueTextArea}
-          autoCompleteType={10}
-          {...{ ...defaultTextAreaStyle, ...rest, ...textAreaProps }}
+          autoCompleteType
+          {...{ ...defaultTextAreaStyle, ...textAreaProps }}
         />
         {error && (
           <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>

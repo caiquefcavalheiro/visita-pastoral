@@ -6,6 +6,7 @@ import { Header } from "../../../../../../components/Header";
 import { useDatabaseConnection } from "../../../../../../database/connection";
 import { SermonModel } from "../../../../../../database/entities/FamilieChurchPersonSermon";
 import useChurchService from "../../../../../../database/services/churchService";
+import useSermonService from "../../../../../../database/services/sermonService";
 import { ModalCreateSermon } from "./components/ModalCreateSermon";
 import { ModalEditSermon } from "./components/ModalEditSermon";
 
@@ -15,34 +16,35 @@ interface SermonsProps {
 
 const Sermons = ({ route }: SermonsProps) => {
   const { connection } = useDatabaseConnection();
-  const Church = useChurchService(connection);
+
+  const sermonService = useSermonService(connection);
 
   const church = route?.params?.church;
 
+  const [search, setSearch] = useState("");
+
   const [isOpen, setIsOpen] = useState(false);
-  const [allSermons, setAllSermons] = useState(church.sermons as SermonModel[]);
+
   const [sermons, setSermons] = useState(church.sermons as SermonModel[]);
 
   const [sermon, setSermon] = useState({} as SermonModel);
   const [isOpenEditSermon, setIsOpenEditSermon] = useState(false);
 
   const getSermons = () => {
-    Church.getOne(church.id).then((response) => {
-      setAllSermons(response?.sermons as any);
-      setSermons(response?.sermons as any);
-    });
+    (async () => {
+      const response = await sermonService.getAllSermonsOfChurch(church.id);
+      church.sermons = response;
+      setSermons(response as SermonModel[]);
+    })();
   };
 
   useEffect(() => {
     getSermons();
   }, []);
 
-  const handleSearchInput = (input: string) => {
-    const filterArray = allSermons.filter((sermon) => {
-      return sermon.name.toLowerCase().includes(input.toLowerCase());
-    });
-    setSermons(filterArray);
-  };
+  const filteredSermons = sermons.filter((sermon) => {
+    return sermon.name.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <>
@@ -79,7 +81,7 @@ const Sermons = ({ route }: SermonsProps) => {
           </ButtonDefault>
           <Stack alignItems="center">
             <Input
-              onChangeText={(event) => handleSearchInput(event)}
+              onChangeText={(event) => setSearch(event)}
               borderRadius="8"
               w={{
                 base: "60%",
@@ -93,32 +95,28 @@ const Sermons = ({ route }: SermonsProps) => {
           </Stack>
           <Stack>
             <Box>
-              {sermons
-                ? sermons.map((sermon) => {
-                    const formatDate = dayjs(sermon.createdAt).format(
-                      "DD/MM/YYYY"
-                    );
-                    return (
-                      <React.Fragment key={sermon.id}>
-                        <ButtonDefault
-                          buttonProps={{
-                            backgroundColor: "yellow.500",
-                            minWidth: "300",
-                            marginBottom: "2",
-                            onPress: () => {
-                              setSermon(sermon);
-                              setIsOpenEditSermon(true);
-                            },
-                          }}
-                        >
-                          {sermon ? (
-                            <Text fontSize="18">{`${formatDate} - ${sermon.name}`}</Text>
-                          ) : null}
-                        </ButtonDefault>
-                      </React.Fragment>
-                    );
-                  })
-                : null}
+              {filteredSermons?.map((sermon) => {
+                const formatDate = dayjs(sermon.createdAt).format("DD/MM/YYYY");
+                return (
+                  <React.Fragment key={sermon.id}>
+                    <ButtonDefault
+                      buttonProps={{
+                        backgroundColor: "yellow.500",
+                        minWidth: "300",
+                        marginBottom: "2",
+                        onPress: () => {
+                          setSermon(sermon);
+                          setIsOpenEditSermon(true);
+                        },
+                      }}
+                    >
+                      {sermon ? (
+                        <Text fontSize="18">{`${formatDate} - ${sermon.name}`}</Text>
+                      ) : null}
+                    </ButtonDefault>
+                  </React.Fragment>
+                );
+              })}
             </Box>
           </Stack>
         </VStack>

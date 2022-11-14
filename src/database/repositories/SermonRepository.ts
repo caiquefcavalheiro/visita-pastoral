@@ -22,6 +22,16 @@ export class SermonRepository {
     return sermon;
   }
 
+  public async getAllSermonsOfChurch(churchId: string) {
+    const person = await this.ormRepository
+      .createQueryBuilder("sermon")
+      .leftJoinAndSelect("sermon.church", "church")
+      .where("sermon.church = :churchId", { churchId })
+      .getMany();
+
+    return person;
+  }
+
   public async update(id: string, data: Partial<SermonModel>) {
     return this.ormRepository.update(id, data);
   }

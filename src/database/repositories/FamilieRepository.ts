@@ -25,6 +25,7 @@ export class FamilieRepository {
       .createQueryBuilder("familie")
       .leftJoinAndSelect("familie.church", "church")
       .leftJoinAndSelect("familie.persons", "persons")
+      .leftJoinAndSelect("familie.pastoralVisit", "pastoral_visit")
       .where("familie.church = :churchId", { churchId })
       .getMany();
 

@@ -18,11 +18,11 @@ import { SermonRepository } from "./repositories/SermonRepository";
 import {
   ChurchModel,
   FamilieModel,
+  PastoralVisitModel,
   PersonModel,
   PositionModel,
   SermonModel,
 } from "./entities/FamilieChurchPersonSermon";
-import { PastoralVisitModel } from "./entities/PastoralVisit";
 import { RunActions } from "./actions";
 
 interface DatabaseConnectionContextData {

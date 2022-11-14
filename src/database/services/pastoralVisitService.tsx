@@ -1,12 +1,26 @@
 import { Connection } from "typeorm";
-import { PastoralVisitModel } from "../entities/PastoralVisit";
+import {
+  PastoralVisit,
+  PastoralVisitModel,
+} from "../entities/FamilieChurchPersonSermon";
+import { FamilieRepository } from "../repositories/FamilieRepository";
 import { PastoralVisitRepository } from "../repositories/PastoralVisitRepository";
 
 function usePastoralVisitService(connection: Connection) {
+  const familieRepository = new FamilieRepository(connection);
   const pastoralVisitRepository = new PastoralVisitRepository(connection);
 
-  const create = async (data: PastoralVisitModel) => {
-    return await pastoralVisitRepository.create({ data });
+  const create = async (data: PastoralVisit, familieId: string) => {
+    const newPastoralVisitModel = { ...data };
+    const familie = await familieRepository.getOne(familieId);
+
+    if (familie) {
+      newPastoralVisitModel.familie = familie;
+    }
+
+    return await pastoralVisitRepository.create({
+      data: newPastoralVisitModel,
+    });
   };
 
   const update = async (id: string, data: Partial<PastoralVisitModel>) => {
