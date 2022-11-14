@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { BackHandler } from "react-native";
 
-import { Actionsheet, HStack, Icon } from "native-base";
+import { Actionsheet, HStack, Icon, Text } from "native-base";
 import { useEffect, useState } from "react";
 
 type CameraAndGaleryProps = {
@@ -23,8 +23,9 @@ export function CameraAndGalery({
     useState(false);
 
   const pickImageCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    const { granted } = await ImagePicker.requestCameraPermissionsAsync();
 
+    setPickImageCameraPermission(granted);
     // if (status === "granted" || pickImageCameraPermission) {
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -45,8 +46,9 @@ export function CameraAndGalery({
   };
 
   const pickImageGalery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
+    setPickImageGaleryPermission(granted);
     // if (status === "granted" || pickImageGaleryPermission) {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -66,16 +68,16 @@ export function CameraAndGalery({
     // }
   };
 
-  useEffect(() => {
-    (async () => {
-      const { granted } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setPickImageGaleryPermission(granted);
-      const { granted: grantedC } =
-        await ImagePicker.requestCameraPermissionsAsync();
-      setPickImageCameraPermission(grantedC);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { granted } =
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     setPickImageGaleryPermission(granted);
+  //     const { granted: grantedC } =
+  //       await ImagePicker.requestCameraPermissionsAsync();
+  //     setPickImageCameraPermission(grantedC);
+  //   })();
+  // }, []);
 
   return (
     <Actionsheet
@@ -92,12 +94,23 @@ export function CameraAndGalery({
             name="perm-media"
             onPress={pickImageGalery}
           />
+          <Text>
+            {pickImageGaleryPermission
+              ? "pickImageGaleryPermission"
+              : "not pickImageGaleryPermission"}
+          </Text>
+
           <Icon
             as={MaterialIcons}
             size="60"
             name="camera-alt"
             onPress={pickImageCamera}
           />
+          <Text>
+            {pickImageCameraPermission
+              ? "pickImageCameraPermission"
+              : "not pickImageCameraPermission"}
+          </Text>
         </HStack>
       </Actionsheet.Content>
     </Actionsheet>
