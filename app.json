@@ -26,7 +26,7 @@
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "CAMERA_ROLL"
+        "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
