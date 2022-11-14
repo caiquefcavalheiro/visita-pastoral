@@ -34,8 +34,7 @@ export const ModalCreateSermon = ({
   const Sermon = useSermonService(connection);
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-    await Sermon.create(data, church.id).then((response) => {
+    await Sermon.create(data, church.id).then(() => {
       useCustomToast({
         msg: "Sermão adicionado!!",
         toast,
@@ -85,20 +84,28 @@ export const ModalCreateSermon = ({
             rules={{ required: "Este campo é obrigatório" }}
             error={errors?.description}
             textAreaProps={{
-              minHeight: "400",
               pt: 0,
               pb: 0,
-              height: "12",
               borderRadius: "8",
               fontSize: "16",
               bgColor: "gray.500",
               borderColor: "gray.500",
               placeholderTextColor: "black",
               placeholder: "Informações do sermão",
+              totalLines: 100,
+              multiline: true,
+              numberOfLines: 100,
+              maxLength: 100,
+              maxFontSizeMultiplier: 100,
+              h: 400,
             }}
           />
+
           <ButtonDefault
-            buttonProps={{ onPress: handleSubmit(onSubmit), width: "100%" }}
+            buttonProps={{
+              onPress: handleSubmit(onSubmit),
+              width: "100%",
+            }}
           >
             Salvar
           </ButtonDefault>

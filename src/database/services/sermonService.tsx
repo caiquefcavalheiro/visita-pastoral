@@ -30,11 +30,16 @@ function useSermonService(connection: Connection) {
     return await sermonRepository.getAll();
   };
 
+  const getAllSermonsOfChurch = async (churchId: string) => {
+    return await sermonRepository.getAllSermonsOfChurch(churchId);
+  };
+
   return {
     create,
     update,
     deleteSermon,
     getAll,
+    getAllSermonsOfChurch,
   };
 }
 

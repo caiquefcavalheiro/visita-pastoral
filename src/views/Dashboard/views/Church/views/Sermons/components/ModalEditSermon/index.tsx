@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useToast, VStack } from "native-base";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ButtonDefault from "../../../../../../../../components/button";
 import CustomInput from "../../../../../../../../components/customInput";
@@ -24,6 +24,7 @@ export const ModalEditSermon = ({
   handleAdd,
   sermon,
 }: Props) => {
+  const [editing, setEditing] = useState(false);
   const {
     control,
     handleSubmit,
@@ -48,6 +49,8 @@ export const ModalEditSermon = ({
         type: "sucess",
       });
 
+      setEditing(false);
+
       handleAdd();
       onClose();
       reset();
@@ -64,11 +67,11 @@ export const ModalEditSermon = ({
   const handleDelete = async () => {
     await Sermon.deleteSermon(sermon.id).then((response) => {
       useCustomToast({
-        msg: "Sermão apagado!!",
+        msg: "Sermão deletado com sucesso!",
         toast,
         type: "sucess",
       });
-
+      setEditing(false);
       handleAdd();
       onClose();
     });
@@ -79,7 +82,10 @@ export const ModalEditSermon = ({
   return (
     <CustomModal
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        setEditing(false);
+        onClose();
+      }}
       placement="center"
       header={`${formatDate} - ${sermon.name}`}
       headerProps={{
@@ -107,40 +113,65 @@ export const ModalEditSermon = ({
               borderColor: "gray.500",
               placeholderTextColor: "black",
             }}
+            isEditable={editing}
           />
           <CustomTextArea
             name="description"
-            value={sermon.description}
             control={control}
+            rules={{ required: "Este campo é obrigatório" }}
             error={errors?.description}
             textAreaProps={{
-              minHeight: "400",
               pt: 0,
               pb: 0,
-              height: "12",
               borderRadius: "8",
               fontSize: "16",
               bgColor: "gray.500",
               borderColor: "gray.500",
               placeholderTextColor: "black",
               placeholder: "Informações do sermão",
+              totalLines: 100,
+              multiline: true,
+              numberOfLines: 100,
+              maxLength: 100,
+              maxFontSizeMultiplier: 100,
+              h: 400,
+              isDisabled: !editing,
             }}
           />
           <VStack display="flex" flexDir={"row"} space={4}>
-            <ButtonDefault
-              buttonProps={{
-                onPress: async () => await handleDelete(),
-                backgroundColor: "red.500",
-                width: "40%",
-              }}
-            >
-              Deletar
-            </ButtonDefault>
-            <ButtonDefault
-              buttonProps={{ onPress: handleSubmit(onSubmit), width: "40%" }}
-            >
-              Editar
-            </ButtonDefault>
+            {editing ? null : (
+              <ButtonDefault
+                buttonProps={{
+                  onPress: async () => await handleDelete(),
+                  backgroundColor: "red.500",
+                  width: "40%",
+                }}
+              >
+                Deletar
+              </ButtonDefault>
+            )}
+
+            {editing ? (
+              <ButtonDefault
+                buttonProps={{
+                  onPress: handleSubmit(onSubmit),
+                  width: "100%",
+                }}
+              >
+                Salvar
+              </ButtonDefault>
+            ) : (
+              <ButtonDefault
+                buttonProps={{
+                  onPress: () => {
+                    setEditing(!editing);
+                  },
+                  width: "40%",
+                }}
+              >
+                Editar
+              </ButtonDefault>
+            )}
           </VStack>
         </VStack>
       }
