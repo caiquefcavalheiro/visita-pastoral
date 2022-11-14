@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { BackHandler } from "react-native";
 
-import { Actionsheet, HStack, Icon, Text } from "native-base";
+import { Actionsheet, HStack, Icon } from "native-base";
 import { useState } from "react";
 
 type CameraAndGaleryProps = {
@@ -40,8 +40,7 @@ export function CameraAndGalery({
         onClose();
       }
     } else {
-      // BackHandler.exitApp();
-      alert("Não conseguimos obter a permição");
+      BackHandler.exitApp();
     }
   };
 
@@ -63,8 +62,7 @@ export function CameraAndGalery({
         onClose();
       }
     } else {
-      // BackHandler.exitApp();
-      alert("Não conseguimos obter a permição");
+      BackHandler.exitApp();
     }
   };
 
