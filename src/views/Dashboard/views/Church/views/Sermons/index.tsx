@@ -1,13 +1,24 @@
-import dayjs from "dayjs";
-import { Box, Input, SearchIcon, Stack, Text, VStack } from "native-base";
-import React, { Fragment, useEffect, useState } from "react";
+import {
+  Box,
+  FlatList,
+  Input,
+  SearchIcon,
+  Stack,
+  Text,
+  useToast,
+  View,
+  VStack,
+} from "native-base";
+import React, { useEffect, useState } from "react";
 import ButtonDefault from "../../../../../../components/button";
 import { Header } from "../../../../../../components/Header";
 import { useDatabaseConnection } from "../../../../../../database/connection";
 import { SermonModel } from "../../../../../../database/entities/FamilieChurchPersonSermon";
 import useSermonService from "../../../../../../database/services/sermonService";
+import { useCustomToast } from "../../../../../../hooks";
 import { ModalCreateSermon } from "./components/ModalCreateSermon";
 import { ModalEditSermon } from "./components/ModalEditSermon";
+import SermonCard from "./components/SermonCard";
 
 interface SermonsProps {
   route: any;
@@ -19,6 +30,8 @@ const Sermons = ({ route }: SermonsProps) => {
   const sermonService = useSermonService(connection);
 
   const church = route?.params?.church;
+
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
 
@@ -44,6 +57,16 @@ const Sermons = ({ route }: SermonsProps) => {
   const filteredSermons = sermons.filter((sermon) => {
     return sermon.name.toLowerCase().includes(search.toLowerCase());
   });
+
+  const handleDelete = async (sermon: SermonModel) => {
+    await sermonService.deleteSermon(sermon.id).then((response) => {
+      useCustomToast({
+        msg: "Sermão deletado com sucesso!",
+        toast,
+        type: "sucess",
+      });
+    });
+  };
 
   return (
     <>
@@ -92,32 +115,26 @@ const Sermons = ({ route }: SermonsProps) => {
               placeholder="Buscar por sermão..."
             />
           </Stack>
-          <Stack>
-            <Box>
-              {filteredSermons?.map((sermon) => {
-                const formatDate = dayjs(sermon.createdAt).format("DD/MM/YYYY");
-                return (
-                  <React.Fragment key={sermon.id}>
-                    <ButtonDefault
-                      buttonProps={{
-                        backgroundColor: "yellow.500",
-                        minWidth: "300",
-                        marginBottom: "2",
-                        onPress: () => {
-                          setSermon(sermon);
-                          setIsOpenEditSermon(true);
-                        },
-                      }}
-                    >
-                      {sermon ? (
-                        <Text fontSize="18">{`${formatDate} - ${sermon.name}`}</Text>
-                      ) : null}
-                    </ButtonDefault>
-                  </React.Fragment>
-                );
-              })}
-            </Box>
-          </Stack>
+
+          <FlatList
+            data={filteredSermons}
+            keyExtractor={(item) => item.id}
+            px={10}
+            ItemSeparatorComponent={() => <View my={2} />}
+            renderItem={({ item }) => (
+              <SermonCard
+                sermon={item}
+                onClick={() => {
+                  setSermon(item);
+                  setIsOpenEditSermon(true);
+                }}
+                handleDelete={() => {
+                  handleDelete(item);
+                  getSermons();
+                }}
+              />
+            )}
+          />
         </VStack>
       </Box>
     </>
