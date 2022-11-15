@@ -41,12 +41,12 @@ export function ModalFamilies({
         isOpen={isOpen}
         onClose={onClose}
       >
-        <AlertDialog.Content>
+        <AlertDialog.Content px={2}>
           <AlertDialog.Body mt="3" borderBottomWidth={0}>
             <VStack space={4}>
               <ButtonDefault
                 buttonProps={{
-                  width: "90%",
+                  width: "100%",
                   height: 16,
                   onPress: () => {
                     onClose();
@@ -64,7 +64,7 @@ export function ModalFamilies({
 
               <ButtonDefault
                 buttonProps={{
-                  width: "90%",
+                  width: "100%",
                   height: 16,
                   onPress: () => {
                     setIsOpenFamilie(true);
@@ -78,10 +78,10 @@ export function ModalFamilies({
               </ButtonDefault>
             </VStack>
           </AlertDialog.Body>
-          <AlertDialog.Footer justifyContent="center" borderTopWidth={0}>
-            <Button.Group space={8} mb={4}>
+          <AlertDialog.Footer justifyContent="center" borderTopWidth={0} px={2}>
+            <Button.Group justifyContent="space-between" mb={4} px={2} w="100%">
               <Button
-                w="115"
+                w="105"
                 h="12"
                 bg="blue.400"
                 onPress={onClose}
@@ -97,7 +97,7 @@ export function ModalFamilies({
                 onPress={() => {
                   setIsDeleteMsg(true);
                 }}
-                w="115"
+                w="105"
                 borderRadius={10}
                 h="12"
               >

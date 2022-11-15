@@ -1,5 +1,5 @@
 import { Center, Text, VStack } from "native-base";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { PersonModel } from "../../../../../../../../../../database/entities/FamilieChurchPersonSermon";
 
 interface CardPersonProps {
@@ -24,8 +24,8 @@ const CardPerson = ({ person, onClick }: CardPersonProps) => {
           </Text>
         </Center>
       </TouchableOpacity>
-      {person?.positions.map(({ position }) => (
-        <Text ml={3} fontSize={14} color="blue.700">
+      {person?.positions.map(({ position, id }) => (
+        <Text ml={3} fontSize={14} color="blue.700" key={id + position}>
           {position}
         </Text>
       ))}

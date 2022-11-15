@@ -132,6 +132,9 @@ export const ModalEditPosition = ({
   return (
     <CustomModal
       open={open}
+      contentStyle={{
+        w: "90%",
+      }}
       onClose={() => {
         onClose();
         reset({});
@@ -151,6 +154,15 @@ export const ModalEditPosition = ({
             <Spinner size={60} />
           ) : (
             <VStack space={4}>
+              <ButtonDefault
+                buttonProps={{
+                  onPress: handleSubmit(onSubmit),
+                  width: "100%",
+                  mb: 4,
+                }}
+              >
+                Candidatar
+              </ButtonDefault>
               {positions.map((item) => (
                 <Fragment key={item.id}>
                   <CustomCheckBox
@@ -178,16 +190,6 @@ export const ModalEditPosition = ({
                   control={control}
                 />
               )}
-
-              <ButtonDefault
-                buttonProps={{
-                  onPress: handleSubmit(onSubmit),
-                  width: "100%",
-                  mt: 4,
-                }}
-              >
-                Candidatar
-              </ButtonDefault>
             </VStack>
           )}
         </>

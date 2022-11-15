@@ -130,6 +130,9 @@ export const ModalEditPosition = ({
 
   return (
     <CustomModal
+      contentStyle={{
+        w: "90%",
+      }}
       open={open}
       onClose={() => {
         onClose();
