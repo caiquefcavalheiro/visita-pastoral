@@ -1,5 +1,5 @@
 import { EvilIcons } from "@expo/vector-icons";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { Box, Center, FlatList, View } from "native-base";
 import { useEffect, useState } from "react";
 import CustomInput from "../../../../../../components/customInput";
