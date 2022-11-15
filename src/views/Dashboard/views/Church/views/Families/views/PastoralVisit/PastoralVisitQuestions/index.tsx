@@ -99,11 +99,10 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
   ];
 
   const onSubmit = async (data: any) => {
+    const newQuiz = JSON.stringify(data);
     if (!familie?.pastoralVisit && !isEditable) {
-      const newQuiz = JSON.stringify(data);
-
-      await pastoralVisit.create({ quiz: newQuiz }, familie.id).then(() => {
-        familie.pastoralVisit = {};
+      await pastoralVisit.create({ quiz: newQuiz }, familie.id).then((resp) => {
+        familie.pastoralVisit = resp;
         familie.pastoralVisit.quiz = newQuiz;
 
         const familieIndex = church.families?.findIndex(
@@ -124,8 +123,6 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
           quiz: JSON.stringify(data),
         })
         .then(() => {
-          const newQuiz = JSON.stringify(data);
-          familie.pastoralVisit = {};
           familie.pastoralVisit.quiz = newQuiz;
 
           const familieIndex = church.families?.findIndex(
@@ -138,6 +135,14 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
             toast,
             msg: "Visita pastoral atualizada com sucesso !",
             type: "sucess",
+          });
+        })
+        .catch((err) => {
+          useCustomToast({
+            toast,
+            msg: JSON.stringify(err),
+            type: "sucess",
+            duration: 5000,
           });
         });
     }
