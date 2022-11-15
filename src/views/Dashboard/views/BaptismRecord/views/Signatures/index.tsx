@@ -67,7 +67,7 @@ function Signatures({ route }: any) {
     const { uri } = await printToFileAsync({
       html,
       width: 2408,
-      height: 3060,
+      height: 3048,
     });
 
     const pdfName = `${uri.slice(

@@ -166,7 +166,7 @@ export const getTemplate = (
         }
   
         .header_div p {
-          font-size: 24px;
+          font-size: 28px;
           align-self: center;
         }
         .header_checkbox {
@@ -195,7 +195,7 @@ export const getTemplate = (
   
         .header_aside h4 {
           font-weight: normal;
-          font-size: 28px;
+          font-size: 32px;
         }
   
         .header_checkbox_options {
@@ -279,7 +279,7 @@ export const getTemplate = (
         .section_field_name input {
           padding: 10px;
           border: none;
-          font-size: 36px;
+          font-size: 40px;
           width: 90%;
         }
   
@@ -303,7 +303,7 @@ export const getTemplate = (
           padding: 5px 5px;
           margin: 5px;
           border: none;
-          font-size: 36px;
+          font-size: 40px;
           width: 90%;
         }
   
@@ -334,7 +334,7 @@ export const getTemplate = (
         .section_second_field p,
         .section_conversion_container_checkbox p,
         .section_user_information_container p {
-          font-size: 36px;
+          font-size: 40px;
           padding: 0 10px;
           padding-top: 5px;
           font-weight: 600;
@@ -427,7 +427,7 @@ export const getTemplate = (
         }
   
         .section_declaration_checkbox_container p {
-          font-size: 28px;
+          font-size: 32px;
           align-self: center;
           margin: 10px;
         }
@@ -1152,7 +1152,7 @@ export const getTemplate = (
             </div>
           </div>
         </section>
-        <section class="section">
+        <section class="section" style="height:850px">
           <h3 class="section_title">DECLARAÇÃO DE FÉ</h3>
           <div class="section_declaration_container">
             <div class="section_declaration_checkbox_container">
