@@ -30,7 +30,12 @@ export const ModalEditSermon = ({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+  });
 
   const toast = useToast();
 
@@ -44,7 +49,7 @@ export const ModalEditSermon = ({
 
     await Sermon.update(sermon.id, newData).then((response) => {
       useCustomToast({
-        msg: "Sermão atualizado!!",
+        msg: "Sermão atualizado com sucesso!",
         toast,
         type: "sucess",
       });
@@ -63,19 +68,6 @@ export const ModalEditSermon = ({
       description: sermon.description,
     });
   }, [sermon]);
-
-  const handleDelete = async () => {
-    await Sermon.deleteSermon(sermon.id).then((response) => {
-      useCustomToast({
-        msg: "Sermão deletado com sucesso!",
-        toast,
-        type: "sucess",
-      });
-      setEditing(false);
-      handleAdd();
-      onClose();
-    });
-  };
 
   const formatDate = dayjs(sermon.createdAt).format("DD/MM/YYYY");
 
@@ -118,7 +110,6 @@ export const ModalEditSermon = ({
           <CustomTextArea
             name="description"
             control={control}
-            rules={{ required: "Este campo é obrigatório" }}
             error={errors?.description}
             textAreaProps={{
               pt: 0,
@@ -139,18 +130,6 @@ export const ModalEditSermon = ({
             }}
           />
           <VStack display="flex" flexDir={"row"} space={4}>
-            {editing ? null : (
-              <ButtonDefault
-                buttonProps={{
-                  onPress: async () => await handleDelete(),
-                  backgroundColor: "red.500",
-                  width: "40%",
-                }}
-              >
-                Deletar
-              </ButtonDefault>
-            )}
-
             {editing ? (
               <ButtonDefault
                 buttonProps={{
@@ -166,7 +145,7 @@ export const ModalEditSermon = ({
                   onPress: () => {
                     setEditing(!editing);
                   },
-                  width: "40%",
+                  width: "100%",
                 }}
               >
                 Editar
