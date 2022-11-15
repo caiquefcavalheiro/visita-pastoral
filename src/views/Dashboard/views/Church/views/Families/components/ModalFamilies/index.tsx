@@ -67,24 +67,6 @@ export function ModalFamilies({
                   width: "90%",
                   height: 16,
                   onPress: () => {
-                    onClose();
-                    navigation.navigate(
-                      "PastoralVisitQuestions" as never,
-                      { church, familie, isEditable: true } as never
-                    );
-                  },
-                }}
-              >
-                <Text fontSize="17" fontWeight="bold" color="white">
-                  Visualizar ultima visita
-                </Text>
-              </ButtonDefault>
-
-              <ButtonDefault
-                buttonProps={{
-                  width: "90%",
-                  height: 16,
-                  onPress: () => {
                     setIsOpenFamilie(true);
                     setIsOpen(false);
                   },
