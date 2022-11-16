@@ -80,8 +80,8 @@ export type BaptismRecordData = {
   dateAndCoteTheAdministrativeMeeting: string;
   nameSecretaryOrganizedGroup: string;
   whoWillIDisciple: string;
-  MotherIdentificationDoc: string;
-  FatherIdentificationDoc: string;
+  motherIdentificationDoc: string;
+  fatherIdentificationDoc: string;
 };
 
 type QuestionType = {
@@ -316,7 +316,7 @@ function BaptismRecord({ navigation }: any) {
         {
           input: {
             label: "Doc. Identificação / Órgão Emissor / UF (Mãe)",
-            name: "MotherIdentificationDoc",
+            name: "motherIdentificationDoc",
           },
         },
         {
@@ -328,7 +328,7 @@ function BaptismRecord({ navigation }: any) {
         {
           input: {
             label: "Doc. Identificação / Órgão Emissor / UF (Pai)",
-            name: "FatherIdentificationDoc",
+            name: "fatherIdentificationDoc",
           },
         },
         {

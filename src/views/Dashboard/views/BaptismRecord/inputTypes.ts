@@ -27,5 +27,5 @@ export type InputTypes =
   | "cityChurchOrganizedGroup"
   | "dateAndCoteTheAdministrativeMeeting"
   | "nameSecretaryOrganizedGroup"
-  | "MotherIdentificationDoc"
-  | "FatherIdentificationDoc";
+  | "motherIdentificationDoc"
+  | "fatherIdentificationDoc";
