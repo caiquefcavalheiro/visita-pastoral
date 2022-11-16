@@ -14,22 +14,36 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import {
   Familie,
   Person,
+  PersonModel,
+  PositionModel,
 } from "../../../../../../../../../database/entities/FamilieChurchPersonSermon";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CustomInput from "../../../../../../../../../components/customInput";
 import { CustomCheckBox } from "../components/customCheckBox";
 import ButtonDefault from "../../../../../../../../../components/button";
 import { useDatabaseConnection } from "../../../../../../../../../database/connection";
 import usePastoralVisitService from "../../../../../../../../../database/services/pastoralVisitService";
 import { useCustomToast } from "../../../../../../../../../hooks";
+import usePositionService from "../../../../../../../../../database/services/positionService";
+import CardPerson from "../components/CardPerson";
+import usePersonService from "../../../../../../../../../database/services/personService";
 
 interface PastoralVisitQuestionsProps {
   route: any;
+  navigation: any;
 }
 
-const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
+const PastoralVisitQuestions = ({
+  navigation,
+  route,
+}: PastoralVisitQuestionsProps) => {
   const { connection } = useDatabaseConnection();
   const pastoralVisit = usePastoralVisitService(connection);
+
+  const Position = usePositionService(connection);
+  const Person = usePersonService(connection);
+
+  const [positions, setPositions] = useState<PositionModel[]>([]);
 
   const {
     control,
@@ -42,7 +56,6 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
 
   const church = route?.params?.church;
   const familie = route?.params?.familie;
-  const isEditable = route?.params?.isEditable;
 
   const sections: {
     title: string;
@@ -53,6 +66,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
       showTitle?: boolean;
       showInput?: boolean;
       showButton?: boolean;
+      showModalPosition?: boolean;
     }[];
   }[] = [
     {
@@ -87,7 +101,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
     {
       title: "Outros",
       data: [
-        { title: "O que gosta de fazer na igreja", showInput: true },
+        { title: "O que gosta de fazer na igreja", showModalPosition: true },
         { title: "Qual hobby", showInput: true },
         {
           title: "Quando você pensa em um bom pastor, o que vem a sua mente?",
@@ -100,7 +114,7 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
 
   const onSubmit = async (data: any) => {
     const newQuiz = JSON.stringify(data);
-    if (!familie?.pastoralVisit && !isEditable) {
+    if (!familie?.pastoralVisit) {
       await pastoralVisit.create({ quiz: newQuiz }, familie.id).then((resp) => {
         familie.pastoralVisit = resp;
         familie.pastoralVisit.quiz = newQuiz;
@@ -146,12 +160,35 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
           });
         });
     }
+
+    navigation.navigate("Church");
   };
 
   useEffect(() => {
-    if (familie?.pastoralVisit && isEditable) {
+    if (familie?.pastoralVisit) {
       reset(JSON.parse(familie?.pastoralVisit.quiz));
     }
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let persons: PersonModel[] = [];
+      for (let person of familie?.persons || []) {
+        const personDb = await Person.getOne(person.id);
+        if (personDb) {
+          persons = [...persons, personDb];
+        }
+      }
+
+      familie.persons = persons;
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const response = await Position.getAllPositionsOfChurch(church.id);
+      setPositions(response);
+    })();
   }, []);
 
   return (
@@ -183,7 +220,13 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
           </Center>
         )}
         renderItem={({
-          item: { title, showTitle = true, showInput = false, showButton },
+          item: {
+            title,
+            showTitle = true,
+            showInput = false,
+            showButton,
+            showModalPosition,
+          },
         }) => (
           <VStack mt={10} space={4}>
             <VStack space={2}>
@@ -192,21 +235,24 @@ const PastoralVisitQuestions = ({ route }: PastoralVisitQuestionsProps) => {
                   {title}
                 </Text>
               ) : null}
-              {familie?.persons?.map((person: Person) => (
+              {familie?.persons?.map((person: PersonModel) => (
                 <Fragment key={`${person?.id} ${title}`}>
-                  <Checkbox
-                    control={control}
-                    errors={errors}
-                    person={person}
-                    mission={title}
-                    showInput={showInput}
-                    isEditable={!isEditable}
-                  />
+                  {showModalPosition ? (
+                    <CardPerson person={person} positions={positions} />
+                  ) : (
+                    <Checkbox
+                      control={control}
+                      errors={errors}
+                      person={person}
+                      mission={title}
+                      showInput={showInput}
+                    />
+                  )}
                 </Fragment>
               ))}
             </VStack>
 
-            {showButton && !isEditable ? (
+            {showButton ? (
               <ButtonDefault
                 buttonProps={{
                   width: "100%",

@@ -26,7 +26,12 @@ export const ModalCreateSermon = ({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+  });
 
   const toast = useToast();
 
@@ -81,7 +86,6 @@ export const ModalCreateSermon = ({
           <CustomTextArea
             name="description"
             control={control}
-            rules={{ required: "Este campo é obrigatório" }}
             error={errors?.description}
             textAreaProps={{
               pt: 0,

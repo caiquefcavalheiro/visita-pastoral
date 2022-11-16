@@ -82,6 +82,8 @@ export const getTemplate = (
     nameSecretaryOrganizedGroup,
     nameTheChurch,
     whoWillIDisciple,
+    fatherIdentificationDoc,
+    motherIdentificationDoc,
   } = data;
 
   const now = dayjs(new Date()).format("DD/MM/YYYY");
@@ -1471,11 +1473,11 @@ export const getTemplate = (
                 <div>
                   <div class="section_user_information_instructor">
                     <label>1.</label>
-                    <input type="text" value="" />
+                    <input type="text" value="${motherIdentificationDoc}" />
                   </div>
                   <div class="section_user_information_instructor">
                     <label>2.</label>
-                    <input type="text" value="" />
+                    <input type="text" value="${fatherIdentificationDoc}" />
                   </div>
                 </div>
               </div>

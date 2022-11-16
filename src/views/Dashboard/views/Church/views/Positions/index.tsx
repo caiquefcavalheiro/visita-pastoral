@@ -1,6 +1,8 @@
 import { EvilIcons } from "@expo/vector-icons";
-import { debounce } from "lodash";
-import { Box, Center, FlatList, View } from "native-base";
+import orderBy from "lodash/orderBy";
+import debounce from "lodash/debounce";
+
+import { Box, Center, FlatList, Flex, View } from "native-base";
 import { useCallback, useEffect, useState } from "react";
 import CustomInput from "../../../../../../components/customInput";
 import { Header } from "../../../../../../components/Header";
@@ -12,7 +14,9 @@ import {
 import usePersonService from "../../../../../../database/services/personService";
 import usePositionService from "../../../../../../database/services/positionService";
 import Row from "../../components/Row";
-import { ModalEditPosition } from "./components/ModalEditPosition";
+import { ModalEditPosition } from "../../components/ModalEditPosition";
+import OrderButton from "./components/OrderButton";
+import { orderByDate } from "../../../../../../utils";
 
 const Positions = ({ route }: any) => {
   const church = route?.params?.church;
@@ -78,6 +82,32 @@ const Positions = ({ route }: any) => {
           }
           px={10}
         />
+        <Flex w="100%" alignItems="flex-end" mt={4} pr={4}>
+          <OrderButton
+            actions={{
+              0: () => {
+                setPersons(
+                  orderBy(
+                    currentPersons,
+                    [(person) => person.name.toLowerCase()],
+                    ["asc"]
+                  )
+                );
+              },
+              1: () => {
+                const familieSorted = [...currentPersons].sort((a, b) => {
+                  if (a?.createdAt && b?.createdAt) {
+                    return orderByDate(a.createdAt, b.createdAt);
+                  }
+
+                  return -1;
+                });
+
+                setPersons(familieSorted);
+              },
+            }}
+          />
+        </Flex>
       </Center>
       <FlatList
         data={filteredPersons}

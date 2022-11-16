@@ -1,5 +1,4 @@
 import { formatNumber } from "react-native-currency-input";
-import _ from "lodash";
 import dayjs from "dayjs";
 
 export const aplicarMascara = (valor: string, mascara = "(##) #####-####") => {

@@ -118,6 +118,7 @@ export type Position = {
   position: string;
   persons?: PersonModel[];
   church?: ChurchModel;
+  createdAt?: Date;
 };
 
 @Entity("position")
@@ -138,6 +139,9 @@ export class PositionModel {
     nullable: true,
   })
   church: ChurchModel;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }
 
 export type Person = {

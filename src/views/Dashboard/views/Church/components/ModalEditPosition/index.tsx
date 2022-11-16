@@ -3,18 +3,18 @@ import { Spinner, useToast, VStack } from "native-base";
 import { useState } from "react";
 import { Fragment, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import ButtonDefault from "../../../../../../../../components/button";
-import CustomInput from "../../../../../../../../components/customInput";
-import { CustomModal } from "../../../../../../../../components/customModal";
-import { useDatabaseConnection } from "../../../../../../../../database/connection";
+import ButtonDefault from "../../../../../../components/button";
+import CustomInput from "../../../../../../components/customInput";
+import { CustomModal } from "../../../../../../components/customModal";
+import { useDatabaseConnection } from "../../../../../../database/connection";
 import {
   Person,
   Position,
   PositionModel,
-} from "../../../../../../../../database/entities/FamilieChurchPersonSermon";
-import usePersonService from "../../../../../../../../database/services/personService";
-import { useCustomToast } from "../../../../../../../../hooks";
-import { CustomCheckBox } from "../../../../components/customCheckBox";
+} from "../../../../../../database/entities/FamilieChurchPersonSermon";
+import usePersonService from "../../../../../../database/services/personService";
+import { useCustomToast } from "../../../../../../hooks";
+import { CustomCheckBox } from "../customCheckBox";
 
 interface Props {
   open: boolean;
@@ -132,6 +132,9 @@ export const ModalEditPosition = ({
   return (
     <CustomModal
       open={open}
+      contentStyle={{
+        w: "90%",
+      }}
       onClose={() => {
         onClose();
         reset({});
@@ -151,6 +154,15 @@ export const ModalEditPosition = ({
             <Spinner size={60} />
           ) : (
             <VStack space={4}>
+              <ButtonDefault
+                buttonProps={{
+                  onPress: handleSubmit(onSubmit),
+                  width: "100%",
+                  mb: 4,
+                }}
+              >
+                Candidatar
+              </ButtonDefault>
               {positions.map((item) => (
                 <Fragment key={item.id}>
                   <CustomCheckBox
@@ -178,16 +190,6 @@ export const ModalEditPosition = ({
                   control={control}
                 />
               )}
-
-              <ButtonDefault
-                buttonProps={{
-                  onPress: handleSubmit(onSubmit),
-                  width: "100%",
-                  mt: 4,
-                }}
-              >
-                Candidatar
-              </ButtonDefault>
             </VStack>
           )}
         </>
