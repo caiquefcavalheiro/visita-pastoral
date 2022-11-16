@@ -1,16 +1,23 @@
 import { Center, Text, VStack } from "native-base";
+import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { PersonModel } from "../../../../../../../../../../database/entities/FamilieChurchPersonSermon";
+import {
+  PersonModel,
+  PositionModel,
+} from "../../../../../../../../../../database/entities/FamilieChurchPersonSermon";
+import { ModalEditPosition } from "../ModalEditPosition";
 
 interface CardPersonProps {
-  onClick: () => void;
   person: PersonModel;
+  positions: PositionModel[];
 }
 
-const CardPerson = ({ person, onClick }: CardPersonProps) => {
+const CardPerson = ({ person, positions }: CardPersonProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <VStack space={2}>
-      <TouchableOpacity onPress={onClick}>
+      <TouchableOpacity onPress={() => setOpen(true)}>
         <Center
           justifyContent="space-between"
           flexDir="row"
@@ -29,6 +36,16 @@ const CardPerson = ({ person, onClick }: CardPersonProps) => {
           {position}
         </Text>
       ))}
+
+      <ModalEditPosition
+        positions={positions}
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+        handleAdd={() => {}}
+        person={person}
+      />
     </VStack>
   );
 };

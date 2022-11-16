@@ -123,8 +123,8 @@ export const ModalEditPosition = ({
   };
 
   useEffect(() => {
-    resetForm();
-  }, [person]);
+    open && resetForm();
+  }, [person, open]);
 
   const otherPosition = useWatch({ control, name: "hasOtherPosition" });
 

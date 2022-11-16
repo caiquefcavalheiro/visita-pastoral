@@ -26,7 +26,6 @@ import usePastoralVisitService from "../../../../../../../../../database/service
 import { useCustomToast } from "../../../../../../../../../hooks";
 import usePositionService from "../../../../../../../../../database/services/positionService";
 import CardPerson from "../components/CardPerson";
-import { ModalEditPosition } from "../components/ModalEditPosition";
 import usePersonService from "../../../../../../../../../database/services/personService";
 
 interface PastoralVisitQuestionsProps {
@@ -45,9 +44,6 @@ const PastoralVisitQuestions = ({
   const Person = usePersonService(connection);
 
   const [positions, setPositions] = useState<PositionModel[]>([]);
-  const [currentPerson, setCurrentPerson] = useState<PersonModel | null>(null);
-
-  const [open, setOpen] = useState(false);
 
   const {
     control,
@@ -176,13 +172,14 @@ const PastoralVisitQuestions = ({
 
   useEffect(() => {
     (async () => {
-      const persons = await Promise.all(
-        familie?.persons?.map(async (person: Person) => {
-          if (person.id) {
-            return await Person.getOne(person.id);
-          }
-        })
-      );
+      let persons: PersonModel[] = [];
+      for (let person of familie?.persons || []) {
+        const personDb = await Person.getOne(person.id);
+        if (personDb) {
+          persons = [...persons, personDb];
+        }
+      }
+
       familie.persons = persons;
     })();
   }, []);
@@ -241,13 +238,7 @@ const PastoralVisitQuestions = ({
               {familie?.persons?.map((person: PersonModel) => (
                 <Fragment key={`${person?.id} ${title}`}>
                   {showModalPosition ? (
-                    <CardPerson
-                      person={person}
-                      onClick={() => {
-                        setOpen(true);
-                        setCurrentPerson(person);
-                      }}
-                    />
+                    <CardPerson person={person} positions={positions} />
                   ) : (
                     <Checkbox
                       control={control}
@@ -276,19 +267,6 @@ const PastoralVisitQuestions = ({
             ) : null}
           </VStack>
         )}
-      />
-
-      <ModalEditPosition
-        positions={positions}
-        onClose={() => {
-          setOpen(false);
-          setCurrentPerson(null);
-        }}
-        open={open}
-        handleAdd={() => {}}
-        {...(currentPerson && {
-          person: currentPerson,
-        })}
       />
     </View>
   );
