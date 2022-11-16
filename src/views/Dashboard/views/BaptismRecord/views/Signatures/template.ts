@@ -1473,11 +1473,11 @@ export const getTemplate = (
                 <div>
                   <div class="section_user_information_instructor">
                     <label>1.</label>
-                    <input type="text" value=${motherIdentificationDoc} />
+                    <input type="text" value="${motherIdentificationDoc}" />
                   </div>
                   <div class="section_user_information_instructor">
                     <label>2.</label>
-                    <input type="text" value=${fatherIdentificationDoc} />
+                    <input type="text" value="${fatherIdentificationDoc}" />
                   </div>
                 </div>
               </div>
