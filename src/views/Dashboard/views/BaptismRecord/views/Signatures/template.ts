@@ -145,10 +145,11 @@ export const getTemplate = (
           border-bottom: 1px solid #000000;
           font-size: 90px;
           display: flex;
-          height: 20%;
+          height: 25%;
           align-items: center;
           justify-content: center;
           font-family: "Calibre-regular";
+          padding-top: 20px;
         }
   
         .header_principal h3 {
