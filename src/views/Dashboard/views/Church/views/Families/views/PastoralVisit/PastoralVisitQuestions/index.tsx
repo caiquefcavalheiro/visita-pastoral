@@ -74,7 +74,7 @@ const PastoralVisitQuestions = ({
       subTitle: "Você pratica diariamente?",
       obs: "Caso sim marque a caixinha ao lado no nome",
       data: [
-        { title: "Cinco minutos exclusivos à oração?" },
+        { title: "Você tem dedicado tempo à oração diariamente?" },
         { title: "Lê ao menos um capítulo da Bíblia?" },
         { title: "Estuda a Lição com o cônjuge?" },
         { title: "Faz culto familiar com filhos?" },
@@ -99,7 +99,7 @@ const PastoralVisitQuestions = ({
       ],
     },
     {
-      title: "Outros",
+      title: "Discipulado",
       data: [
         { title: "O que gosta de fazer na igreja", showModalPosition: true },
         { title: "Qual hobby", showInput: true },
