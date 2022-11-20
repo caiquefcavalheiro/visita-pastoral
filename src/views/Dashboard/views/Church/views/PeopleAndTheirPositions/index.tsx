@@ -9,18 +9,22 @@ import {
   PersonModel,
   PositionModel,
 } from "../../../../../../database/entities/FamilieChurchPersonSermon";
+import usePersonService from "../../../../../../database/services/personService";
 import usePositionService from "../../../../../../database/services/positionService";
 import Row from "../../components/Row";
 import { ModalPosition } from "./components/ModalPosition";
 
+type PersonPosition = PositionModel & PersonModel;
+
 const PeopleAndTheirPositions = ({ route }: any) => {
   const church = route?.params?.church;
 
-  const [positions, setPositions] = useState<PositionModel[]>([]);
+  const [positions, setPositions] = useState<PersonPosition[]>([]);
 
   const [search, setSeach] = useState("");
 
   const [persons, setPersons] = useState<PersonModel[]>([]);
+
   const [position, setPosition] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -29,13 +33,19 @@ const PeopleAndTheirPositions = ({ route }: any) => {
 
   const Position = usePositionService(connection);
 
+  const Person = usePersonService(connection);
+
   const handleSeach = debounce((text) => {
     setSeach(text);
   }, 700);
 
-  const filteredPersons = positions?.filter((item) => {
+  const filteredPositions = positions?.filter((item) => {
     if (search) {
-      return item.position.includes(search);
+      if (item?.position) {
+        return item?.position.includes(search);
+      } else if (item?.otherPosition) {
+        return item?.otherPosition?.includes(search);
+      }
     }
     return item;
   });
@@ -43,7 +53,9 @@ const PeopleAndTheirPositions = ({ route }: any) => {
   useEffect(() => {
     (async () => {
       const response = await Position.getAllPositionsOfChurch(church.id);
-      setPositions(response);
+      const personsPositions = await Person.getAllPersonsOfChurch(church.id);
+
+      setPositions([...response, ...personsPositions] as PersonPosition[]);
     })();
   }, []);
 
@@ -66,22 +78,34 @@ const PeopleAndTheirPositions = ({ route }: any) => {
         />
       </Center>
       <FlatList
-        data={filteredPersons}
+        data={filteredPositions}
         px={10}
         keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <View my={2} />}
-        renderItem={({ item, index }) => (
-          <>
-            <Row
-              name={item.position}
-              onPress={() => {
-                setPersons(item.persons);
-                setPosition(item.position);
-                setOpen(true);
-              }}
-            />
-            {index === filteredPersons?.length - 1 && <View my={3} />}
-          </>
+        ListFooterComponent={<View my={3} />}
+        renderItem={({ item }) => (
+          <View mt={2}>
+            {item?.position ? (
+              <Row
+                name={item.position}
+                onPress={() => {
+                  setPersons(item.persons);
+                  setPosition(item.position);
+                  setOpen(true);
+                }}
+              />
+            ) : null}
+
+            {item?.otherPosition ? (
+              <Row
+                name={item.otherPosition}
+                onPress={() => {
+                  setPersons([item]);
+                  setPosition(item.otherPosition);
+                  setOpen(true);
+                }}
+              />
+            ) : null}
+          </View>
         )}
       />
 
