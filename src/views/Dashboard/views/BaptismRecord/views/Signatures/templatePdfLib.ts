@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { BaptismRecordData } from "../..";
 import { FieldArrayWithId } from "react-hook-form";
 import { calibre } from "./fonts";
+import { pdfLib } from "./pdfLib";
 
 type Signature =
   | FieldArrayWithId<
@@ -89,7 +90,9 @@ export const getTemplate = (
 
   const now = dayjs(new Date()).format("DD/MM/YYYY");
 
-  const normalize = 3.84;
+  const dim = 7;
+
+  const normalize = 3.84 * dim;
 
   const template = `
   <!DOCTYPE html>
@@ -109,7 +112,7 @@ export const getTemplate = (
         }
         
         html {
-            font-size: ${0.18 / size}mm;
+            font-size: ${(0.018 * dim) / size}mm;
         }
         
         ${calibre}
@@ -1606,6 +1609,33 @@ export const getTemplate = (
         </footer>
     </main>
 </body>
+
+${pdfLib}
+
+<script>
+    const element = document.getElementById('print');
+    const opt = {
+        margin: 0,
+        filename: 'myfile.pdf',
+        html2canvas: { scale: 1, height: 1055 },
+        image: { type: 'jpeg', quality: 0.98 },
+        jsPDF: {
+            userUnit: 1,
+            unit: 'mm',
+            format: 'letter',
+            orientation: 'portrait',
+            encryption: {
+                userPassword: "1234",
+                ownerPassword: "1234",
+            },
+        },
+    };
+    
+    html2pdf().from(element).set(opt).outputPdf().then(function (pdf) {
+        window.ReactNativeWebView.postMessage(btoa(pdf))
+    });
+</script> 
+  
 
 </html>
   `;

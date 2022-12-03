@@ -81,7 +81,7 @@ export function ModalFamilies({
           <AlertDialog.Footer justifyContent="center" borderTopWidth={0} px={2}>
             <Button.Group justifyContent="space-between" mb={4} px={2} w="100%">
               <Button
-                w="105"
+                w="46%"
                 h="12"
                 bg="blue.400"
                 onPress={onClose}
@@ -97,7 +97,7 @@ export function ModalFamilies({
                 onPress={() => {
                   setIsDeleteMsg(true);
                 }}
-                w="105"
+                w="46%"
                 borderRadius={10}
                 h="12"
               >

@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { memo } from "react";
 import {
   Control,
   FieldError,
@@ -29,6 +30,8 @@ type customRadioProps = {
   control: Control<any>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   rules?: UseControllerProps["rules"];
+  renderCase?: any;
+  renderCaseElement?: JSX.Element;
 };
 
 const defaultStyle = {
@@ -54,6 +57,8 @@ export function CustomRadio({
   name,
   control,
   rules = {},
+  renderCase,
+  renderCaseElement,
 }: customRadioProps) {
   const {
     field: { onChange, value },
@@ -89,6 +94,7 @@ export function CustomRadio({
           <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
         )}
       </FormControl>
+      {renderCase === value ? renderCaseElement : null}
     </>
   );
 }

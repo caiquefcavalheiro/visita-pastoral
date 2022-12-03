@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "visita pastoral",
+    "name": "Visita Pastoral",
     "slug": "visita-pastoral",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/visita_pastoral_logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/visita_pastoral_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,8 +30,8 @@
         "android.permission.RECORD_AUDIO"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/visita_pastoral_logo.png",
+        "backgroundColor": "#E6B402"
       },
       "package": "com.visita_pastoral.app"
     },
