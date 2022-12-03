@@ -258,7 +258,7 @@ export const getTemplate = (
             color: #ffffff;
             text-align: center;
             padding: ${10 / normalize}mm ${20 / normalize}mm;
-            font-size: 34rem;
+            font-size: 45rem;
             border: ${1 / normalize}mm solid #ffffff;
         }
 
@@ -301,7 +301,7 @@ export const getTemplate = (
         .section_field_name input {
             padding: ${10 / normalize}mm;
             border: none;
-            font-size: 40rem;
+            font-size: 55rem;
             width: 90%;
         }
 
@@ -325,7 +325,7 @@ export const getTemplate = (
             padding: ${5 / normalize}mm ${5 / normalize}mm;
             margin: ${5 / normalize}mm;
             border: none;
-            font-size: 40rem;
+            font-size: 55rem;
             width: 90%;
         }
 
@@ -366,6 +366,10 @@ export const getTemplate = (
         .section_conversion_container_checkbox span {
             font-size: 35rem;
             font-weight: normal;
+        }
+
+        .section_second_field label {
+            font-size: 35rem;
         }
 
         .section_identification_line3,
@@ -450,7 +454,7 @@ export const getTemplate = (
         }
 
         .section_declaration_checkbox_container p {
-            font-size: 50rem;
+            font-size: 53rem;
             align-self: center;
             margin: ${10 / normalize}mm;
         }
@@ -570,7 +574,7 @@ export const getTemplate = (
 
         .section_ceremony_signature img {
             width: 100%;
-            height: ${360 / normalize}mm;
+            height: ${260 / normalize}mm;
             object-fit: contain;
             padding: ${5 / normalize}mm ${10 / normalize}mm;
         }
@@ -580,7 +584,7 @@ export const getTemplate = (
             width: 90%;
             margin: ${10 / normalize}mm auto 0 auto;
             border-top: ${0.5 / normalize}mm dashed #000000;
-            font-size: 28rem;
+            font-size: 35rem;
             text-align: center;
             padding: ${3 / normalize}mm ${10 / normalize}mm;
         }
@@ -757,7 +761,7 @@ export const getTemplate = (
                   0.5 / normalize
                 }mm solid #000000">
                     <div class="section_second_field" style="width: 100%; border-right: none; height: ${
-                      288 / normalize
+                      240 / normalize
                     }mm">
                         <p>
                             Instrutor/a bíblico/a
@@ -1191,7 +1195,7 @@ export const getTemplate = (
                 </div>
             </div>
         </section>
-        <section class="section" style="min-height: ${1000 / normalize}mm;">
+        <section class="section" style="min-height: ${1040 / normalize}mm;">
             <h3 class="section_title">DECLARAÇÃO DE FÉ</h3>
             <div class="section_declaration_container">
                 <div class="section_declaration_checkbox_container">
