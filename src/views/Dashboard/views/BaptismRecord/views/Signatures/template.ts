@@ -109,7 +109,7 @@ export const getTemplate = (
         }
         
         html {
-            font-size: ${0.18 / size}mm;
+            font-size: ${0.195 / size}mm;
         }
         
         ${calibre}
@@ -180,10 +180,10 @@ export const getTemplate = (
             gap: ${20 / normalize}mm;
             border-bottom: ${1 / normalize}mm solid #000000;
             padding: ${4 / normalize}mm 0;
-        }
+        } 
 
         .header_div p {
-            font-size: 28rem;
+            font-size: 40rem;
             align-self: center;
         }
 
@@ -213,7 +213,7 @@ export const getTemplate = (
 
         .header_aside h4 {
             font-weight: normal;
-            font-size: 32rem;
+            font-size: 50rem;
         }
 
         .header_checkbox_options {
@@ -239,6 +239,10 @@ export const getTemplate = (
             align-items: center;
             gap: ${10 / normalize}mm;
             width: 45%;
+        }
+
+        .header_container_checkbox_options p {
+            font-size: 40rem;
         }
 
         .section {
@@ -281,16 +285,16 @@ export const getTemplate = (
             margin-left: ${10 / normalize}mm;
             border-right: 1 solid #000000;
         }
-
+ 
         .section_field_name p {
-            font-size: 52rem;
+            font-size: 60rem;
             padding: ${5 / normalize}mm ${10 / normalize}mm;
             font-weight: 600;
         }
 
         .section_field_name span,
         .section_user_information_container span {
-            font-size: 20rem;
+            font-size: 35rem;
             font-weight: normal;
         }
 
@@ -340,7 +344,7 @@ export const getTemplate = (
 
         .section_container_gender label,
         .section_conversion_checkbox label {
-            font-size: 32rem;
+            font-size: 60rem;
         }
 
         .section_declaration_checkbox_container label {
@@ -352,7 +356,7 @@ export const getTemplate = (
         .section_second_field p,
         .section_conversion_container_checkbox p,
         .section_user_information_container p {
-            font-size: 40rem;
+            font-size: 60rem;
             padding: 0 ${10 / normalize}mm;
             padding-top: ${5 / normalize}mm;
             font-weight: 600;
@@ -360,7 +364,7 @@ export const getTemplate = (
 
         .section_second_field span,
         .section_conversion_container_checkbox span {
-            font-size: 20rem;
+            font-size: 35rem;
             font-weight: normal;
         }
 
@@ -406,8 +410,8 @@ export const getTemplate = (
         }
 
         .section_conversion_checkbox input {
-            width: ${24 / normalize}mm;
-            height: ${16 / normalize}mm;
+            width: ${34 / normalize}mm;
+            height: ${26 / normalize}mm;
         }
 
         .section_conversion_divide_container {
@@ -446,7 +450,7 @@ export const getTemplate = (
         }
 
         .section_declaration_checkbox_container p {
-            font-size: 36rem;
+            font-size: 50rem;
             align-self: center;
             margin: ${10 / normalize}mm;
         }
@@ -527,7 +531,7 @@ export const getTemplate = (
 
         .footer>p,
         .footer_last_text {
-            font-size: 24rem;
+            font-size: 35rem;
             letter-spacing: ${0.5 / normalize}mm;
         }
 
@@ -757,7 +761,7 @@ export const getTemplate = (
                     }mm">
                         <p>
                             Instrutor/a bíblico/a
-                            <span style="font-size: 20rem;">
+                            <span style="font-size: 35rem;">
                                 (preencher o nome completo de até dois instrutores bíblicos)
                             </span>
                         </p>
@@ -1542,7 +1546,7 @@ export const getTemplate = (
                 </div>
             </div>
         </section>
-        <footer class="footer" style="height: ${800 / normalize}mm;">
+        <footer class="footer" style="height: ${700 / normalize}mm;">
             <p>
                 Preencher a parte abaixo depois de o/a candidato/a ter sido recebido/a
                 como membro pela igreja/grupo organizado. Esta ficha só será válida
