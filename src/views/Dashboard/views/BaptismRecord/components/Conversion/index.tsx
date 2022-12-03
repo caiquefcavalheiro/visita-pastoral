@@ -79,6 +79,7 @@ function Conversion() {
                 name="otherHowDidSDA"
                 placeholder="Como você conheceu a IASD ?"
                 mt="6"
+                maxLength={50}
               />
             }
           />
@@ -153,6 +154,7 @@ function Conversion() {
                 name="otherHowYouStudyBible"
                 placeholder="Como você estudou a Bíblia?"
                 mt="6"
+                maxLength={50}
               />
             }
           />
@@ -193,6 +195,7 @@ function Conversion() {
                 name="otherDecidingBaptized"
                 placeholder="Qual foi o fator decisivo para você ser batizado/a?"
                 mt="6"
+                maxLength={50}
               />
             }
           />

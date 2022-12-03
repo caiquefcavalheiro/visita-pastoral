@@ -5,7 +5,6 @@ import { Header } from "../../../../../../components/Header";
 import Signature from "./components/Signature/Signature";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useCustomToast } from "../../../../../../hooks";
-import { getTemplate } from "./template";
 import { printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 import * as FileSystem from "expo-file-system";
@@ -13,7 +12,10 @@ import dayjs from "dayjs";
 import { BaptismRecordData } from "../..";
 import { useOrientation } from "../../../../../../hooks/orientation";
 import { CustomDialog } from "../../../../../../components/CustomDialog";
-import { Linking } from "react-native";
+import { Dimensions, Linking } from "react-native";
+import { getTemplate } from "./template";
+
+const { fontScale } = Dimensions.get("window");
 
 function Signatures({ route }: any) {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
@@ -112,7 +114,8 @@ function Signatures({ route }: any) {
       fatherSignature,
       secretaryOrResponsibleGroup,
     };
-    const html = getTemplate(data);
+
+    const html = getTemplate(data, fontScale);
 
     await printToFile(html).then(() => {
       useCustomToast({

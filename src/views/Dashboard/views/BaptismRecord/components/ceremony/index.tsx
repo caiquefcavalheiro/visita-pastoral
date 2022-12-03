@@ -1,6 +1,5 @@
 import { Box, Center, Heading, VStack } from "native-base";
 import CustomInput from "../../../../../../components/customInput";
-import { DateTimeInput } from "../../../../../../components/dateTimeInput";
 import { useFormContext } from "react-hook-form";
 import { memo } from "react";
 
@@ -44,7 +43,7 @@ function Ceremony() {
             control={control}
           />
 
-          <DateTimeInput
+          <CustomInput
             label="Data e voto da Reunião Regular/Administrativa"
             error={errors?.dateAndCoteTheAdministrativeMeeting}
             name="dateAndCoteTheAdministrativeMeeting"
