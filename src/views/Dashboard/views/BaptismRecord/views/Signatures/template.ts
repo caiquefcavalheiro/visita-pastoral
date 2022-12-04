@@ -109,7 +109,7 @@ export const getTemplate = (
         }
         
         html {
-            font-size: ${0.18 / size}mm;
+            font-size: ${0.195 / size}mm;
         }
         
         ${calibre}
@@ -180,10 +180,10 @@ export const getTemplate = (
             gap: ${20 / normalize}mm;
             border-bottom: ${1 / normalize}mm solid #000000;
             padding: ${4 / normalize}mm 0;
-        }
+        } 
 
         .header_div p {
-            font-size: 28rem;
+            font-size: 40rem;
             align-self: center;
         }
 
@@ -213,7 +213,7 @@ export const getTemplate = (
 
         .header_aside h4 {
             font-weight: normal;
-            font-size: 32rem;
+            font-size: 50rem;
         }
 
         .header_checkbox_options {
@@ -241,6 +241,10 @@ export const getTemplate = (
             width: 45%;
         }
 
+        .header_container_checkbox_options p {
+            font-size: 40rem;
+        }
+
         .section {
             display: flex;
             height: ${800 / normalize}mm;
@@ -254,7 +258,7 @@ export const getTemplate = (
             color: #ffffff;
             text-align: center;
             padding: ${10 / normalize}mm ${20 / normalize}mm;
-            font-size: 34rem;
+            font-size: 45rem;
             border: ${1 / normalize}mm solid #ffffff;
         }
 
@@ -281,23 +285,23 @@ export const getTemplate = (
             margin-left: ${10 / normalize}mm;
             border-right: 1 solid #000000;
         }
-
+ 
         .section_field_name p {
-            font-size: 52rem;
+            font-size: 60rem;
             padding: ${5 / normalize}mm ${10 / normalize}mm;
             font-weight: 600;
         }
 
         .section_field_name span,
         .section_user_information_container span {
-            font-size: 20rem;
+            font-size: 35rem;
             font-weight: normal;
         }
 
         .section_field_name input {
             padding: ${10 / normalize}mm;
             border: none;
-            font-size: 40rem;
+            font-size: 55rem;
             width: 90%;
         }
 
@@ -321,7 +325,7 @@ export const getTemplate = (
             padding: ${5 / normalize}mm ${5 / normalize}mm;
             margin: ${5 / normalize}mm;
             border: none;
-            font-size: 40rem;
+            font-size: 55rem;
             width: 90%;
         }
 
@@ -340,7 +344,7 @@ export const getTemplate = (
 
         .section_container_gender label,
         .section_conversion_checkbox label {
-            font-size: 32rem;
+            font-size: 60rem;
         }
 
         .section_declaration_checkbox_container label {
@@ -352,7 +356,7 @@ export const getTemplate = (
         .section_second_field p,
         .section_conversion_container_checkbox p,
         .section_user_information_container p {
-            font-size: 40rem;
+            font-size: 60rem;
             padding: 0 ${10 / normalize}mm;
             padding-top: ${5 / normalize}mm;
             font-weight: 600;
@@ -360,8 +364,12 @@ export const getTemplate = (
 
         .section_second_field span,
         .section_conversion_container_checkbox span {
-            font-size: 20rem;
+            font-size: 35rem;
             font-weight: normal;
+        }
+
+        .section_second_field label {
+            font-size: 35rem;
         }
 
         .section_identification_line3,
@@ -406,8 +414,8 @@ export const getTemplate = (
         }
 
         .section_conversion_checkbox input {
-            width: ${24 / normalize}mm;
-            height: ${16 / normalize}mm;
+            width: ${34 / normalize}mm;
+            height: ${26 / normalize}mm;
         }
 
         .section_conversion_divide_container {
@@ -446,7 +454,7 @@ export const getTemplate = (
         }
 
         .section_declaration_checkbox_container p {
-            font-size: 36rem;
+            font-size: 53rem;
             align-self: center;
             margin: ${10 / normalize}mm;
         }
@@ -527,7 +535,7 @@ export const getTemplate = (
 
         .footer>p,
         .footer_last_text {
-            font-size: 24rem;
+            font-size: 35rem;
             letter-spacing: ${0.5 / normalize}mm;
         }
 
@@ -566,7 +574,7 @@ export const getTemplate = (
 
         .section_ceremony_signature img {
             width: 100%;
-            height: ${360 / normalize}mm;
+            height: ${260 / normalize}mm;
             object-fit: contain;
             padding: ${5 / normalize}mm ${10 / normalize}mm;
         }
@@ -576,7 +584,7 @@ export const getTemplate = (
             width: 90%;
             margin: ${10 / normalize}mm auto 0 auto;
             border-top: ${0.5 / normalize}mm dashed #000000;
-            font-size: 28rem;
+            font-size: 35rem;
             text-align: center;
             padding: ${3 / normalize}mm ${10 / normalize}mm;
         }
@@ -753,11 +761,11 @@ export const getTemplate = (
                   0.5 / normalize
                 }mm solid #000000">
                     <div class="section_second_field" style="width: 100%; border-right: none; height: ${
-                      288 / normalize
+                      240 / normalize
                     }mm">
                         <p>
                             Instrutor/a bíblico/a
-                            <span style="font-size: 20rem;">
+                            <span style="font-size: 35rem;">
                                 (preencher o nome completo de até dois instrutores bíblicos)
                             </span>
                         </p>
@@ -1187,7 +1195,7 @@ export const getTemplate = (
                 </div>
             </div>
         </section>
-        <section class="section" style="min-height: ${1000 / normalize}mm;">
+        <section class="section" style="min-height: ${1040 / normalize}mm;">
             <h3 class="section_title">DECLARAÇÃO DE FÉ</h3>
             <div class="section_declaration_container">
                 <div class="section_declaration_checkbox_container">
@@ -1542,7 +1550,7 @@ export const getTemplate = (
                 </div>
             </div>
         </section>
-        <footer class="footer" style="height: ${800 / normalize}mm;">
+        <footer class="footer" style="height: ${700 / normalize}mm;">
             <p>
                 Preencher a parte abaixo depois de o/a candidato/a ter sido recebido/a
                 como membro pela igreja/grupo organizado. Esta ficha só será válida
