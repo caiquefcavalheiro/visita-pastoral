@@ -4,7 +4,7 @@ import { theme } from "./src/theme/theme";
 import * as Font from "expo-font";
 import { useCallback, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { useWindowDimensions, View } from "react-native";
+import { View } from "react-native";
 import Routes from "./src/routes";
 import { DatabaseConnectionProvider } from "./src/database/connection";
 
