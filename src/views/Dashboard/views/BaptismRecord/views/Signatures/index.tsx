@@ -13,7 +13,7 @@ import { BaptismRecordData } from "../..";
 import { useOrientation } from "../../../../../../hooks/orientation";
 import { CustomDialog } from "../../../../../../components/CustomDialog";
 import { Dimensions, Linking } from "react-native";
-import { getTemplate } from "./template";
+import { generateTemplatePdf } from "./generateTemplatePdf";
 
 const { fontScale } = Dimensions.get("window");
 
@@ -115,16 +115,17 @@ function Signatures({ route }: any) {
       secretaryOrResponsibleGroup,
     };
 
-    const html = getTemplate(data, fontScale);
-
-    await printToFile(html).then(() => {
-      useCustomToast({
-        toast,
-        msg: "PDF exportado com sucesso!",
-        type: "sucess",
+    await generateTemplatePdf(data)
+      .then(() => {
+        useCustomToast({
+          toast,
+          msg: "PDF exportado com sucesso!",
+          type: "sucess",
+        });
+      })
+      .finally(() => {
+        setShowModal(false);
       });
-    });
-    setShowModal(false);
   }
 
   useEffect(() => {
