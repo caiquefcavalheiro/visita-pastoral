@@ -113,7 +113,7 @@ function Church({ navigation, route }: any) {
             key={item.text}
             buttonProps={item.buttonProps}
             {...(item?.image && {
-              imageProps: { ...item.image, height: 18, width: 18 },
+              imageProps: { ...item.image, size: 30 },
             })}
           >
             <Text fontSize="16" fontWeight="semibold" color="white">

@@ -20,8 +20,7 @@ const buttonDefaultStyle: IButtonProps = {
 const imageDefaultStyle: IImageProps = {
   ml: "10%",
   alt: "image",
-  height: "24",
-  width: "24",
+  size: 35,
 };
 
 const ButtonDefault = ({
@@ -34,7 +33,14 @@ const ButtonDefault = ({
   ) : (
     <Button
       {...{ ...buttonDefaultStyle, ...buttonProps }}
-      endIcon={<Image {...{ ...imageDefaultStyle, ...imageProps }}></Image>}
+      endIcon={
+        <Image
+          {...{
+            ...imageDefaultStyle,
+            ...imageProps,
+          }}
+        />
+      }
     >
       {children}
     </Button>

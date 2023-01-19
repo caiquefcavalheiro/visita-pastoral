@@ -118,11 +118,6 @@ const PastoralVisitQuestions = ({
           title:
             "Tem algum pedido ou agradecimento de oração ou alguma dúvida da Bíblia ou procedimentos da Igreja?",
           showInput: true,
-        },
-        {
-          title:
-            "Tem algum pedido ou agradecimento de oração ou alguma dúvida da Bíblia ou procedimentos da Igreja?",
-          showInput: true,
           showButton: true,
         },
       ],
