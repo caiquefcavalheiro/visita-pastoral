@@ -15,8 +15,6 @@ import { CustomDialog } from "../../../../../../components/CustomDialog";
 import { Dimensions, Linking } from "react-native";
 import { generateTemplatePdf } from "./generateTemplatePdf";
 
-const { fontScale } = Dimensions.get("window");
-
 function Signatures({ route }: any) {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
@@ -49,40 +47,19 @@ function Signatures({ route }: any) {
       append({ signature, currentUserName });
     }
     setShow(false);
-    toggleOrientation("vertical");
+    await toggleOrientation("vertical");
   }
 
-  function handlePress(index: number, name: string) {
+  async function handlePress(index: number, name: string) {
     setCurrentIndex(index);
     setCurrentUserName(name);
     setShow(true);
-    toggleOrientation("horizontal");
+    await toggleOrientation("horizontal");
   }
 
-  function handleClose() {
-    toggleOrientation("vertical");
+  async function handleClose() {
     setShow(false);
-  }
-
-  async function printToFile(html: string) {
-    const currentDate = dayjs(new Date()).format("DD-MM-YYYY_mm-ss");
-    const { uri } = await printToFileAsync({
-      html,
-      width: 2408,
-      height: 3508,
-    });
-
-    const pdfName = `${uri.slice(
-      0,
-      uri.lastIndexOf("/") + 1
-    )}ficha-batismo_${currentDate}.pdf`;
-
-    await FileSystem.moveAsync({
-      from: uri,
-      to: pdfName,
-    });
-
-    await shareAsync(pdfName, { UTI: ".pdf", mimeType: "application/pdf" });
+    await toggleOrientation("vertical");
   }
 
   async function handleSubmitData() {

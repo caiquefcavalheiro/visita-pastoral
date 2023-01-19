@@ -16,6 +16,7 @@ function Signature({ show = false, getSignature, onClose }: SignatureProps) {
   function handleSave() {
     signatureRef?.current?.saveSignature();
     getSignature(signature);
+    signatureRef?.current?.clearSignature();
   }
   function handleClear() {
     signatureRef?.current?.clearSignature();

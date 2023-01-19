@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -49,6 +47,12 @@
         {
           "photosPermission": "Este aplicativo ultiliza a galeria do seu dispositivo",
           "cameraPermission": "Este aplicativo ultiliza a camera"
+        }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "portrait"
         }
       ]
     ],

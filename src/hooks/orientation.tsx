@@ -1,17 +1,19 @@
 import * as ScreenOrientation from "expo-screen-orientation";
 
 interface OrientationData {
-  toggleOrientation: (type: "horizontal" | "vertical") => void;
+  toggleOrientation(type: "horizontal" | "vertical"): Promise<void>;
 }
 
 export function useOrientation(): OrientationData {
   async function toggleOrientation(type: "horizontal" | "vertical") {
     if (type === "horizontal") {
-      ScreenOrientation.lockAsync(
+      await ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
       );
     } else {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.PORTRAIT_UP
+      );
     }
   }
 

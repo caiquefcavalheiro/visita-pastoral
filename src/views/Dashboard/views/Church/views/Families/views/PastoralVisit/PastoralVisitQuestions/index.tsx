@@ -80,19 +80,17 @@ const PastoralVisitQuestions = ({
         { title: "Faz culto familiar com filhos?" },
         { title: "Devolve regularmente o Dízimo?" },
         { title: "Devolve regularmente as Ofertas?" },
+        { title: "Tem cuidados com a saúde ?" },
       ],
     },
     {
       title: "Relacionamento",
       subTitle: "Vai em algum Pequeno Grupo?",
-      obs: "Caso sim marque a caixinha ao lado no nome",
 
       data: [{ title: "Vai em algum Pequeno Grupo?", showTitle: false }],
     },
     {
       title: "Missão",
-      obs: "Caso sim marque a caixinha ao lado no nome",
-
       data: [
         { title: "Tem dupla missionária?", showInput: true },
         { title: "Está dando estudos bíblicos?", showInput: true },
@@ -105,6 +103,11 @@ const PastoralVisitQuestions = ({
         { title: "Qual hobby", showInput: true },
         {
           title: "Quando você pensa em um bom pastor, o que vem a sua mente?",
+          showInput: true,
+        },
+        {
+          title:
+            "Tem algum pedido ou agradecimento de oração ou alguma dúvida da Bíblia ou procedimentos da Igreja?",
           showInput: true,
           showButton: true,
         },
@@ -202,9 +205,11 @@ const PastoralVisitQuestions = ({
         ListFooterComponent={<Box mt={10} />}
         renderSectionHeader={({ section: { title, subTitle, obs } }) => (
           <Center mt={5}>
-            <Heading fontSize="30" color="blue.300">
-              {title}
-            </Heading>
+            {title ? (
+              <Heading fontSize="30" color="blue.300">
+                {title}
+              </Heading>
+            ) : null}
 
             {subTitle ? (
               <Text fontSize="14" fontWeight="bold" color="yellow.300">
@@ -309,7 +314,6 @@ const Checkbox = ({
             fontSize: 12,
             height: 50,
           }}
-          rules={{ required: "Este campo é obrigatório!" }}
           error={errors?.[`${name}other`]}
           control={control}
           name={`${name}other`}

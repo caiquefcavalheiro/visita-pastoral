@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, StatusBar } from "native-base";
 import { theme } from "./src/theme/theme";
 import * as Font from "expo-font";
 import { useCallback, useEffect } from "react";
@@ -37,6 +37,7 @@ export default function App() {
     <View onLayout={onLayoutRootView} style={{ height: "100%", width: "100%" }}>
       <NativeBaseProvider theme={theme}>
         <DatabaseConnectionProvider>
+          <StatusBar backgroundColor="black" />
           <Routes />
         </DatabaseConnectionProvider>
       </NativeBaseProvider>

@@ -6,7 +6,6 @@ import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo, useEffect, useState } from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { getStorage, setStorage } from "../../../../utils/storage";
 import { ModalCreateFamilie } from "../../components/ModalCreateFamilie";
 import { ChurchModel } from "../../../../database/entities/FamilieChurchPersonSermon";
 import { positions } from "../../../../database/actions";
@@ -33,7 +32,8 @@ function Church({ navigation, route }: any) {
   const buttons = [
     {
       buttonProps: {
-        mt: 16,
+        mt: 10,
+        minH: "20",
         width: "80%",
         onPress: () => whenSelectChurch(church),
       },
@@ -43,7 +43,7 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
-        minH: "24",
+        minH: "20",
         onPress: () =>
           navigation.navigate("PeopleAndTheirPositions", { church }),
         endIcon: <Ionicons name="add" size={40} color="white" />,
@@ -53,7 +53,7 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
-        minH: "24",
+        minH: "20",
         px: 15,
         onPress: () => navigation.navigate("Positions", { church }),
       },
@@ -63,6 +63,7 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
+        minH: "20",
         onPress: () => {
           setOpen(true);
         },
@@ -73,6 +74,7 @@ function Church({ navigation, route }: any) {
     {
       buttonProps: {
         width: "80%",
+        minH: "20",
         onPress: () => navigation.navigate("Families", { church }),
       },
       text: "Visualizar familias",
@@ -82,7 +84,7 @@ function Church({ navigation, route }: any) {
       buttonProps: {
         width: "80%",
         mb: 20,
-        minH: "24",
+        minH: "20",
         onPress: () => {
           setOpenModalChurch(true);
         },
@@ -101,17 +103,17 @@ function Church({ navigation, route }: any) {
 
   return (
     <View w="100%" h="100%" bg="gray.200">
-      <Header title={church.name} path="PatoralVisit" params={church} />
+      <Header title={church?.name ?? ""} path="PatoralVisit" params={church} />
       <FlatList
         data={buttons}
         keyExtractor={(item) => item.text}
-        ItemSeparatorComponent={() => <View my={5} />}
+        ItemSeparatorComponent={() => <View my={2} />}
         renderItem={({ item }) => (
           <ButtonDefault
             key={item.text}
             buttonProps={item.buttonProps}
             {...(item?.image && {
-              imageProps: item.image,
+              imageProps: { ...item.image, height: 18, width: 18 },
             })}
           >
             <Text fontSize="16" fontWeight="semibold" color="white">
