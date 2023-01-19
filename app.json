@@ -18,7 +18,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Este aplicativo ultiliza a camera"
-      }
+      },
+      "buildNumber": "2.0.0"
     },
     "android": {
       "permissions": [
@@ -31,7 +32,8 @@
         "foregroundImage": "./assets/visita_pastoral_logo.png",
         "backgroundColor": "#E6B402"
       },
-      "package": "com.visita_pastoral.app"
+      "package": "com.visita_pastoral.app",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
