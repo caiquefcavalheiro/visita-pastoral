@@ -31,7 +31,7 @@ const CardPerson = ({ person, positions }: CardPersonProps) => {
           </Text>
         </Center>
       </TouchableOpacity>
-      {person?.positions.map(({ position, id }) => (
+      {person?.positions?.map(({ position, id }) => (
         <Text ml={3} fontSize={14} color="blue.700" key={id + position}>
           {position}
         </Text>

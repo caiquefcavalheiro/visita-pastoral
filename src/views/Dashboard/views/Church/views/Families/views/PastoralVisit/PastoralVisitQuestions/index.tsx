@@ -58,11 +58,11 @@ const PastoralVisitQuestions = ({
   const familie = route?.params?.familie;
 
   const sections: {
-    title: string;
-    obs?: string;
-    subTitle?: string;
     data: {
-      title: string;
+      sectionTitle?: string;
+      obs?: string;
+      subTitle?: string;
+      title?: string;
       showTitle?: boolean;
       showInput?: boolean;
       showButton?: boolean;
@@ -70,39 +70,53 @@ const PastoralVisitQuestions = ({
     }[];
   }[] = [
     {
-      title: "Comunhão",
-      subTitle: "Você pratica diariamente?",
-      obs: "Caso sim marque a caixinha ao lado no nome",
       data: [
+        {
+          sectionTitle: "Comunhão",
+          subTitle: "Você pratica diariamente?",
+          obs: "Caso sim marque a caixinha ao lado no nome",
+        },
         { title: "Você tem dedicado tempo à oração diariamente?" },
         { title: "Lê ao menos um capítulo da Bíblia?" },
         { title: "Estuda a Lição com o cônjuge?" },
         { title: "Faz culto familiar com filhos?" },
         { title: "Devolve regularmente o Dízimo?" },
         { title: "Devolve regularmente as Ofertas?" },
-        { title: "Tem cuidados com a saúde ?" },
+        { title: "Tem cuidados com a saúde?" },
       ],
     },
     {
-      title: "Relacionamento",
-      subTitle: "Vai em algum Pequeno Grupo?",
-
-      data: [{ title: "Vai em algum Pequeno Grupo?", showTitle: false }],
+      data: [
+        {
+          sectionTitle: "Relacionamento",
+          subTitle: "Vai em algum Pequeno Grupo?",
+        },
+        { title: "Vai em algum Pequeno Grupo?", showTitle: false },
+      ],
     },
     {
-      title: "Missão",
       data: [
+        {
+          sectionTitle: "Missão",
+        },
         { title: "Tem dupla missionária?", showInput: true },
         { title: "Está dando estudos bíblicos?", showInput: true },
       ],
     },
     {
-      title: "Discipulado",
       data: [
+        {
+          sectionTitle: "Discipulado",
+        },
         { title: "O que gosta de fazer na igreja", showModalPosition: true },
         { title: "Qual hobby", showInput: true },
         {
           title: "Quando você pensa em um bom pastor, o que vem a sua mente?",
+          showInput: true,
+        },
+        {
+          title:
+            "Tem algum pedido ou agradecimento de oração ou alguma dúvida da Bíblia ou procedimentos da Igreja?",
           showInput: true,
         },
         {
@@ -203,27 +217,6 @@ const PastoralVisitQuestions = ({
         sections={sections}
         keyExtractor={(item, index) => `${item} ${index}`}
         ListFooterComponent={<Box mt={10} />}
-        renderSectionHeader={({ section: { title, subTitle, obs } }) => (
-          <Center mt={5}>
-            {title ? (
-              <Heading fontSize="30" color="blue.300">
-                {title}
-              </Heading>
-            ) : null}
-
-            {subTitle ? (
-              <Text fontSize="14" fontWeight="bold" color="yellow.300">
-                {subTitle}
-              </Text>
-            ) : null}
-
-            {obs ? (
-              <Text fontSize="11" mt={5} color="green.300">
-                {obs}
-              </Text>
-            ) : null}
-          </Center>
-        )}
         renderItem={({
           item: {
             title,
@@ -231,46 +224,77 @@ const PastoralVisitQuestions = ({
             showInput = false,
             showButton,
             showModalPosition,
+            sectionTitle,
+            obs,
+            subTitle,
           },
         }) => (
-          <VStack mt={10} space={4}>
-            <VStack space={2}>
-              {showTitle ? (
-                <Text fontSize="15" fontWeight="bold">
-                  {title}
-                </Text>
-              ) : null}
-              {familie?.persons?.map((person: PersonModel) => (
-                <Fragment key={`${person?.id} ${title}`}>
-                  {showModalPosition ? (
-                    <CardPerson person={person} positions={positions} />
-                  ) : (
-                    <Checkbox
-                      control={control}
-                      errors={errors}
-                      person={person}
-                      mission={title}
-                      showInput={showInput}
-                    />
-                  )}
-                </Fragment>
-              ))}
-            </VStack>
+          <>
+            {sectionTitle ? (
+              <Center mt={5}>
+                {sectionTitle ? (
+                  <Heading fontSize="30" color="blue.300">
+                    {sectionTitle}
+                  </Heading>
+                ) : null}
 
-            {showButton ? (
-              <ButtonDefault
-                buttonProps={{
-                  width: "100%",
-                  mt: 10,
-                  onPress: handleSubmit(onSubmit),
-                }}
-              >
-                <Text fontSize="20" fontWeight="semibold" color="white">
-                  Finalizar visita
-                </Text>
-              </ButtonDefault>
+                {subTitle ? (
+                  <Text fontSize="14" fontWeight="bold" color="yellow.300">
+                    {subTitle}
+                  </Text>
+                ) : null}
+
+                {obs ? (
+                  <Text fontSize="11" mt={5} color="green.300">
+                    {obs}
+                  </Text>
+                ) : null}
+              </Center>
             ) : null}
-          </VStack>
+
+            <VStack mt={2} space={2}>
+              <VStack space={2}>
+                {showTitle ? (
+                  <Text fontSize="15" fontWeight="bold">
+                    {title}
+                  </Text>
+                ) : null}
+                {familie?.persons?.map((person: PersonModel) => (
+                  <Fragment key={`${person?.id} ${title}`}>
+                    {showModalPosition ? (
+                      <CardPerson person={person} positions={positions} />
+                    ) : (
+                      <>
+                        {title ? (
+                          <Checkbox
+                            control={control}
+                            errors={errors}
+                            person={person}
+                            mission={title}
+                            showInput={showInput}
+                          />
+                        ) : null}
+                      </>
+                    )}
+                  </Fragment>
+                ))}
+              </VStack>
+
+              {showButton ? (
+                <ButtonDefault
+                  buttonProps={{
+                    width: "100%",
+                    mt: 10,
+                    onPress: handleSubmit(onSubmit),
+                  }}
+                >
+                  <Text fontSize="20" fontWeight="semibold" color="white">
+                    Finalizar visita
+                  </Text>
+                </ButtonDefault>
+              ) : null}
+            </VStack>
+          </>
         )}
       />
     </View>
