@@ -10,7 +10,7 @@ import { memo } from "react";
 function Dashboard({ navigation }: any) {
   return (
     <Box w="100%" h="100%" bg="gray.200">
-      <Header title="Menu pricipal" />
+      <Header title="Menu principal" />
       <VStack mt="54" space="54">
         <ButtonDefault
           buttonProps={{

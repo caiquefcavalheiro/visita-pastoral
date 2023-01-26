@@ -68,29 +68,32 @@ export const ModalCreateFamilie = ({
     if (church?.id) {
       const newFamilie = await familie.create({ name, image }, church.id);
 
-      await Promise.all(
-        persons.map(async ({ name }) => {
-          return await person.create({ name }, newFamilie.id);
-        })
-      );
+      for (let currPerson of persons) {
+        const { name } = currPerson;
+
+        await person.create({ name, createdAt: new Date() }, newFamilie.id);
+      }
 
       useCustomToast({
         msg: "Família criada com sucesso !",
         toast,
         type: "sucess",
       });
+      reset({});
     } else if (currentFamilie?.id) {
       await familie.update(currentFamilie?.id, { name, image });
 
-      await Promise.all(
-        persons.map(async ({ name, id, idDb }) => {
-          if (idDb) {
-            return await person.update(id, { name });
-          } else {
-            return await person.create({ name }, currentFamilie.id);
-          }
-        })
-      );
+      for (let currPerson of persons) {
+        const { id, name, idDb } = currPerson;
+        if (idDb) {
+          return await person.update(id, { name });
+        } else {
+          return await person.create(
+            { name, createdAt: new Date() },
+            currentFamilie.id
+          );
+        }
+      }
 
       useCustomToast({
         msg: "Família editada com sucesso !",

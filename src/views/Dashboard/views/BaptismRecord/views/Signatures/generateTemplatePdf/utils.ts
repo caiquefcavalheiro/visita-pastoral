@@ -1,4 +1,9 @@
-import { PDFDocument, PDFPage, PDFPageDrawImageOptions } from "pdf-lib";
+import {
+  degrees,
+  PDFDocument,
+  PDFPage,
+  PDFPageDrawImageOptions,
+} from "pdf-lib";
 
 type drawImageProps = {
   pdfDoc: PDFDocument;
@@ -19,10 +24,12 @@ export const drawImage = async ({
     const newImg = await pdfDoc.embedPng(img);
     let scaleOptions = {};
     if (scale) {
-      const { width, height } = newImg.scale(scale);
-
-      scaleOptions = { width, height };
+      scaleOptions = { width: 40, height: (110 * 40) / 40 };
     }
-    page.drawImage(newImg, { ...options, ...scaleOptions });
+    page.drawImage(newImg, {
+      rotate: degrees(-90),
+      ...options,
+      ...scaleOptions,
+    });
   }
 };

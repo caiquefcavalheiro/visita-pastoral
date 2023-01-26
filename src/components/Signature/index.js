@@ -406,18 +406,6 @@ const getHtml = ({
   return sourceHtml;
 };
 
-// export type SignatureViewProps = {
-//   onSave: (image: string) => void;
-//   onClear: () => void;
-//   backgroundColor?: string;
-//   minWidth?: number;
-//   maxWidth?: number;
-//   penColor?: string;
-//   onLoadEnd?: () => void;
-//   ref: React.MutableRefObject<any>;
-//   webViewRef: any;
-// };
-
 export class SignatureView extends React.PureComponent {
   constructor({
     onSave,

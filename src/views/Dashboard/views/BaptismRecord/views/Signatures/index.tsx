@@ -1,18 +1,13 @@
 import { Divider, ScrollView, Text, useToast, View, VStack } from "native-base";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import ButtonDefault from "../../../../../../components/button";
 import { Header } from "../../../../../../components/Header";
 import Signature from "./components/Signature/Signature";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useCustomToast } from "../../../../../../hooks";
-import { printToFileAsync } from "expo-print";
-import { shareAsync } from "expo-sharing";
-import * as FileSystem from "expo-file-system";
-import dayjs from "dayjs";
 import { BaptismRecordData } from "../..";
-import { useOrientation } from "../../../../../../hooks/orientation";
 import { CustomDialog } from "../../../../../../components/CustomDialog";
-import { Dimensions, Linking } from "react-native";
+import { Linking } from "react-native";
 import { generateTemplatePdf } from "./generateTemplatePdf";
 
 function Signatures({ route }: any) {
@@ -38,8 +33,6 @@ function Signatures({ route }: any) {
     name: "signatures",
   });
 
-  const { toggleOrientation } = useOrientation();
-
   async function handleAddSignatures(signature: string) {
     if (currentIndex !== null && fields?.[currentIndex]) {
       update(currentIndex, { signature, currentUserName });
@@ -47,19 +40,16 @@ function Signatures({ route }: any) {
       append({ signature, currentUserName });
     }
     setShow(false);
-    await toggleOrientation("vertical");
   }
 
   async function handlePress(index: number, name: string) {
     setCurrentIndex(index);
     setCurrentUserName(name);
     setShow(true);
-    await toggleOrientation("horizontal");
   }
 
   async function handleClose() {
     setShow(false);
-    await toggleOrientation("vertical");
   }
 
   async function handleSubmitData() {
@@ -105,28 +95,24 @@ function Signatures({ route }: any) {
       });
   }
 
-  useEffect(() => {
-    toggleOrientation("vertical");
-  }, []);
-
   return (
     <>
       <View w="100%" h="100%" bg="gray.200">
         <Header title="Ficha de Batismo" path="BaptismRecord" />
         <ScrollView>
-          <VStack mt="20" space="16">
+          <VStack mt="7" space="5">
             <ButtonDefault
               buttonProps={{
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                minH: "76",
+                minH: "60",
                 onPress: () => {
                   handlePress(0, "pastor");
                 },
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+              <Text fontSize="14" fontWeight="semibold" color="blue.400">
                 Assinatura do pastor
               </Text>
             </ButtonDefault>
@@ -135,13 +121,13 @@ function Signatures({ route }: any) {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                minH: "76",
+                minH: "60",
                 onPress: () => {
                   handlePress(1, "assinatura do pai");
                 },
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+              <Text fontSize="14" fontWeight="semibold" color="blue.400">
                 Assinatura do pai ou responsável
               </Text>
             </ButtonDefault>
@@ -150,13 +136,13 @@ function Signatures({ route }: any) {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                minH: "76",
+                minH: "60",
                 onPress: () => {
                   handlePress(2, "assinatura da mãe");
                 },
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+              <Text fontSize="14" fontWeight="semibold" color="blue.400">
                 Assinatura da mãe ou responsável
               </Text>
             </ButtonDefault>
@@ -165,13 +151,13 @@ function Signatures({ route }: any) {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                minH: "76",
+                minH: "60",
                 onPress: () => {
                   handlePress(3, "candidato");
                 },
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+              <Text fontSize="14" fontWeight="semibold" color="blue.400">
                 Assinatura do Candidato
               </Text>
             </ButtonDefault>
@@ -180,13 +166,13 @@ function Signatures({ route }: any) {
                 width: "80%",
                 bg: "gray.500",
                 borderRadius: "8",
-                minH: "76",
+                minH: "60",
                 onPress: () => {
                   handlePress(4, "secretária ou grupo responsável");
                 },
               }}
             >
-              <Text fontSize="20" fontWeight="semibold" color="blue.400">
+              <Text fontSize="14" fontWeight="semibold" color="blue.400">
                 Assinatura da secretária da igreja ou grupo responsável
               </Text>
             </ButtonDefault>
@@ -195,12 +181,12 @@ function Signatures({ route }: any) {
           <ButtonDefault
             buttonProps={{
               width: "80%",
-              mt: 50,
-              mb: 60,
+              mt: 30,
+              mb: 5,
               onPress: () => setShowModal(true),
             }}
           >
-            <Text fontSize="20" fontWeight="semibold" color="white">
+            <Text fontSize="14" fontWeight="semibold" color="white">
               Exportar PDF
             </Text>
           </ButtonDefault>

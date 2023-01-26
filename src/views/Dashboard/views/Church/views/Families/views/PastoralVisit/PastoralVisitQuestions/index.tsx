@@ -1,8 +1,7 @@
 import {
-  Box,
   Center,
   Heading,
-  SectionList,
+  ScrollView,
   Text,
   useToast,
   View,
@@ -13,6 +12,7 @@ import { Header } from "../../../../../../../../../components/Header";
 import { Control, useForm, useWatch } from "react-hook-form";
 import {
   Familie,
+  FamilieModel,
   Person,
   PersonModel,
   PositionModel,
@@ -27,6 +27,7 @@ import { useCustomToast } from "../../../../../../../../../hooks";
 import usePositionService from "../../../../../../../../../database/services/positionService";
 import CardPerson from "../components/CardPerson";
 import usePersonService from "../../../../../../../../../database/services/personService";
+import { orderByDate } from "../../../../../../../../../utils";
 
 interface PastoralVisitQuestionsProps {
   route: any;
@@ -45,6 +46,10 @@ const PastoralVisitQuestions = ({
 
   const [positions, setPositions] = useState<PositionModel[]>([]);
 
+  const [familie, setFamilie] = useState(
+    route?.params?.familie as FamilieModel
+  );
+
   const {
     control,
     formState: { errors },
@@ -55,7 +60,6 @@ const PastoralVisitQuestions = ({
   const toast = useToast();
 
   const church = route?.params?.church;
-  const familie = route?.params?.familie;
 
   const sections: {
     data: {
@@ -142,6 +146,7 @@ const PastoralVisitQuestions = ({
           msg: "Visita pastoral criada com sucesso !",
           type: "sucess",
         });
+        setFamilie(familie);
       });
     } else {
       await pastoralVisit
@@ -162,6 +167,8 @@ const PastoralVisitQuestions = ({
             msg: "Visita pastoral atualizada com sucesso !",
             type: "sucess",
           });
+
+          setFamilie(familie);
         })
         .catch((err) => {
           useCustomToast({
@@ -193,6 +200,7 @@ const PastoralVisitQuestions = ({
       }
 
       familie.persons = persons;
+      setFamilie(familie);
     })();
   }, []);
 
@@ -203,95 +211,106 @@ const PastoralVisitQuestions = ({
     })();
   }, []);
 
+  const sortedPersons = familie.persons.sort((a: PersonModel, b: PersonModel) =>
+    orderByDate(a?.createdAt ?? "", b.createdAt ?? "")
+  );
+
   return (
     <View w="100%" h="100%" bg="gray.200">
       <Header title="Visita Pastoral" path="Families" params={{ church }} />
-      <SectionList
-        w="100%"
-        px={10}
-        sections={sections}
-        keyExtractor={(item, index) => `${item} ${index}`}
-        ListFooterComponent={<Box mt={10} />}
-        renderItem={({
-          item: {
-            title,
-            showTitle = true,
-            showInput = false,
-            showButton,
-            showModalPosition,
-            sectionTitle,
-            obs,
-            subTitle,
-          },
-        }) => (
-          <>
-            {sectionTitle ? (
-              <Center mt={5}>
-                {sectionTitle ? (
-                  <Heading fontSize="30" color="blue.300">
-                    {sectionTitle}
-                  </Heading>
-                ) : null}
 
-                {subTitle ? (
-                  <Text fontSize="14" fontWeight="bold" color="yellow.300">
-                    {subTitle}
-                  </Text>
-                ) : null}
+      <ScrollView px={10}>
+        {sections.map(({ data }, index) => (
+          <Fragment key={index}>
+            {data.map(
+              (
+                {
+                  title,
+                  showTitle = true,
+                  showInput = false,
+                  showButton,
+                  showModalPosition,
+                  sectionTitle,
+                  obs,
+                  subTitle,
+                },
+                itemIndex
+              ) => (
+                <Fragment key={itemIndex}>
+                  {sectionTitle ? (
+                    <Center mt={5}>
+                      {sectionTitle ? (
+                        <Heading fontSize="30" color="blue.300">
+                          {sectionTitle}
+                        </Heading>
+                      ) : null}
 
-                {obs ? (
-                  <Text fontSize="11" mt={5} color="green.300">
-                    {obs}
-                  </Text>
-                ) : null}
-              </Center>
-            ) : null}
+                      {subTitle ? (
+                        <Text
+                          fontSize="14"
+                          fontWeight="bold"
+                          color="yellow.300"
+                        >
+                          {subTitle}
+                        </Text>
+                      ) : null}
 
-            <VStack mt={2} space={2}>
-              <VStack space={2}>
-                {showTitle ? (
-                  <Text fontSize="15" fontWeight="bold">
-                    {title}
-                  </Text>
-                ) : null}
-                {familie?.persons?.map((person: PersonModel) => (
-                  <Fragment key={`${person?.id} ${title}`}>
-                    {showModalPosition ? (
-                      <CardPerson person={person} positions={positions} />
-                    ) : (
-                      <>
-                        {title ? (
-                          <Checkbox
-                            control={control}
-                            errors={errors}
-                            person={person}
-                            mission={title}
-                            showInput={showInput}
-                          />
-                        ) : null}
-                      </>
-                    )}
-                  </Fragment>
-                ))}
-              </VStack>
+                      {obs ? (
+                        <Text fontSize="11" mt={5} color="green.300">
+                          {obs}
+                        </Text>
+                      ) : null}
+                    </Center>
+                  ) : null}
 
-              {showButton ? (
-                <ButtonDefault
-                  buttonProps={{
-                    width: "100%",
-                    mt: 10,
-                    onPress: handleSubmit(onSubmit),
-                  }}
-                >
-                  <Text fontSize="20" fontWeight="semibold" color="white">
-                    Finalizar visita
-                  </Text>
-                </ButtonDefault>
-              ) : null}
-            </VStack>
-          </>
-        )}
-      />
+                  <VStack mb={5} space={2}>
+                    <VStack space={3}>
+                      {showTitle ? (
+                        <Text fontSize="15" fontWeight="bold">
+                          {title}
+                        </Text>
+                      ) : null}
+                      {sortedPersons?.map((person: PersonModel) => (
+                        <Fragment key={`${person?.id} ${title}`}>
+                          {showModalPosition ? (
+                            <CardPerson person={person} positions={positions} />
+                          ) : (
+                            <>
+                              {title ? (
+                                <Checkbox
+                                  control={control}
+                                  errors={errors}
+                                  person={person}
+                                  mission={title}
+                                  showInput={showInput}
+                                />
+                              ) : null}
+                            </>
+                          )}
+                        </Fragment>
+                      ))}
+                    </VStack>
+
+                    {showButton ? (
+                      <ButtonDefault
+                        buttonProps={{
+                          width: "100%",
+                          mt: 10,
+                          onPress: handleSubmit(onSubmit),
+                        }}
+                      >
+                        <Text fontSize="20" fontWeight="semibold" color="white">
+                          Finalizar visita
+                        </Text>
+                      </ButtonDefault>
+                    ) : null}
+                  </VStack>
+                </Fragment>
+              )
+            )}
+          </Fragment>
+        ))}
+      </ScrollView>
     </View>
   );
 };

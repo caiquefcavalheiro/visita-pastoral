@@ -14,6 +14,8 @@ export const useCustomToast = ({
   type = "sucess",
   ...rest
 }: toastProps) => {
+  const id = Math.random().toString(36);
+  if (toast.isActive(id)) return;
   toast.show({
     render: () => {
       return (
@@ -31,6 +33,7 @@ export const useCustomToast = ({
         </Box>
       );
     },
+    id,
     ...rest,
   });
 };

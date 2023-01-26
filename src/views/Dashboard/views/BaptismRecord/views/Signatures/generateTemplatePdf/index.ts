@@ -296,7 +296,7 @@ export const generateTemplatePdf = async (
     pdfDoc,
     options: {
       x: 466,
-      y: 156,
+      y: 195,
     },
     scale: 0.11,
   });
@@ -306,8 +306,8 @@ export const generateTemplatePdf = async (
     page: firstPage,
     pdfDoc,
     options: {
-      x: 209,
-      y: 156,
+      x: 200,
+      y: 195,
     },
     scale: 0.11,
   });
@@ -317,8 +317,8 @@ export const generateTemplatePdf = async (
     page: firstPage,
     pdfDoc,
     options: {
-      x: 330,
-      y: 156,
+      x: 321,
+      y: 195,
     },
     scale: 0.11,
   });
@@ -478,7 +478,7 @@ export const generateTemplatePdf = async (
     pdfDoc,
     options: {
       x: 466,
-      y: 88,
+      y: 135,
     },
     scale: 0.115,
   });
@@ -489,7 +489,7 @@ export const generateTemplatePdf = async (
     pdfDoc,
     options: {
       x: 466,
-      y: 33,
+      y: 80,
     },
     scale: 0.115,
   });

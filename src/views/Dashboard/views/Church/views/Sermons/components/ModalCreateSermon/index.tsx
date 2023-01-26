@@ -65,7 +65,7 @@ export const ModalCreateSermon = ({
         fontSize: "16",
       }}
       Content={
-        <VStack space={4}>
+        <VStack space={4} px={4}>
           <CustomInput
             name="name"
             control={control}

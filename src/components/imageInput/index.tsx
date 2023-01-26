@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import {
   Avatar,
   Box,
   Center,
-  Flex,
   IButtonProps,
   ITextProps,
+  Text,
   useDisclose,
-  useToast,
 } from "native-base";
 import {
   Control,
@@ -19,7 +18,6 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import { Entypo } from "@expo/vector-icons";
-import { useCustomToast } from "../../hooks";
 import { CameraAndGalery } from "../CameraAndGalery";
 
 type ImageInputProps = {
@@ -44,21 +42,8 @@ export default function ImageInput({
     field: { onChange, value },
   } = useController({ name, control, rules });
 
-  const toast = useToast();
-
-  useEffect(() => {
-    if (error?.message) {
-      useCustomToast({
-        msg: error.message as string,
-        toast,
-        duration: 2000,
-        type: "error",
-      });
-    }
-  }, [error]);
-
   return (
-    <Flex w="145" h="130" position="relative">
+    <Center w="145" h="130" position="relative">
       <Avatar
         bg="purple.600"
         alignSelf="center"
@@ -79,6 +64,11 @@ export default function ImageInput({
           </Center>
         </TouchableOpacity>
       </Box>
+      {error?.message && (
+        <Text fontSize="7" mt="3" color="red.600">
+          {error?.message as string}
+        </Text>
+      )}
       <CameraAndGalery
         isOpen={isOpen}
         onClose={onClose}
@@ -86,6 +76,6 @@ export default function ImageInput({
           onChange(image);
         }}
       />
-    </Flex>
+    </Center>
   );
 }
