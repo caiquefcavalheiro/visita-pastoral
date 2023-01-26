@@ -99,11 +99,13 @@ const CustomInput = ({
             <Text {...{ ...defaultLabelStyle, ...labelProps }}>{label}</Text>
           </FormControl.Label>
         )}
+
         <Input
           {...maskedInputProps}
           {...{ ...defaultInputStyle, ...rest, ...inputProps }}
           isDisabled={!isEditable}
         />
+
         {error && (
           <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
         )}

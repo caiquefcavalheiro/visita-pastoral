@@ -1,4 +1,12 @@
-import { Box, ScrollView, Text, useToast, View, VStack } from "native-base";
+import {
+  Box,
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  useToast,
+  View,
+  VStack,
+} from "native-base";
 import ButtonDefault from "../../../../components/button";
 import { Header } from "../../../../components/Header";
 
@@ -83,7 +91,7 @@ function Baptism({ navigation }: any) {
   }
 
   return (
-    <>
+    <KeyboardAvoidingView behavior="padding">
       <View w="100%" h="100%" bg="gray.200">
         <Header title="Ficha de Batismo" path="Dashboard" />
         <ScrollView>
@@ -110,7 +118,7 @@ function Baptism({ navigation }: any) {
           </Box>
         </ScrollView>
       </View>
-    </>
+    </KeyboardAvoidingView>
   );
 }
 
