@@ -68,4 +68,5 @@ export const defaultValues: BaptismRecordData = {
   whoWillIDisciple: "",
   fatherIdentificationDoc: "",
   motherIdentificationDoc: "",
+  ceremonyDate: "",
 };

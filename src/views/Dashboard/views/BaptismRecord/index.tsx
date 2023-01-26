@@ -19,6 +19,7 @@ import { memo } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import Ceremony from "./components/ceremony";
 import { defaultValues } from "./defaultValue";
+import { Platform } from "react-native";
 
 export type BaptismRecordData = {
   action: string;
@@ -74,6 +75,7 @@ export type BaptismRecordData = {
   whoWillIDisciple: string;
   fatherIdentificationDoc: string;
   motherIdentificationDoc: string;
+  ceremonyDate: string;
 };
 
 function Baptism({ navigation }: any) {
@@ -91,7 +93,9 @@ function Baptism({ navigation }: any) {
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding">
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View w="100%" h="100%" bg="gray.200">
         <Header title="Ficha de Batismo" path="Dashboard" />
         <ScrollView>

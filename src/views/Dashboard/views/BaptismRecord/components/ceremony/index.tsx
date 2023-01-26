@@ -2,6 +2,7 @@ import { Box, Center, Heading, VStack } from "native-base";
 import CustomInput from "../../../../../../components/customInput";
 import { useFormContext } from "react-hook-form";
 import { memo } from "react";
+import { Masks } from "react-native-mask-input";
 
 function Ceremony() {
   const {
@@ -41,6 +42,14 @@ function Ceremony() {
             error={errors?.cityChurchOrganizedGroup}
             name="cityChurchOrganizedGroup"
             control={control}
+          />
+
+          <CustomInput
+            label="Data da cerimônia"
+            error={errors?.ceremonyDate}
+            name="ceremonyDate"
+            control={control}
+            mask={Masks.DATE_DDMMYYYY}
           />
 
           <CustomInput

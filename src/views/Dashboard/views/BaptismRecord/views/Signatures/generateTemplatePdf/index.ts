@@ -2,7 +2,6 @@ import * as FileSystem from "expo-file-system";
 import { FieldArrayWithId } from "react-hook-form";
 import { BaptismRecordData } from "../../..";
 import { shareAsync } from "expo-sharing";
-import dayjs from "dayjs";
 import { PDFDocument } from "pdf-lib";
 import { ficha } from "./ficha";
 import { drawImage } from "./utils";
@@ -98,6 +97,7 @@ export const generateTemplatePdf = async (
     whoWillIDisciple,
     fatherIdentificationDoc,
     motherIdentificationDoc,
+    ceremonyDate,
   } = data;
 
   const declarations = [
@@ -115,8 +115,6 @@ export const generateTemplatePdf = async (
     { x: 295.5, y: 291, declaration: declaration11 },
     { x: 295.5, y: 263.3, declaration: declaration12 },
   ];
-
-  const now = dayjs(new Date()).format("DD/MM/YYYY");
 
   const pdfDoc = await PDFDocument.load(ficha);
 
@@ -430,7 +428,7 @@ export const generateTemplatePdf = async (
     size: 8,
   });
 
-  firstPage.drawText(now, {
+  firstPage.drawText(ceremonyDate, {
     x: 40,
     y: 115,
     size: 9,
