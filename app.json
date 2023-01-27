@@ -2,7 +2,7 @@
   "expo": {
     "name": "Visita Pastoral",
     "slug": "visita-pastoral",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/visita_pastoral_logo.png",
     "splash": {
@@ -13,15 +13,13 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Este aplicativo ultiliza a camera"
       },
-      "buildNumber": "2.0.0",
+      "buildNumber": "2.0.1",
       "bundleIdentifier": "com.erickpaiva.visitapastoral"
     },
     "android": {
@@ -36,7 +34,7 @@
         "backgroundColor": "#E6B402"
       },
       "package": "com.ficha_de_batismo.app",
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
