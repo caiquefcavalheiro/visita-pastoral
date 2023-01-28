@@ -2,7 +2,7 @@ import * as FileSystem from "expo-file-system";
 import { FieldArrayWithId } from "react-hook-form";
 import { BaptismRecordData } from "../../..";
 import { shareAsync } from "expo-sharing";
-import { PDFDocument } from "pdf-lib";
+import { degrees, PDFDocument } from "pdf-lib";
 import { ficha } from "./ficha";
 import { drawImage } from "./utils";
 import {
@@ -295,6 +295,7 @@ export const generateTemplatePdf = async (
     options: {
       x: 466,
       y: 195,
+      rotate: degrees(-90),
     },
     scale: 0.11,
   });
@@ -306,6 +307,7 @@ export const generateTemplatePdf = async (
     options: {
       x: 200,
       y: 195,
+      rotate: degrees(-90),
     },
     scale: 0.11,
   });
@@ -317,6 +319,7 @@ export const generateTemplatePdf = async (
     options: {
       x: 321,
       y: 195,
+      rotate: degrees(-90),
     },
     scale: 0.11,
   });
@@ -477,6 +480,7 @@ export const generateTemplatePdf = async (
     options: {
       x: 466,
       y: 135,
+      rotate: degrees(-90),
     },
     scale: 0.115,
   });
@@ -488,6 +492,7 @@ export const generateTemplatePdf = async (
     options: {
       x: 466,
       y: 80,
+      rotate: degrees(-90),
     },
     scale: 0.115,
   });

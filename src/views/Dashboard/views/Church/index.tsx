@@ -48,7 +48,7 @@ function Church({ navigation, route }: any) {
           navigation.navigate("PeopleAndTheirPositions", { church }),
         endIcon: <Ionicons name="add" size={40} color="white" />,
       },
-      text: "Visualizar cargos",
+      text: "Cargos e Ministérios",
     },
     {
       buttonProps: {

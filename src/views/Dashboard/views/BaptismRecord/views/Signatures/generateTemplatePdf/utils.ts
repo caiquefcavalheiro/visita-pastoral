@@ -27,7 +27,6 @@ export const drawImage = async ({
       scaleOptions = { width: 40, height: (110 * 40) / 40 };
     }
     page.drawImage(newImg, {
-      rotate: degrees(-90),
       ...options,
       ...scaleOptions,
     });
