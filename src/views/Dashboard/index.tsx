@@ -40,7 +40,7 @@ function Dashboard({ navigation }: any) {
             width: "80%",
             onPress: () => {
               Linking.openURL(
-                "http://api.whatsapp.com/send?phone=5592981941709"
+                "http://api.whatsapp.com/send?phone=556999161983"
               );
             },
           }}
