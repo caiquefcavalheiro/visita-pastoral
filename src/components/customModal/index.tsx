@@ -1,5 +1,11 @@
 import React from "react";
-import { IModalProps, ITextProps, Modal, Text } from "native-base";
+import {
+  IModalProps,
+  ITextProps,
+  KeyboardAvoidingView,
+  Modal,
+  Text,
+} from "native-base";
 import { InterfaceBoxProps } from "native-base/lib/typescript/components/primitives/Box";
 
 interface Props {
@@ -40,7 +46,12 @@ export const CustomModal = ({
             <Text {...textProps}>{header}</Text>
           </Modal.Header>
         )}
-        <Modal.Body h="100%">{Content}</Modal.Body>
+
+        <KeyboardAvoidingView behavior="padding">
+          <Modal.Body minH="100%" pb="20">
+            {Content}
+          </Modal.Body>
+        </KeyboardAvoidingView>
         {Footer}
       </Modal.Content>
     </Modal>

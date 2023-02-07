@@ -35,8 +35,12 @@ export function CameraAndGalery({
         base64: true,
       });
 
-      if (!result.cancelled && result?.uri) {
-        handleSelectImage(result?.uri);
+      const file = result.base64;
+
+      const extension = result?.uri?.split(".").at(-1);
+
+      if (!result.cancelled && file) {
+        handleSelectImage(`data:image/${extension};base64,${file}`);
         onClose();
       }
     } else {
@@ -57,8 +61,12 @@ export function CameraAndGalery({
         base64: true,
       });
 
-      if (!result.cancelled && result?.uri) {
-        handleSelectImage(result?.uri);
+      const file = result.base64;
+
+      const extension = result?.uri?.split(".").at(-1);
+
+      if (!result.cancelled && file) {
+        handleSelectImage(`data:image/${extension};base64,${file}`);
         onClose();
       }
     } else {

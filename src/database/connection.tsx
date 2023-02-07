@@ -7,6 +7,7 @@ import {
 } from "react";
 import { ActivityIndicator } from "react-native";
 import * as SQLite from "expo-sqlite";
+import * as FileSystem from "expo-file-system";
 import { ChurchRepository } from "./repositories/ChurchRepository";
 
 import { Connection, createConnection } from "typeorm";
@@ -24,6 +25,7 @@ import {
   SermonModel,
 } from "./entities/FamilieChurchPersonSermon";
 import { RunActions } from "./actions";
+import { backup } from "./backup";
 
 interface DatabaseConnectionContextData {
   churchRepository: ChurchRepository;
@@ -38,13 +40,15 @@ const DatabaseConnectionContext = createContext<DatabaseConnectionContextData>(
   {} as DatabaseConnectionContextData
 );
 
+const dataBaseName = "visitaBatismal450.db";
+
 export const DatabaseConnectionProvider = ({ children }: any) => {
   const [connection, setConnection] = useState<Connection | null>(null);
 
   const connect = useCallback(async () => {
     const createdConnection = await createConnection({
       type: "expo",
-      database: "visitaBatismal450.db",
+      database: dataBaseName,
       driver: SQLite,
       entities: [
         PersonModel,
@@ -60,6 +64,45 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
 
     setConnection(createdConnection);
   }, [connection]);
+
+  const rootDirectory = FileSystem.documentDirectory + "SQLite/" + dataBaseName;
+
+  async function readDBFile(fileUri: string) {
+    const result = await FileSystem.readAsStringAsync(fileUri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+
+    return result;
+  }
+
+  const backUpTheDatabase = async () => {
+    const file = await readDBFile(rootDirectory ?? "");
+
+    console.log(file, "file");
+  };
+
+  const updateDatabaseBackup = async () => {
+    try {
+      // await FileSystem.deleteAsync(rootDirectory + "-journal");
+      await FileSystem.writeAsStringAsync(rootDirectory, backup, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+    } catch (error) {
+      console.log(`Erro ao criar arquivo: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      // backUpTheDatabase();
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      // updateDatabaseBackup();
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     if (!connection) {

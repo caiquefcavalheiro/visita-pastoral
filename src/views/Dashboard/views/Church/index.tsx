@@ -5,7 +5,7 @@ import family from "../../../../assets/churchImages/family.png";
 import peoples from "../../../../assets/churchImages/peoples.png";
 import book from "../../../../assets/churchImages/book.png";
 import { memo, useEffect, useState } from "react";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { ModalCreateFamilie } from "../../components/ModalCreateFamilie";
 import { ChurchModel } from "../../../../database/entities/FamilieChurchPersonSermon";
 import { positions } from "../../../../database/actions";
@@ -46,7 +46,6 @@ function Church({ navigation, route }: any) {
         minH: "20",
         onPress: () =>
           navigation.navigate("PeopleAndTheirPositions", { church }),
-        endIcon: <Ionicons name="add" size={40} color="white" />,
       },
       text: "Cargos e Ministérios",
     },

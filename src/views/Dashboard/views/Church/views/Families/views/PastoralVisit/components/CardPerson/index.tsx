@@ -5,7 +5,7 @@ import {
   PersonModel,
   PositionModel,
 } from "../../../../../../../../../../database/entities/FamilieChurchPersonSermon";
-import { ModalEditPosition } from "../ModalEditPosition";
+import { ModalEditPosition, PositionM } from "../ModalEditPosition";
 
 interface CardPersonProps {
   person: PersonModel;
@@ -13,6 +13,9 @@ interface CardPersonProps {
 }
 
 const CardPerson = ({ person, positions }: CardPersonProps) => {
+  const [defaultPositions, setDefaultPositions] = useState(
+    (person?.positions as PositionM[]) ?? []
+  );
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,7 +34,7 @@ const CardPerson = ({ person, positions }: CardPersonProps) => {
           </Text>
         </Center>
       </TouchableOpacity>
-      {person?.positions?.map(({ position, id }) => (
+      {defaultPositions.map(({ position, id }) => (
         <Text ml={3} fontSize={14} color="blue.700" key={id + position}>
           {position}
         </Text>
@@ -43,7 +46,9 @@ const CardPerson = ({ person, positions }: CardPersonProps) => {
           setOpen(false);
         }}
         open={open}
-        handleAdd={() => {}}
+        handleAdd={(newPositions) => {
+          setDefaultPositions(newPositions);
+        }}
         person={person}
       />
     </VStack>

@@ -1,4 +1,10 @@
-import { Spinner, useToast, VStack } from "native-base";
+import {
+  KeyboardAvoidingView,
+  Spinner,
+  Text,
+  useToast,
+  VStack,
+} from "native-base";
 import { useState } from "react";
 import { Fragment, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -17,12 +23,12 @@ import { CustomCheckBox } from "../../../../../../components/customCheckBox";
 interface Props {
   open: boolean;
   onClose: () => void;
-  handleAdd: () => void;
+  handleAdd: (newPositions: PositionM[]) => void;
   person?: Person | null;
   positions: PositionModel[];
 }
 
-type PositionM = Omit<PositionModel, "church" | "persons">;
+export type PositionM = Omit<PositionModel, "church" | "persons">;
 
 type FormDataType = {
   Ancionato?: PositionM;
@@ -99,7 +105,7 @@ export const ModalEditPosition = ({
 
           person.positions = selectedPositions as PositionModel[];
 
-          handleAdd();
+          handleAdd(selectedPositions);
           onClose();
         }
       );
@@ -152,7 +158,7 @@ export const ModalEditPosition = ({
           {isLoading ? (
             <Spinner size={60} />
           ) : (
-            <VStack space={4}>
+            <VStack space={4} bg="red.100" h="100%">
               <ButtonDefault
                 buttonProps={{
                   onPress: handleSubmit(onSubmit),
@@ -172,14 +178,12 @@ export const ModalEditPosition = ({
                   />
                 </Fragment>
               ))}
-
               <CustomCheckBox
                 text={"Outros"}
                 control={control}
                 name={"hasOtherPosition"}
                 value="Outros"
               />
-
               {otherPosition && (
                 <CustomInput
                   inputProps={{ placeholder: "Outros cargos" }}
