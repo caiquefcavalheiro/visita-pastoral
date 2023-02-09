@@ -25,7 +25,7 @@ import {
   SermonModel,
 } from "./entities/FamilieChurchPersonSermon";
 import { RunActions } from "./actions";
-import { backup } from "./backup";
+// import { backup } from "./backup";
 
 interface DatabaseConnectionContextData {
   churchRepository: ChurchRepository;
@@ -40,7 +40,7 @@ const DatabaseConnectionContext = createContext<DatabaseConnectionContextData>(
   {} as DatabaseConnectionContextData
 );
 
-const dataBaseName = "visitaBatismal450.db";
+const dataBaseName = "visitaBatismal451.db";
 
 export const DatabaseConnectionProvider = ({ children }: any) => {
   const [connection, setConnection] = useState<Connection | null>(null);
@@ -82,14 +82,14 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
   };
 
   const updateDatabaseBackup = async () => {
-    try {
-      // await FileSystem.deleteAsync(rootDirectory + "-journal");
-      await FileSystem.writeAsStringAsync(rootDirectory, backup, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-    } catch (error) {
-      console.log(`Erro ao criar arquivo: ${error}`);
-    }
+    // try {
+    //   // await FileSystem.deleteAsync(rootDirectory + "-journal");
+    //   await FileSystem.writeAsStringAsync(rootDirectory, backup, {
+    //     encoding: FileSystem.EncodingType.Base64,
+    //   });
+    // } catch (error) {
+    //   console.log(`Erro ao criar arquivo: ${error}`);
+    // }
   };
 
   useEffect(() => {
