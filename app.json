@@ -2,7 +2,7 @@
   "expo": {
     "name": "Visita Pastoral",
     "slug": "visita-pastoral",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "orientation": "portrait",
     "icon": "./assets/visita_pastoral_logo.png",
     "splash": {
@@ -34,7 +34,7 @@
         "backgroundColor": "#E6B402"
       },
       "package": "com.ficha_de_batismo.app",
-      "versionCode": 7
+      "versionCode": 8
     },
     "web": {
       "favicon": "./assets/favicon.png"
