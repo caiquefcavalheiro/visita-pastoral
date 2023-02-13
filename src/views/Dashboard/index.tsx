@@ -23,7 +23,10 @@ function Dashboard({ navigation }: any) {
             Visita Pastoral
           </Text>
         </ButtonDefault>
-        <ButtonDefault
+
+        {/* **NOTE: Disabled Enable in the future */}
+
+        {/* <ButtonDefault
           buttonProps={{
             width: "80%",
             onPress: () => navigation.navigate("BaptismRecordRoutes"),
@@ -33,7 +36,7 @@ function Dashboard({ navigation }: any) {
           <Text fontSize="20" fontWeight="semibold" color="white">
             Ficha de Batismo
           </Text>
-        </ButtonDefault>
+        </ButtonDefault> */}
 
         <ButtonDefault
           buttonProps={{
